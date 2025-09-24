@@ -1,0 +1,358 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "Transfer to Forex Account",
+      "license": {
+        "name": "",
+        "url": ""
+      },
+      "version": "v1.0.0",
+      "description": "Transfer to Forex Account",
+      "termsOfService": "",
+      "contact": {
+        "name": "",
+        "url": ""
+      }
+    },
+    "paths": {
+      "/account/create/{user_id}": {
+        "post": {
+          "operationId": "Create a new Forex acoount",
+          "tags": [],
+          "summary": "",
+          "description": "",
+          "externalDocs": {
+            "url": "",
+            "description": ""
+          },
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "headers": {},
+              "content": {
+                "": {
+                  "schema": {}
+                }
+              }
+            }
+          },
+          "requestBody": {
+            "content": {}
+          },
+          "callbacks": {},
+          "deprecated": false,
+          "security": [],
+          "servers": [
+            {
+              "url": "https://qa-dev-ieia.apiwiz.io/forex",
+              "description": "",
+              "variables": {}
+            }
+          ]
+        },
+        "summary": "",
+        "description": "",
+        "servers": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/user_id"
+          }
+        ]
+      },
+      "/account/{user_id}/balance": {
+        "get": {
+          "operationId": "Check forex account balance",
+          "tags": [],
+          "summary": "",
+          "description": "",
+          "externalDocs": {
+            "url": "",
+            "description": ""
+          },
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "headers": {},
+              "content": {}
+            }
+          },
+          "callbacks": {},
+          "deprecated": false,
+          "security": [],
+          "servers": [
+            {
+              "url": "https://qa-dev-ieia.apiwiz.io/forex",
+              "description": "",
+              "variables": {}
+            }
+          ]
+        },
+        "summary": "",
+        "description": "",
+        "servers": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/user_id"
+          }
+        ]
+      },
+      "/account/{user_id}/transactions": {
+        "get": {
+          "operationId": "get account transactions ",
+          "tags": [],
+          "summary": "",
+          "description": "",
+          "externalDocs": {
+            "url": "",
+            "description": ""
+          },
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "headers": {},
+              "content": {}
+            }
+          },
+          "callbacks": {},
+          "deprecated": false,
+          "security": [],
+          "servers": [
+            {
+              "url": "https://qa-dev-ieia.apiwiz.io/forex",
+              "description": "",
+              "variables": {}
+            }
+          ]
+        },
+        "summary": "",
+        "description": "",
+        "servers": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/user_id"
+          }
+        ]
+      },
+      "/account/transfer/{user_id}": {
+        "post": {
+          "operationId": "transfer funds ",
+          "tags": [],
+          "summary": "",
+          "description": "",
+          "externalDocs": {
+            "url": "",
+            "description": ""
+          },
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "headers": {},
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Forex_account_response"
+                  }
+                }
+              }
+            }
+          },
+          "requestBody": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forex_account_req"
+                }
+              }
+            },
+            "required": false
+          },
+          "callbacks": {},
+          "deprecated": false,
+          "security": [],
+          "servers": [
+            {
+              "url": "https://qa-dev-ieia.apiwiz.io/forex",
+              "description": "",
+              "variables": {}
+            }
+          ]
+        },
+        "summary": "",
+        "description": "",
+        "servers": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/user_id"
+          }
+        ]
+      },
+      "/account/{user_id}": {
+        "get": {
+          "operationId": "get account details ",
+          "tags": [],
+          "summary": "",
+          "description": "",
+          "externalDocs": {
+            "url": "",
+            "description": ""
+          },
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "headers": {},
+              "content": {}
+            }
+          },
+          "callbacks": {},
+          "deprecated": false,
+          "security": [],
+          "servers": []
+        },
+        "summary": "",
+        "description": "",
+        "servers": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/user_id"
+          }
+        ]
+      },
+      "/account": {
+        "post": {
+          "operationId": "create forex account",
+          "tags": [],
+          "summary": "",
+          "description": "",
+          "externalDocs": {
+            "url": "",
+            "description": ""
+          },
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "",
+              "headers": {},
+              "content": {}
+            }
+          },
+          "requestBody": {
+            "content": {}
+          },
+          "callbacks": {},
+          "deprecated": false,
+          "security": [],
+          "servers": []
+        },
+        "summary": "",
+        "description": "",
+        "servers": [],
+        "parameters": []
+      }
+    },
+    "components": {
+      "schemas": {
+        "Forex_account_req": {
+          "type": "object",
+          "properties": {
+            "userId": {
+              "type": "string",
+              "example": "12345"
+            },
+            "accountId": {
+              "type": "string",
+              "example": "FX123456"
+            },
+            "amount": {
+              "type": "number",
+              "example": 500
+            },
+            "sourceCurrency": {
+              "type": "string",
+              "example": "INR"
+            },
+            "targetCurrency": {
+              "type": "string",
+              "example": "USD"
+            }
+          }
+        },
+        "Forex_account_response": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "example": "success"
+            },
+            "message": {
+              "type": "string",
+              "example": "Funds transferred successfully"
+            },
+            "accountId": {
+              "type": "string",
+              "example": "FX123456"
+            },
+            "exchangeRate": {
+              "type": "number",
+              "example": 83.33
+            },
+            "conversionCharge": {
+              "type": "number",
+              "example": 2.5
+            },
+            "convertedAmount": {
+              "type": "number",
+              "example": 5.97
+            },
+            "newBalance": {
+              "type": "number",
+              "example": 1005.97
+            },
+            "timestamp": {
+              "type": "string",
+              "example": "2025-03-28T17:30:00+05:30"
+            }
+          }
+        }
+      },
+      "responses": {},
+      "parameters": {
+        "user_id": {
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "name": "user_id"
+        }
+      },
+      "examples": {},
+      "requestBodies": {},
+      "headers": {},
+      "securitySchemes": {},
+      "links": {},
+      "callbacks": {}
+    },
+    "servers": [
+      {
+        "x-schema": "https://",
+        "url": "https://qa-dev-ieia.apiwiz.io/forex",
+        "x-name": "https://qa-dev-ieia.apiwiz.io/forex",
+        "x-basePath": "forex",
+        "description": "",
+        "variables": {},
+        "x-hide": false
+      }
+    ],
+    "security": [],
+    "externalDocs": {
+      "description": "",
+      "url": ""
+    },
+    "tags": []
+  }
