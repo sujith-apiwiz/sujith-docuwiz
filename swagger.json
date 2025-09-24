@@ -223,38 +223,6 @@
           }
         ]
       },
-      "/account": {
-        "post": {
-          "operationId": "create forex account",
-          "tags": [],
-          "summary": "",
-          "description": "",
-          "externalDocs": {
-            "url": "",
-            "description": ""
-          },
-          "parameters": [],
-          "responses": {
-            "200": {
-              "description": "",
-              "headers": {},
-              "content": {}
-            }
-          },
-          "requestBody": {
-            "content": {}
-          },
-          "callbacks": {},
-          "deprecated": false,
-          "security": [],
-          "servers": []
-        },
-        "summary": "",
-        "description": "",
-        "servers": [],
-        "parameters": []
-      }
-    },
     "components": {
       "schemas": {
         "Forex_account_req": {
