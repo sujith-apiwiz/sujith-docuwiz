@@ -1,0 +1,355 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Ecommerce API",
+    "version": "v10",
+    "description": "This API allows users to interact with an ecommerce platform, including managing products, customers, and orders."
+  },
+  "servers": [
+    {
+      "x-schema": "https://",
+      "url": "https://apis.apiwiz.io/v2/ecommerce",
+      "x-name": "Dev",
+      "x-basePath": "/v2/ecommerce",
+      "description": "Dev",
+      "variables": {},
+      "x-hide": false,
+      "x-environmentId": "69c6154344f75f22a5755564",
+      "x-environmentName": "DevEnv"
+    }
+  ],
+  "paths": {
+    "/products": {
+      "get": {
+        "summary": "List all products",
+        "description": "Retrieve a comprehensive list of all products available in the ecommerce platform, including essential details such as product ID, name, description, price, and currency.",
+        "operationId": "getProducts",
+        "tags": [
+          "Product"
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response, returning an array of product objects.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "default": {
+                    "value": {
+                      "products": [
+                        {
+                          "id": "123",
+                          "name": "Wireless Mouse",
+                          "description": "A high precision wireless mouse.",
+                          "price": 29.99,
+                          "currency": "USD"
+                        },
+                        {
+                          "id": "124",
+                          "name": "Bluetooth Keyboard",
+                          "description": "An ergonomic Bluetooth keyboard.",
+                          "price": 49.99,
+                          "currency": "USD"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "products": {
+                      "type": "array",
+                      "description": "An array of product objects.",
+                      "items": {
+                        "$ref": "#/components/schemas/Product"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Product": {
+          "type": "object",
+          "description": "A detailed product object containing information about an item in the ecommerce catalog.",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The unique identifier for a product.",
+              "example": "123"
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the product.",
+              "example": "Wireless Mouse"
+            },
+            "description": {
+              "type": "string",
+              "description": "A brief description of the product.",
+              "example": "A high precision wireless mouse."
+            },
+            "price": {
+              "type": "number",
+              "description": "The price of the product.",
+              "example": 29.99
+            },
+            "currency": {
+              "type": "string",
+              "description": "The currency in which the product price is denoted.",
+              "example": "USD"
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "openapi": "3.0.3",
+      "info": {
+        "title": "Product API",
+        "description": "API for managing products in the inventory system.",
+        "version": "1.0.0"
+      },
+      "paths": {
+        "/products": {
+          "get": {
+            "summary": "Retrieve a list of products",
+            "description": "Retrieve a list of all available products with detailed attributes.",
+            "operationId": "getProducts",
+            "tags": [
+              "Products"
+            ],
+            "responses": {
+              "200": {
+                "description": "A list of products.",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Product"
+                      }
+                    },
+                    "examples": {
+                      "example1": {
+                        "value": [
+                          {
+                            "id": "123",
+                            "name": "Wireless Mouse",
+                            "description": "A high precision wireless mouse.",
+                            "price": 29.99,
+                            "currency": "USD"
+                          },
+                          {
+                            "id": "124",
+                            "name": "Bluetooth Speakers",
+                            "description": "Portable speakers with excellent sound quality.",
+                            "price": 49.99,
+                            "currency": "USD"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "500": {
+                "description": "Internal server error.",
+                "content": {
+                  "application/json": {
+                    "examples": {
+                      "example1": {
+                        "value": {
+                          "error": "InternalServerError",
+                          "message": "Unable to retrieve products."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "post": {
+            "summary": "Create a new product",
+            "description": "Create a new product in the inventory system with the given details.",
+            "operationId": "createProduct",
+            "tags": [
+              "Products"
+            ],
+            "requestBody": {
+              "description": "Product object that needs to be added to the inventory",
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Product"
+                  },
+                  "examples": {
+                    "example1": {
+                      "value": {
+                        "id": "125",
+                        "name": "Ergonomic Chair",
+                        "description": "A comfortable ergonomic chair for office use.",
+                        "price": 199.99,
+                        "currency": "USD"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "description": "Product successfully created.",
+                "content": {
+                  "application/json": {
+                    "examples": {
+                      "example1": {
+                        "value": {
+                          "id": "125",
+                          "name": "Ergonomic Chair",
+                          "description": "A comfortable ergonomic chair for office use.",
+                          "price": 199.99,
+                          "currency": "USD"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Invalid input.",
+                "content": {
+                  "application/json": {
+                    "examples": {
+                      "example1": {
+                        "value": {
+                          "error": "InvalidInput",
+                          "message": "Product data is invalid."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/products/{id}": {
+          "get": {
+            "summary": "Get a product by ID",
+            "description": "Retrieve the details of a product by its unique identifier.",
+            "operationId": "getProductById",
+            "tags": [
+              "Products"
+            ],
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "description": "The unique identifier of the product to retrieve.",
+                "schema": {
+                  "type": "string",
+                  "example": "123"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Product details retrieved successfully.",
+                "content": {
+                  "application/json": {
+                    "examples": {
+                      "example1": {
+                        "value": {
+                          "id": "123",
+                          "name": "Wireless Mouse",
+                          "description": "A high precision wireless mouse.",
+                          "price": 29.99,
+                          "currency": "USD"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "Product not found.",
+                "content": {
+                  "application/json": {
+                    "examples": {
+                      "example1": {
+                        "value": {
+                          "error": "ProductNotFound",
+                          "message": "No product found with the given ID."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "components": {
+        "schemas": {
+          "Product": {
+            "type": "object",
+            "description": "Details about a product.",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The unique identifier for the product.",
+                "example": "123"
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the product.",
+                "example": "Wireless Mouse"
+              },
+              "description": {
+                "type": "string",
+                "description": "A description of the product.",
+                "example": "A high precision wireless mouse."
+              },
+              "price": {
+                "type": "number",
+                "format": "float",
+                "description": "The price of the product.",
+                "example": 29.99
+              },
+              "currency": {
+                "type": "string",
+                "description": "The currency of the product price.",
+                "example": "USD"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Product",
+      "description": "Operations related to products in the ecommerce platform."
+    },
+    {
+      "name": "Customer",
+      "description": "Operations related to customers and customer management."
+    },
+    {
+      "name": "Order",
+      "description": "Operations for handling orders placed by customers."
+    }
+  ]
+}
