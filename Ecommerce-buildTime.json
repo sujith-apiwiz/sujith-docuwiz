@@ -1,0 +1,1990 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Ecommerce",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000"
+    }
+  ],
+  "paths": {
+    "/v1/ecommerce/users": {
+      "post": {
+        "tags": [
+          "UserService"
+        ],
+        "operationId": "registerUser",
+        "summary": "Register a New User",
+        "description": "Registers a new user in the system with the provided user details.",
+        "parameters": [],
+        "requestBody": {
+          "description": "User registration details.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRequestDTO"
+              },
+              "example": {
+                "username": "johndoe",
+                "email": "johndoe@example.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User successfully registered.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDTO"
+                },
+                "example": {
+                  "id": "123456",
+                  "username": "johndoe",
+                  "email": "johndoe@example.com"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid email format."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Database connection failed."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/ecommerce/users/{userId}": {
+      "get": {
+        "tags": [
+          "UserService"
+        ],
+        "operationId": "getUser",
+        "summary": "Retrieve User Details",
+        "description": "Fetches the user details associated with the specified user ID.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the user.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "123456"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details retrieved successfully.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDTO"
+                },
+                "example": {
+                  "id": "123456",
+                  "username": "johndoe",
+                  "email": "johndoe@example.com"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "User with ID 123456 not found."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Unable to retrieve user information."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/ecommerce/cart/{userId}/add": {
+      "post": {
+        "tags": [
+          "CartService"
+        ],
+        "operationId": "addToCart",
+        "summary": "Add Item to Cart",
+        "description": "Adds a new item to the user's shopping cart.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the user.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "123456"
+          }
+        ],
+        "requestBody": {
+          "description": "Details of the item to be added to the cart.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CartItemDTO"
+              },
+              "example": {
+                "productId": "98765",
+                "quantity": 2
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Item successfully added to cart.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartResponseDTO"
+                },
+                "example": {
+                  "cartId": "cart123",
+                  "items": [
+                    {
+                      "productId": "98765",
+                      "quantity": 2
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Product ID is invalid."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Failed to add item to the cart."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/ecommerce/cart/{userId}": {
+      "get": {
+        "tags": [
+          "CartService"
+        ],
+        "operationId": "getCart",
+        "summary": "Retrieve User's Shopping Cart",
+        "description": "Fetches all items in the user's shopping cart associated with the given user ID.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the user.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "123456"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cart retrieved successfully.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartResponseDTO"
+                },
+                "example": {
+                  "cartId": "cart123",
+                  "items": [
+                    {
+                      "productId": "98765",
+                      "quantity": 2
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cart not found.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Cart for userId 123456 not found."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Failed to retrieve cart items."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/ecommerce/cart/{userId}/remove/{productId}": {
+      "delete": {
+        "tags": [
+          "CartService"
+        ],
+        "operationId": "removeFromCart",
+        "summary": "Remove Item from Cart",
+        "description": "Removes a specified item from the user's shopping cart.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the user.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "123456"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "description": "Identifier of the product to remove from the cart.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "98765"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product removed from cart successfully.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartResponseDTO"
+                },
+                "example": {
+                  "cartId": "cart123",
+                  "items": []
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found in cart.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Product 98765 not found in cart."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Failed to remove item from cart."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/ecommerce/cart/{userId}/update": {
+      "put": {
+        "tags": [
+          "CartService"
+        ],
+        "operationId": "updateCart",
+        "summary": "Update Cart",
+        "description": "Updates the quantities of items in the user's shopping cart.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the user.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "123456"
+          }
+        ],
+        "requestBody": {
+          "description": "Details of items and quantities to be updated in the cart.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CartUpdateRequestDTO"
+              },
+              "example": {
+                "items": [
+                  {
+                    "productId": "98765",
+                    "quantity": 3
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cart updated successfully.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartResponseDTO"
+                },
+                "example": {
+                  "cartId": "cart123",
+                  "items": [
+                    {
+                      "productId": "98765",
+                      "quantity": 3
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Quantity must be a positive number."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Failed to update cart items."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/ecommerce/payments/{paymentId}": {
+      "get": {
+        "tags": [
+          "PaymentService"
+        ],
+        "operationId": "getPayment",
+        "summary": "Retrieve Payment Details",
+        "description": "Fetches the payment details associated with the specified payment ID.",
+        "parameters": [
+          {
+            "name": "paymentId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the payment.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "pay789"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payment details retrieved successfully.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentResponseDTO"
+                },
+                "example": {
+                  "paymentId": "pay789",
+                  "status": "Completed",
+                  "amount": 99.99
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Payment not found.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Payment with ID pay789 not found."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Failed to retrieve payment information."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/ecommerce/payments/webhook": {
+      "post": {
+        "tags": [
+          "PaymentService"
+        ],
+        "operationId": "paymentWebhook",
+        "summary": "Handle Payment Webhook",
+        "description": "Handles incoming payment notifications through a webhook.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Payment webhook notification data.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentWebhookDTO"
+              },
+              "example": {
+                "eventType": "payment_success",
+                "paymentId": "pay789",
+                "amount": 99.99
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Webhook processed successfully.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentResponseDTO"
+                },
+                "example": {
+                  "message": "Webhook processed.",
+                  "status": "success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid webhook data.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid event type."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Failed to process webhook."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/ecommerce/payments/initiate": {
+      "post": {
+        "tags": [
+          "PaymentService"
+        ],
+        "operationId": "initiatePayment",
+        "summary": "Initiate a new payment",
+        "description": "This endpoint allows you to initiate a payment transaction for a purchase.",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRequestDTO"
+              },
+              "example": {
+                "amount": 100.0,
+                "currency": "USD",
+                "paymentMethod": "credit_card",
+                "orderId": "order123"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payment initiated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentResponseDTO"
+                },
+                "example": {
+                  "transactionId": "txn789",
+                  "status": "initiated",
+                  "amount": 100.0,
+                  "currency": "USD"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid payment request data."
+          },
+          "401": {
+            "description": "Unauthorized request."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/v1/ecommerce/products": {
+      "get": {
+        "tags": [
+          "ProductService"
+        ],
+        "operationId": "getAllProducts",
+        "summary": "Retrieve all products",
+        "description": "Fetch a list of all available products in the inventory.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of all products retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductResponseDTO"
+                  }
+                },
+                "example": [
+                  {
+                    "productId": "prod001",
+                    "name": "Laptop",
+                    "price": 999.99,
+                    "stock": 50
+                  },
+                  {
+                    "productId": "prod002",
+                    "name": "Smartphone",
+                    "price": 699.99,
+                    "stock": 100
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error while fetching products."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ProductService"
+        ],
+        "operationId": "addProduct",
+        "summary": "Add a new product",
+        "description": "This endpoint allows you to add a new product to the catalog.",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductRequestDTO"
+              },
+              "example": {
+                "name": "Tablet",
+                "description": "A high-quality tablet",
+                "price": 299.99,
+                "category": "electronics"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product added successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseDTO"
+                },
+                "example": {
+                  "productId": "prod003",
+                  "name": "Tablet",
+                  "price": 299.99,
+                  "stock": 150
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid product data provided."
+          },
+          "500": {
+            "description": "Internal server error while adding product."
+          }
+        }
+      }
+    },
+    "/v1/ecommerce/products/{productId}": {
+      "get": {
+        "tags": [
+          "ProductService"
+        ],
+        "operationId": "getProductById",
+        "summary": "Retrieve product details by ID",
+        "description": "Fetch detailed information about a specific product using its ID.",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier for the product",
+            "example": "prod001"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseDTO"
+                },
+                "example": {
+                  "productId": "prod001",
+                  "name": "Laptop",
+                  "price": 999.99,
+                  "description": "A high-performance laptop",
+                  "stock": 50
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found."
+          },
+          "500": {
+            "description": "Internal server error while fetching product details."
+          }
+        }
+      }
+    },
+    "/v1/ecommerce/products/search": {
+      "get": {
+        "tags": [
+          "ProductService"
+        ],
+        "operationId": "searchProducts",
+        "summary": "Search for products by criteria",
+        "description": "Search for products based on various criteria including category, price range, and sorting options.",
+        "parameters": [
+          {
+            "name": "X-Request-Id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique request identifier."
+          },
+          {
+            "name": "X-Client-Id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Client identifier for tracking."
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Authorization token for validating the request."
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Category to filter the products by, e.g. electronics."
+          },
+          {
+            "name": "minPrice",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "Minimum price for filtering products."
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "Maximum price for filtering products."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The page number to fetch in a paginated response."
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Number of products per page."
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Field to sort by, e.g., price, name."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Products retrieved successfully based on search criteria.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductResponseDTO"
+                  }
+                },
+                "example": [
+                  {
+                    "productId": "prod001",
+                    "name": "Laptop",
+                    "price": 999.99,
+                    "category": "electronics"
+                  },
+                  {
+                    "productId": "prod002",
+                    "name": "Smartphone",
+                    "price": 699.99,
+                    "category": "electronics"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid search parameters."
+          },
+          "500": {
+            "description": "Internal server error during product search."
+          }
+        }
+      }
+    },
+    "/v1/ecommerce/orders/place/{userId}": {
+      "post": {
+        "tags": [
+          "OrderService"
+        ],
+        "operationId": "placeOrder",
+        "summary": "Place a new order",
+        "description": "Allows users to place an order for products that they want to purchase.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier for the user placing the order.",
+            "example": "user123"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderRequestDTO"
+              },
+              "example": {
+                "productIds": [
+                  "prod001",
+                  "prod002"
+                ],
+                "totalAmount": 1699.98,
+                "shippingAddressId": "address789"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order placed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponseDTO"
+                },
+                "example": {
+                  "orderId": "order123",
+                  "status": "confirmed",
+                  "totalAmount": 1699.98,
+                  "products": [
+                    "prod001",
+                    "prod002"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid order data provided."
+          },
+          "401": {
+            "description": "Unauthorized user trying to place an order."
+          },
+          "500": {
+            "description": "Internal server error while placing order."
+          }
+        }
+      }
+    },
+    "/v1/ecommerce/orders/{orderId}": {
+      "get": {
+        "tags": [
+          "OrderService"
+        ],
+        "operationId": "getOrder",
+        "summary": "Retrieve order details",
+        "description": "Fetch details of a specific order using its ID.",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier for the order.",
+            "example": "order123"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponseDTO"
+                },
+                "example": {
+                  "orderId": "order123",
+                  "status": "shipped",
+                  "totalAmount": 1699.98,
+                  "products": [
+                    "prod001",
+                    "prod002"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found."
+          },
+          "500": {
+            "description": "Internal server error while fetching order details."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "OrderService"
+        ],
+        "operationId": "cancelOrder",
+        "summary": "Cancel an order",
+        "description": "Cancel an existing order using its ID.",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier for the order to be canceled.",
+            "example": "order124"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order canceled successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponseDTO"
+                },
+                "example": {
+                  "orderId": "order124",
+                  "status": "canceled",
+                  "cancellationReason": "User requested"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found for cancellation."
+          },
+          "500": {
+            "description": "Internal server error while canceling order."
+          }
+        }
+      }
+    },
+    "/v1/ecommerce/orders/user/{userId}": {
+      "get": {
+        "tags": [
+          "OrderService"
+        ],
+        "operationId": "getUserOrders",
+        "summary": "Retrieve user orders",
+        "description": "Get a list of all orders placed by a specific user.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier for the user whose orders are to be retrieved.",
+            "example": "user123"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User orders retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrderResponseDTO"
+                  }
+                },
+                "example": [
+                  {
+                    "orderId": "order123",
+                    "status": "confirmed",
+                    "totalAmount": 1000.0
+                  },
+                  {
+                    "orderId": "order124",
+                    "status": "shipped",
+                    "totalAmount": 299.99
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "User or orders for the user not found."
+          },
+          "500": {
+            "description": "Internal server error while fetching user orders."
+          }
+        }
+      }
+    },
+    "/v1/ecommerce/shipping/address": {
+      "post": {
+        "tags": [
+          "ShippingService"
+        ],
+        "operationId": "addAddress",
+        "summary": "Add a new shipping address",
+        "description": "This endpoint allows a user to add a new shipping address to their profile.",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddressRequestDTO"
+              },
+              "example": {
+                "street": "123 Elm St",
+                "city": "Metropolis",
+                "state": "NY",
+                "postalCode": "12345",
+                "country": "USA"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Shipping address added successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddressResponseDTO"
+                },
+                "example": {
+                  "addressId": "address789",
+                  "street": "123 Elm St",
+                  "city": "Metropolis",
+                  "state": "NY",
+                  "country": "USA"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid address data provided."
+          },
+          "500": {
+            "description": "Internal server error while adding address."
+          }
+        }
+      }
+    },
+    "/v1/ecommerce/shipping/address/{addressId}": {
+      "put": {
+        "tags": [
+          "ShippingService"
+        ],
+        "operationId": "updateShippingAddress",
+        "summary": "Update an existing shipping address",
+        "description": "Allows a user to update details of an existing shipping address using its unique identifier.",
+        "parameters": [
+          {
+            "name": "addressId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the shipping address to be updated.",
+            "schema": {
+              "type": "string",
+              "example": "addr_12345"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The new details of the shipping address.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddressRequestDTO"
+              },
+              "examples": {
+                "sample": {
+                  "description": "An example request to update a shipping address",
+                  "value": {
+                    "street": "123 Elm St.",
+                    "city": "Metropolis",
+                    "state": "NY",
+                    "postal_code": "12345",
+                    "country": "USA"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated shipping address details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddressResponseDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data provided.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Invalid address data."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Address not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Address with ID addr_12345 not found."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Error updating the address due to server issues."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/ecommerce/shipping/{orderId}/track": {
+      "get": {
+        "tags": [
+          "ShippingService"
+        ],
+        "operationId": "trackShippingOrder",
+        "summary": "Track the shipping status of an order",
+        "description": "Retrieve the current shipping status and history of an order using its unique identifier.",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the order to be tracked.",
+            "schema": {
+              "type": "string",
+              "example": "order_98765"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current shipping status and tracking history of the order.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrackingResponseDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid order ID provided.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Invalid order ID."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Order with ID order_98765 not found."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Error retrieving order tracking information due to server issues."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PaymentWebhookDTO": {
+        "type": "object",
+        "properties": {
+          "paymentId": {
+            "type": "string",
+            "description": "Unique identifier for the payment in the system.",
+            "example": "pay_1234567890"
+          },
+          "gatewayResponse": {
+            "type": "string",
+            "description": "Response received from the payment gateway.",
+            "example": "Success"
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "Identifier for the transaction within the payment gateway.",
+            "example": "txn_0987654321"
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the payment.",
+            "example": "Completed"
+          }
+        }
+      },
+      "OrderResponseDTO": {
+        "type": "object",
+        "properties": {
+          "totalAmount": {
+            "type": "number",
+            "format": "double",
+            "description": "Total amount for the order before discounts.",
+            "example": 150.75
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Date and time the order was created, in ISO 8601 format.",
+            "example": "2023-10-01T10:30:00Z"
+          },
+          "orderId": {
+            "type": "string",
+            "description": "Unique identifier for the order.",
+            "example": "ord_123456"
+          },
+          "totalDiscount": {
+            "type": "number",
+            "format": "double",
+            "description": "Total discount applied to the order.",
+            "example": 10.5
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code for the order total amount.",
+            "example": "USD"
+          },
+          "userId": {
+            "type": "string",
+            "description": "Identifier for the user who made the order.",
+            "example": "user_789"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItemDTO"
+            }
+          },
+          "payableAmount": {
+            "type": "number",
+            "format": "double",
+            "description": "Final amount to be paid after applying discounts.",
+            "example": 140.25
+          },
+          "paymentStatus": {
+            "type": "string",
+            "description": "Status of the payment for the order.",
+            "example": "Paid"
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the order.",
+            "example": "Shipped"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Date and time the order was last updated, in ISO 8601 format.",
+            "example": "2023-10-02T15:00:00Z"
+          }
+        }
+      },
+      "UserResponseDTO": {
+        "type": "object",
+        "properties": {
+          "country": {
+            "type": "string",
+            "description": "Country of the user.",
+            "example": "United States"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Date and time the user account was created, in ISO 8601 format.",
+            "example": "2023-01-15T08:22:00Z"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone number.",
+            "example": "+1234567890"
+          },
+          "preferredCurrency": {
+            "type": "string",
+            "description": "User's preferred currency for transactions.",
+            "example": "EUR"
+          },
+          "name": {
+            "type": "string",
+            "description": "Full name of the user.",
+            "example": "John Doe"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Whether the user account is active.",
+            "example": true
+          },
+          "userType": {
+            "type": "string",
+            "description": "Type of the user, e.g., customer, admin.",
+            "example": "customer"
+          },
+          "userId": {
+            "type": "string",
+            "description": "Unique identifier for the user.",
+            "example": "user_456"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address of the user.",
+            "example": "johndoe@example.com"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Date and time the user account was last updated, in ISO 8601 format.",
+            "example": "2023-09-25T13:47:00Z"
+          }
+        }
+      },
+      "OrderItemDTO": {
+        "type": "object",
+        "properties": {
+          "quantity": {
+            "type": "integer",
+            "description": "Quantity of the product in the order.",
+            "example": 2
+          },
+          "productId": {
+            "type": "string",
+            "description": "Unique identifier for the product.",
+            "example": "prod_123"
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "description": "Price of a single product unit.",
+            "example": 50.0
+          },
+          "discount": {
+            "type": "number",
+            "format": "double",
+            "description": "Discount on the product price.",
+            "example": 5.0
+          },
+          "finalPrice": {
+            "type": "number",
+            "format": "double",
+            "description": "Final price after discount for the product.",
+            "example": 45.0
+          },
+          "productName": {
+            "type": "string",
+            "description": "Name of the product.",
+            "example": "Wireless Headphones"
+          }
+        }
+      },
+      "CartItemDTO": {
+        "type": "object",
+        "properties": {
+          "quantity": {
+            "type": "integer",
+            "description": "Quantity of the product in the cart.",
+            "example": 1
+          },
+          "productId": {
+            "type": "string",
+            "description": "Unique identifier for the product.",
+            "example": "prod_456"
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "description": "Price of a single product unit in the cart.",
+            "example": 20.0
+          },
+          "discount": {
+            "type": "number",
+            "format": "double",
+            "description": "Discount applied to the product price in the cart.",
+            "example": 3.0
+          },
+          "finalPrice": {
+            "type": "number",
+            "format": "double",
+            "description": "Final price after discount for the product in the cart.",
+            "example": 17.0
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code for the product price.",
+            "example": "USD"
+          },
+          "productName": {
+            "type": "string",
+            "description": "Name of the product in the cart.",
+            "example": "Bluetooth Speaker"
+          }
+        }
+      },
+      "TrackingResponseDTO": {
+        "type": "object",
+        "properties": {
+          "lastUpdated": {
+            "type": "string",
+            "description": "Date and time the tracking status was last updated, in ISO 8601 format.",
+            "example": "2023-10-03T16:00:00Z"
+          },
+          "orderId": {
+            "type": "string",
+            "description": "Unique identifier for the tracked order.",
+            "example": "ord_321"
+          },
+          "courierPartner": {
+            "type": "string",
+            "description": "Name of the courier partner handling the delivery.",
+            "example": "DHL Express"
+          },
+          "estimatedDelivery": {
+            "type": "string",
+            "description": "Estimated delivery date, in ISO 8601 format.",
+            "example": "2023-10-07"
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the package shipment.",
+            "example": "In Transit"
+          },
+          "trackingId": {
+            "type": "string",
+            "description": "Unique identifier for the package tracking.",
+            "example": "track_654321"
+          }
+        }
+      },
+      "CartResponseDTO": {
+        "type": "object",
+        "properties": {
+          "totalAmount": {
+            "type": "number",
+            "format": "double",
+            "description": "Total amount of all items in the cart before discounts.",
+            "example": 100.0
+          },
+          "totalDiscount": {
+            "type": "number",
+            "format": "double",
+            "description": "Total discount applied to items in the cart.",
+            "example": 10.0
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code for all the cart items.",
+            "example": "USD"
+          },
+          "userId": {
+            "type": "string",
+            "description": "Unique identifier for the user who owns the cart.",
+            "example": "user_987"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CartItemDTO"
+            }
+          },
+          "payableAmount": {
+            "type": "number",
+            "format": "double",
+            "description": "Final amount to be paid after discounts for the cart.",
+            "example": 90.0
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Date and time the cart was last updated, in ISO 8601 format.",
+            "example": "2023-10-04T12:23:00Z"
+          }
+        }
+      },
+      "AddressResponseDTO": {
+        "type": "object",
+        "properties": {
+          "pincode": {
+            "type": "string",
+            "description": "Postal code of the address.",
+            "example": "12345"
+          },
+          "country": {
+            "type": "string",
+            "description": "Country where the address is located.",
+            "example": "Canada"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Date and time the address record was created, in ISO 8601 format.",
+            "example": "2023-02-10T09:00:00Z"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Contact phone number for the address.",
+            "example": "+19876543210"
+          },
+          "city": {
+            "type": "string",
+            "description": "City of the address.",
+            "example": "Toronto"
+          },
+          "addressType": {
+            "type": "string",
+            "description": "Type of address, such as home, work, etc.",
+            "example": "home"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the person associated with the address.",
+            "example": "Jane Smith"
+          },
+          "state": {
+            "type": "string",
+            "description": "State or province of the address.",
+            "example": "Ontario"
+          },
+          "addressLine": {
+            "type": "string",
+            "description": "Full address line containing street and number.",
+            "example": "123 Maple Street"
+          },
+          "userId": {
+            "type": "string",
+            "description": "Unique identifier of the user related to the address.",
+            "example": "user_101112"
+          },
+          "addressId": {
+            "type": "string",
+            "description": "Unique identifier for the address entry.",
+            "example": "addr_123456"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Date and time the address record was last updated, in ISO 8601 format.",
+            "example": "2023-09-28T11:00:00Z"
+          }
+        }
+      },
+      "UserRequestDTO": {
+        "type": "object",
+        "properties": {
+          "country": {
+            "type": "string",
+            "description": "Country of the user.",
+            "example": "United Kingdom"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's contact phone number.",
+            "example": "+441234567890"
+          },
+          "preferredCurrency": {
+            "type": "string",
+            "description": "User's preferred currency for transactions.",
+            "example": "GBP"
+          },
+          "name": {
+            "type": "string",
+            "description": "Full name of the user.",
+            "example": "Alice Johnson"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Indicates if the user's account should be active.",
+            "example": true
+          },
+          "userType": {
+            "type": "string",
+            "description": "The classification of the user, e.g., guest, registered.",
+            "example": "registered"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address for the user.",
+            "example": "alice.johnson@example.com"
+          }
+        }
+      },
+      "ProductResponseDTO": {
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "description": "Date and time the product was added to the catalog, in ISO 8601 format.",
+            "example": "2023-05-20T16:30:00Z"
+          },
+          "productId": {
+            "type": "string",
+            "description": "Unique identifier for the product.",
+            "example": "prod_789"
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "description": "Current selling price of the product.",
+            "example": 399.99
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the product.",
+            "example": "4K Television"
+          },
+          "rating": {
+            "type": "number",
+            "format": "double",
+            "description": "Average rating based on customer reviews.",
+            "example": 4.5
+          },
+          "available": {
+            "type": "boolean",
+            "description": "Indicates if the product is currently available for sale.",
+            "example": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description of the product.",
+            "example": "A high-definition 4K television with smart features."
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code for the product price.",
+            "example": "USD"
+          },
+          "category": {
+            "type": "string",
+            "description": "Category under which the product is listed.",
+            "example": "Electronics"
+          },
+          "stock": {
+            "type": "integer",
+            "description": "Number of units available in stock.",
+            "example": 150
+          },
+          "brand": {
+            "type": "string",
+            "description": "Brand name of the product.",
+            "example": "Sony"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Date and time the product information was last updated, in ISO 8601 format.",
+            "example": "2023-06-15T14:50:00Z"
+          }
+        }
+      },
+      "ProductRequestDTO": {
+        "type": "object",
+        "properties": {
+          "price": {
+            "type": "number",
+            "format": "double",
+            "description": "Selling price of the product.",
+            "example": 299.99
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the product.",
+            "example": "Bluetooth Earbuds"
+          },
+          "rating": {
+            "type": "number",
+            "format": "double",
+            "description": "Expected rating once the product is reviewed.",
+            "example": 4.2
+          },
+          "available": {
+            "type": "boolean",
+            "description": "Whether the product is available for customers.",
+            "example": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the product including key features.",
+            "example": "Compact wireless earbuds with noise cancellation."
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code applicable to the product price.",
+            "example": "USD"
+          },
+          "category": {
+            "type": "string",
+            "description": "Category classification of the product.",
+            "example": "Accessories"
+          },
+          "stock": {
+            "type": "integer",
+            "description": "Available inventory count for the product.",
+            "example": 200
+          },
+          "brand": {
+            "type": "string",
+            "description": "Brand associated with the product.",
+            "example": "Bose"
+          }
+        }
+      },
+      "CartUpdateRequestDTO": {
+        "type": "object",
+        "properties": {
+          "quantity": {
+            "type": "integer",
+            "description": "Number of product units to add or update in the cart.",
+            "example": 3
+          },
+          "productId": {
+            "type": "string",
+            "description": "Unique identifier for the product to update in the cart.",
+            "example": "prod_567"
+          },
+          "operation": {
+            "type": "string",
+            "description": "Operation to perform, e.g., add, remove, update.",
+            "example": "add"
+          }
+        }
+      },
+      "PaymentRequestDTO": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "description": "Total amount to be paid for the order.",
+            "example": 120.99
+          },
+          "orderId": {
+            "type": "string",
+            "description": "Unique identifier for the order associated with the payment.",
+            "example": "ord_654321"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "description": "Payment method used, e.g., credit card, PayPal.",
+            "example": "credit card"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code for the payment amount.",
+            "example": "USD"
+          },
+          "paymentGateway": {
+            "type": "string",
+            "description": "Name of the payment gateway to process the transaction.",
+            "example": "Stripe"
+          }
+        }
+      },
+      "AddressRequestDTO": {
+        "type": "object",
+        "properties": {
+          "pincode": {
+            "type": "string",
+            "description": "Postal code for the location of the address.",
+            "example": "54321"
+          },
+          "country": {
+            "type": "string",
+            "description": "Country for the address.",
+            "example": "United Kingdom"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Contact phone number for this address.",
+            "example": "+447911123456"
+          },
+          "city": {
+            "type": "string",
+            "description": "City where the address is located.",
+            "example": "London"
+          },
+          "addressType": {
+            "type": "string",
+            "description": "Type of address (e.g., home, shipping, billing).",
+            "example": "shipping"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the person or entity the address is recorded for.",
+            "example": "Sara Lee"
+          },
+          "state": {
+            "type": "string",
+            "description": "State or province of the address.",
+            "example": "Greater London"
+          },
+          "addressLine": {
+            "type": "string",
+            "description": "Street number and name.",
+            "example": "221B Baker Street"
+          },
+          "userId": {
+            "type": "string",
+            "description": "Unique identifier of the user associated with the address.",
+            "example": "user_131415"
+          }
+        }
+      },
+      "PaymentResponseDTO": {
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "description": "Date and time when the payment was initiated, in ISO 8601 format.",
+            "example": "2023-10-01T11:45:00Z"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "description": "Total amount that was paid.",
+            "example": 120.99
+          },
+          "orderId": {
+            "type": "string",
+            "description": "Unique identifier for the associated order.",
+            "example": "ord_456789"
+          },
+          "paymentId": {
+            "type": "string",
+            "description": "Unique identifier for the payment transaction.",
+            "example": "pay_123456"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "description": "Method used to complete the payment.",
+            "example": "credit card"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency in which the payment was processed.",
+            "example": "USD"
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "Unique transaction identifier from the payment gateway.",
+            "example": "txn_987654321"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the payment transaction.",
+            "example": "Completed"
+          }
+        }
+      }
+    }
+  }
+}
