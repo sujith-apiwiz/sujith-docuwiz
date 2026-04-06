@@ -2,8 +2,8 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Ecommerce API",
-    "description": "This API allows users to interact with an ecommerce platform where they can manage products, place orders, and obtain information about their purchases.",
-    "version": "v0"
+    "version": "v0",
+    "description": "API for managing ecommerce operations such as creating and fetching products."
   },
   "servers": [
     {
@@ -11,43 +11,42 @@
     }
   ],
   "paths": {
-    "openapi": "3.0.0",
+    "openapi": "3.0.1",
     "info": {
-      "title": "Store API",
+      "title": "Product Catalog API",
       "version": "1.0.0",
-      "description": "API for managing products and orders in the store."
+      "description": "API for managing a catalog of products."
     },
     "paths": {
       "/products": {
         "get": {
+          "summary": "Retrieve a list of products",
+          "description": "Fetch a list of all available products in the catalog.",
+          "operationId": "getProducts",
           "tags": [
             "Products"
           ],
-          "summary": "Retrieve a list of products",
-          "description": "Returns a list of all available products in the store.",
-          "operationId": "getProducts",
           "responses": {
             "200": {
-              "description": "A list of products",
+              "description": "A list of products returned successfully.",
               "content": {
                 "application/json": {
                   "schema": {
-                    "$ref": "#/components/schemas/ProductList"
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Product"
+                    }
                   },
                   "examples": {
-                    "example1": {
+                    "example": {
+                      "summary": "Example of product list",
                       "value": [
                         {
                           "id": "123",
-                          "name": "Product A",
+                          "name": "Widget",
+                          "description": "A useful widget",
                           "price": 19.99,
                           "inStock": true
-                        },
-                        {
-                          "id": "124",
-                          "name": "Product B",
-                          "price": 29.99,
-                          "inStock": false
                         }
                       ]
                     }
@@ -55,8 +54,82 @@
                 }
               }
             },
+            "404": {
+              "description": "Products not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ClientErrorResponse"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ServerErrorResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new product",
+          "description": "Add a new product to the catalog.",
+          "operationId": "createProduct",
+          "tags": [
+            "Products"
+          ],
+          "requestBody": {
+            "description": "Product to be created.",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewProduct"
+                },
+                "examples": {
+                  "example": {
+                    "summary": "Example of new product data",
+                    "value": {
+                      "name": "Gadget",
+                      "description": "An innovative gadget.",
+                      "price": 29.99,
+                      "inStock": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Product created successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Product"
+                  },
+                  "examples": {
+                    "example": {
+                      "summary": "Example of created product",
+                      "value": {
+                        "id": "124",
+                        "name": "Gadget",
+                        "description": "An innovative gadget.",
+                        "price": 29.99,
+                        "inStock": true
+                      }
+                    }
+                  }
+                }
+              }
+            },
             "400": {
-              "description": "Invalid request parameters",
+              "description": "Invalid product data.",
               "content": {
                 "application/json": {
                   "schema": {
@@ -77,372 +150,212 @@
             }
           }
         }
-      },
-      "/orders": {
-        "post": {
-          "tags": [
-            "Orders"
-          ],
-          "summary": "Create a new order",
-          "description": "Allows users to create a new order by providing the required order details.",
-          "operationId": "createOrder",
-          "requestBody": {
-            "description": "Order details to be created",
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderRequest"
-                },
-                "examples": {
-                  "newOrder": {
-                    "value": {
-                      "userId": "456",
-                      "items": [
-                        {
-                          "productId": "123",
-                          "quantity": 2
-                        },
-                        {
-                          "productId": "124",
-                          "quantity": 1
-                        }
-                      ],
-                      "totalPrice": 69.97,
-                      "address": "123 Main St, Anytown, USA"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "responses": {
-            "201": {
-              "description": "Order created successfully",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/OrderResponse"
-                  },
-                  "examples": {
-                    "createdOrder": {
-                      "value": {
-                        "orderId": "789",
-                        "status": "Processing",
-                        "estimatedDelivery": "2023-11-01"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "422": {
-              "description": "Unprocessable entity due to validation errors",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ValidationErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ServerErrorResponse"
-                  }
-                }
-              }
-            }
-          }
-        }
       }
     },
     "components": {
       "schemas": {
-        "ProductList": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/Product"
-          }
-        },
         "Product": {
           "type": "object",
           "properties": {
             "id": {
               "type": "string",
-              "description": "Unique identifier for the product",
+              "description": "Unique identifier for the product.",
               "example": "123"
             },
             "name": {
               "type": "string",
-              "description": "Name of the product",
-              "example": "Product A"
+              "description": "Name of the product.",
+              "example": "Widget"
+            },
+            "description": {
+              "type": "string",
+              "description": "A brief description of the product.",
+              "example": "A useful widget"
             },
             "price": {
               "type": "number",
-              "description": "Price of the product",
+              "description": "Price of the product.",
               "example": 19.99
             },
             "inStock": {
               "type": "boolean",
-              "description": "Availability of the product",
+              "description": "Availability of the product.",
               "example": true
             }
           }
         },
-        "OrderRequest": {
+        "NewProduct": {
           "type": "object",
-          "properties": {
-            "userId": {
-              "type": "string",
-              "description": "Unique identifier for the user placing the order",
-              "example": "456"
-            },
-            "items": {
-              "type": "array",
-              "description": "List of items included in the order",
-              "items": {
-                "$ref": "#/components/schemas/OrderItem"
-              }
-            },
-            "totalPrice": {
-              "type": "number",
-              "description": "Total price of the order",
-              "example": 69.97
-            },
-            "address": {
-              "type": "string",
-              "description": "Delivery address for the order",
-              "example": "123 Main St, Anytown, USA"
-            }
-          },
           "required": [
-            "userId",
-            "items",
-            "totalPrice",
-            "address"
-          ]
-        },
-        "OrderItem": {
-          "type": "object",
+            "name",
+            "price",
+            "inStock"
+          ],
           "properties": {
-            "productId": {
+            "name": {
               "type": "string",
-              "description": "Unique identifier for the product",
-              "example": "123"
+              "description": "Name of the new product.",
+              "example": "Gadget"
             },
-            "quantity": {
-              "type": "integer",
-              "description": "Quantity of the product ordered",
-              "example": 2
-            }
-          }
-        },
-        "OrderResponse": {
-          "type": "object",
-          "properties": {
-            "orderId": {
+            "description": {
               "type": "string",
-              "description": "Unique identifier for the created order",
-              "example": "789"
+              "description": "A brief description of the new product.",
+              "example": "An innovative gadget."
             },
-            "status": {
-              "type": "string",
-              "description": "Current status of the order",
-              "example": "Processing"
+            "price": {
+              "type": "number",
+              "description": "Price of the new product.",
+              "example": 29.99
             },
-            "estimatedDelivery": {
-              "type": "string",
-              "description": "Estimated delivery date for the order",
-              "example": "2023-11-01"
+            "inStock": {
+              "type": "boolean",
+              "description": "Availability of the new product.",
+              "example": true
             }
           }
         },
         "ClientErrorResponse": {
           "type": "object",
           "properties": {
+            "status": {
+              "type": "string",
+              "description": "Error status.",
+              "example": "error"
+            },
+            "code": {
+              "type": "integer",
+              "description": "HTTP status code.",
+              "example": 404
+            },
             "message": {
               "type": "string",
-              "description": "Error message describing why the request was invalid",
-              "example": "Invalid request parameters"
+              "description": "Error message.",
+              "example": "Products not found."
             },
-            "errorCode": {
-              "type": "integer",
-              "description": "Specific error code for tracking",
-              "example": 4001
-            },
-            "parameter": {
+            "details": {
               "type": "string",
-              "description": "Specific parameter that caused the error",
-              "example": "productId"
-            },
-            "type": {
-              "type": "string",
-              "description": "Type of the error",
-              "example": "Client Error"
+              "description": "Additional error details.",
+              "example": "No products available in the catalog."
             },
             "timestamp": {
               "type": "string",
-              "description": "Time when the error occurred",
-              "example": "2023-10-05T08:00:00Z"
+              "format": "date-time",
+              "description": "Timestamp of the error.",
+              "example": "2023-10-01T15:20:25Z"
             },
-            "requestId": {
+            "path": {
               "type": "string",
-              "description": "Identifier for the request for debugging purposes",
-              "example": "req-12345"
+              "description": "The requested path.",
+              "example": "/products"
             },
-            "documentationUrl": {
-              "type": "string",
-              "description": "URL to the API documentation for further reference",
-              "example": "http://api.example.com/docs/errors"
+            "errors": {
+              "type": "array",
+              "description": "Specific parameter errors.",
+              "items": {
+                "type": "string",
+                "example": "Product ID is required."
+              }
             }
-          },
-          "required": [
-            "message",
-            "errorCode",
-            "timestamp",
-            "requestId"
-          ]
-        },
-        "ValidationErrorResponse": {
-          "type": "object",
-          "properties": {
-            "message": {
-              "type": "string",
-              "description": "Error message describing why the request could not be processed",
-              "example": "Validation failed for the order request"
-            },
-            "errorCode": {
-              "type": "integer",
-              "description": "Specific error code for tracking",
-              "example": 4221
-            },
-            "field": {
-              "type": "string",
-              "description": "Field that failed validation",
-              "example": "totalPrice"
-            },
-            "invalidValue": {
-              "type": "string",
-              "description": "The value that caused the validation error",
-              "example": "NaN"
-            },
-            "type": {
-              "type": "string",
-              "description": "Type of the error",
-              "example": "Validation Error"
-            },
-            "timestamp": {
-              "type": "string",
-              "description": "Time when the error occurred",
-              "example": "2023-10-05T08:00:00Z"
-            },
-            "requestId": {
-              "type": "string",
-              "description": "Identifier for the request for debugging purposes",
-              "example": "req-67890"
-            }
-          },
-          "required": [
-            "message",
-            "errorCode",
-            "timestamp",
-            "requestId"
-          ]
+          }
         },
         "ServerErrorResponse": {
           "type": "object",
           "properties": {
+            "status": {
+              "type": "string",
+              "description": "Error status.",
+              "example": "error"
+            },
+            "code": {
+              "type": "integer",
+              "description": "HTTP status code.",
+              "example": 500
+            },
             "message": {
               "type": "string",
-              "description": "Generic error message about the server-side error",
-              "example": "An unexpected error occurred on the server"
-            },
-            "errorCode": {
-              "type": "integer",
-              "description": "Specific error code for server error tracking",
-              "example": 5000
-            },
-            "type": {
-              "type": "string",
-              "description": "Type of the error",
-              "example": "Server Error"
+              "description": "Error message.",
+              "example": "An internal error occurred."
             },
             "details": {
               "type": "string",
-              "description": "Detailed information about the error, if available",
-              "example": "Null pointer exception in ProductService"
+              "description": "Additional error details.",
+              "example": "The server encountered an unexpected condition."
             },
             "timestamp": {
               "type": "string",
-              "description": "Time when the error occurred",
-              "example": "2023-10-05T08:15:00Z"
+              "format": "date-time",
+              "description": "Timestamp of the error.",
+              "example": "2023-10-01T15:20:30Z"
             },
-            "requestId": {
+            "path": {
               "type": "string",
-              "description": "Identifier for the request for debugging purposes",
-              "example": "req-09876"
+              "description": "The requested path.",
+              "example": "/products"
             },
-            "supportContact": {
-              "type": "string",
-              "description": "Contact information for support",
-              "example": "support@example.com"
+            "errors": {
+              "type": "array",
+              "description": "Detailed server errors.",
+              "items": {
+                "type": "string",
+                "example": "Database connection failed."
+              }
             }
-          },
-          "required": [
-            "message",
-            "errorCode",
-            "timestamp",
-            "requestId"
-          ]
+          }
         }
       }
     }
   },
   "components": {
     "schemas": {
-      "openapi": "3.0.3",
+      "openapi": "3.0.0",
       "info": {
-        "title": "E-commerce API",
-        "description": "API for managing e-commerce platform operations such as product information and order processing.",
-        "version": "1.0.0"
+        "title": "Product API",
+        "version": "1.0.0",
+        "description": "API for managing products in the inventory."
       },
       "paths": {
         "/products": {
-          "get": {
-            "summary": "Retrieve Product List",
-            "description": "Fetch a list of all available products with their details.",
-            "operationId": "getProductList",
+          "post": {
+            "summary": "Create a new product",
+            "description": "Adds a new product to the database with provided details such as the name, price, and description.",
+            "operationId": "createProduct",
+            "tags": [
+              "Products"
+            ],
+            "requestBody": {
+              "description": "The product to create",
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/NewProduct"
+                  }
+                }
+              }
+            },
             "responses": {
-              "200": {
-                "description": "A list of products.",
+              "201": {
+                "description": "Product created successfully.",
                 "content": {
                   "application/json": {
                     "schema": {
-                      "$ref": "#/components/schemas/ProductList"
+                      "$ref": "#/components/schemas/Product"
                     },
                     "examples": {
-                      "example1": {
-                        "value": [
-                          {
-                            "id": 1,
-                            "name": "Wireless Mouse",
-                            "price": 19.99,
-                            "quantity": 100,
-                            "description": "A reliable wireless mouse with long battery life.",
-                            "category": "Electronics"
-                          }
-                        ]
+                      "product": {
+                        "value": {
+                          "id": "123",
+                          "name": "New Wireless Mouse",
+                          "price": 25.99,
+                          "description": "An ergonomic and high-precision wireless mouse."
+                        }
                       }
                     }
                   }
                 }
               },
               "400": {
-                "description": "Client error response for invalid requests.",
+                "description": "Invalid input provided.",
                 "content": {
                   "application/json": {
                     "schema": {
@@ -452,7 +365,7 @@
                 }
               },
               "500": {
-                "description": "Server error response for unexpected errors.",
+                "description": "An unexpected server error occurred.",
                 "content": {
                   "application/json": {
                     "schema": {
@@ -461,76 +374,62 @@
                   }
                 }
               }
-            },
-            "tags": [
-              "Products"
-            ]
+            }
           }
         },
-        "/orders": {
-          "post": {
-            "summary": "Create a New Order",
-            "description": "Submit a new order with customer and product details.",
-            "operationId": "createOrder",
-            "requestBody": {
-              "description": "Order details to be processed.",
-              "required": true,
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/OrderRequest"
-                  },
-                  "examples": {
-                    "example1": {
-                      "value": {
-                        "customerId": 456,
-                        "products": [
-                          {
-                            "productId": 1,
-                            "quantity": 2
-                          }
-                        ],
-                        "shippingAddress": "123 Market St, San Francisco, CA 94103",
-                        "paymentMethod": "Credit Card"
-                      }
-                    }
-                  }
+        "/products/{productId}": {
+          "get": {
+            "summary": "Retrieve a product by ID",
+            "description": "Fetches information about a specific product using the unique product ID.",
+            "operationId": "getProductById",
+            "tags": [
+              "Products"
+            ],
+            "parameters": [
+              {
+                "name": "productId",
+                "in": "path",
+                "required": true,
+                "description": "Unique identifier of the product",
+                "schema": {
+                  "type": "string",
+                  "example": "123"
                 }
               }
-            },
+            ],
             "responses": {
               "200": {
-                "description": "Order created successfully.",
+                "description": "Product retrieved successfully.",
                 "content": {
                   "application/json": {
                     "schema": {
-                      "$ref": "#/components/schemas/OrderResponse"
+                      "$ref": "#/components/schemas/Product"
                     },
                     "examples": {
-                      "example1": {
+                      "product": {
                         "value": {
-                          "orderId": 101,
-                          "status": "Pending",
-                          "totalAmount": 39.98,
-                          "orderedAt": "2023-10-05T14:48:00.000Z"
+                          "id": "123",
+                          "name": "Wireless Mouse",
+                          "price": 19.99,
+                          "description": "A high-quality wireless mouse suitable for gaming and office work."
                         }
                       }
                     }
                   }
                 }
               },
-              "422": {
-                "description": "Validation error response for invalid order details.",
+              "404": {
+                "description": "Product not found.",
                 "content": {
                   "application/json": {
                     "schema": {
-                      "$ref": "#/components/schemas/ValidationErrorResponse"
+                      "$ref": "#/components/schemas/ClientErrorResponse"
                     }
                   }
                 }
               },
               "500": {
-                "description": "Server error response for unexpected errors.",
+                "description": "An unexpected server error occurred.",
                 "content": {
                   "application/json": {
                     "schema": {
@@ -539,39 +438,19 @@
                   }
                 }
               }
-            },
-            "tags": [
-              "Orders"
-            ]
+            }
           }
         }
       },
       "components": {
         "schemas": {
-          "ProductList": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Product"
-            },
-            "description": "List of products available in the store.",
-            "example": [
-              {
-                "id": 1,
-                "name": "Wireless Mouse",
-                "price": 19.99,
-                "quantity": 100,
-                "description": "A reliable wireless mouse with long battery life.",
-                "category": "Electronics"
-              }
-            ]
-          },
           "Product": {
             "type": "object",
             "properties": {
               "id": {
-                "type": "integer",
+                "type": "string",
                 "description": "Unique identifier for the product.",
-                "example": 1
+                "example": "123"
               },
               "name": {
                 "type": "string",
@@ -580,274 +459,124 @@
               },
               "price": {
                 "type": "number",
-                "format": "float",
                 "description": "Price of the product.",
                 "example": 19.99
               },
-              "quantity": {
-                "type": "integer",
-                "description": "Available stock quantity.",
-                "example": 100
-              },
               "description": {
                 "type": "string",
-                "description": "Product description.",
-                "example": "A reliable wireless mouse with long battery life."
-              },
-              "category": {
-                "type": "string",
-                "description": "Category of the product.",
-                "example": "Electronics"
+                "description": "Detailed description of the product.",
+                "example": "A high-quality wireless mouse suitable for gaming and office work."
               }
             }
           },
-          "OrderRequest": {
+          "NewProduct": {
             "type": "object",
-            "properties": {
-              "customerId": {
-                "type": "integer",
-                "description": "Unique identifier for the customer.",
-                "example": 456
-              },
-              "products": {
-                "type": "array",
-                "description": "List of products to order with their quantities.",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "productId": {
-                      "type": "integer",
-                      "description": "Unique identifier of the product.",
-                      "example": 1
-                    },
-                    "quantity": {
-                      "type": "integer",
-                      "description": "Quantity of the product to order.",
-                      "example": 2
-                    }
-                  },
-                  "required": [
-                    "productId",
-                    "quantity"
-                  ]
-                }
-              },
-              "shippingAddress": {
-                "type": "string",
-                "description": "Shipping address for the order.",
-                "example": "123 Market St, San Francisco, CA 94103"
-              },
-              "paymentMethod": {
-                "type": "string",
-                "description": "Payment method for the order.",
-                "example": "Credit Card"
-              }
-            },
             "required": [
-              "customerId",
-              "products",
-              "shippingAddress",
-              "paymentMethod"
-            ]
-          },
-          "OrderResponse": {
-            "type": "object",
+              "name",
+              "price"
+            ],
             "properties": {
-              "orderId": {
-                "type": "integer",
-                "description": "Unique identifier of the created order.",
-                "example": 101
-              },
-              "status": {
+              "name": {
                 "type": "string",
-                "description": "Order status.",
-                "example": "Pending"
+                "description": "Name of the product.",
+                "example": "New Wireless Mouse"
               },
-              "totalAmount": {
+              "price": {
                 "type": "number",
-                "format": "float",
-                "description": "Total amount for the order.",
-                "example": 39.98
+                "description": "Price of the product.",
+                "example": 25.99
               },
-              "orderedAt": {
+              "description": {
                 "type": "string",
-                "format": "date-time",
-                "description": "Timestamp when the order was placed.",
-                "example": "2023-10-05T14:48:00.000Z"
+                "description": "Description of the product.",
+                "example": "An ergonomic and high-precision wireless mouse."
               }
-            },
-            "required": [
-              "orderId",
-              "status",
-              "totalAmount",
-              "orderedAt"
-            ]
+            }
           },
           "ClientErrorResponse": {
             "type": "object",
             "properties": {
-              "error": {
-                "type": "string",
-                "description": "Error type.",
-                "example": "InvalidRequest"
-              },
-              "message": {
-                "type": "string",
-                "description": "Detailed error message.",
-                "example": "Missing required parameter: productId"
-              },
-              "status": {
+              "statusCode": {
                 "type": "integer",
-                "description": "HTTP status code.",
+                "description": "HTTP status code of the error.",
                 "example": 400
               },
-              "timestamp": {
-                "type": "string",
-                "format": "date-time",
-                "description": "Time when the error occurred.",
-                "example": "2023-10-05T10:30:00.000Z"
-              },
-              "path": {
-                "type": "string",
-                "description": "Request path.",
-                "example": "/products"
-              },
-              "method": {
-                "type": "string",
-                "description": "HTTP method used.",
-                "example": "GET"
-              },
-              "requestId": {
-                "type": "string",
-                "description": "Unique identifier for the request.",
-                "example": "1234abcd"
-              }
-            },
-            "required": [
-              "error",
-              "message",
-              "status",
-              "timestamp",
-              "path",
-              "method",
-              "requestId"
-            ]
-          },
-          "ValidationErrorResponse": {
-            "type": "object",
-            "properties": {
               "error": {
                 "type": "string",
-                "description": "Error type.",
-                "example": "ValidationError"
+                "description": "Error name or type.",
+                "example": "Bad Request"
               },
               "message": {
                 "type": "string",
-                "description": "Detailed error message.",
-                "example": "Product quantity must be greater than zero"
+                "description": "A human-readable message describing the error.",
+                "example": "Invalid product ID."
               },
-              "status": {
-                "type": "integer",
-                "description": "HTTP status code.",
-                "example": 422
+              "details": {
+                "type": "string",
+                "description": "Detailed information about the error.",
+                "example": "The provided product ID format is incorrect."
+              },
+              "instance": {
+                "type": "string",
+                "description": "URL referencing the error instance.",
+                "example": "/products/invalid-id"
+              },
+              "additionalInfo": {
+                "type": "string",
+                "description": "Any additional information regarding the error.",
+                "example": "Ensure the product ID is correct."
               },
               "timestamp": {
                 "type": "string",
                 "format": "date-time",
-                "description": "Time when the error occurred.",
-                "example": "2023-10-05T10:45:00.000Z"
-              },
-              "path": {
-                "type": "string",
-                "description": "Request path.",
-                "example": "/orders"
-              },
-              "method": {
-                "type": "string",
-                "description": "HTTP method used.",
-                "example": "POST"
-              },
-              "validationErrors": {
-                "type": "array",
-                "description": "List of validation error details.",
-                "items": {
-                  "type": "string",
-                  "example": "Product quantity must be greater than zero"
-                }
+                "description": "The time when the error occurred.",
+                "example": "2023-11-01T12:00:00Z"
               }
-            },
-            "required": [
-              "error",
-              "message",
-              "status",
-              "timestamp",
-              "path",
-              "method",
-              "validationErrors"
-            ]
+            }
           },
           "ServerErrorResponse": {
             "type": "object",
             "properties": {
+              "statusCode": {
+                "type": "integer",
+                "description": "HTTP status code of the error.",
+                "example": 500
+              },
               "error": {
                 "type": "string",
-                "description": "Error type.",
-                "example": "InternalServerError"
+                "description": "Error name or type.",
+                "example": "Internal Server Error"
               },
               "message": {
                 "type": "string",
-                "description": "Detailed error message.",
-                "example": "An unexpected error occurred on the server"
+                "description": "A human-readable message describing the error.",
+                "example": "An unexpected error occurred."
               },
-              "status": {
-                "type": "integer",
-                "description": "HTTP status code.",
-                "example": 500
+              "details": {
+                "type": "string",
+                "description": "Detailed information about the error.",
+                "example": "An error occurred while processing your request."
+              },
+              "instance": {
+                "type": "string",
+                "description": "URL referencing the error instance.",
+                "example": "/products"
+              },
+              "additionalInfo": {
+                "type": "string",
+                "description": "Any additional information regarding the error.",
+                "example": "Please try again later."
               },
               "timestamp": {
                 "type": "string",
                 "format": "date-time",
-                "description": "Time when the error occurred.",
-                "example": "2023-10-05T11:00:00.000Z"
-              },
-              "path": {
-                "type": "string",
-                "description": "Request path.",
-                "example": "/products"
-              },
-              "method": {
-                "type": "string",
-                "description": "HTTP method used.",
-                "example": "GET"
-              },
-              "requestId": {
-                "type": "string",
-                "description": "Unique identifier for the request.",
-                "example": "5678efgh"
+                "description": "The time when the error occurred.",
+                "example": "2023-11-01T12:00:00Z"
               }
-            },
-            "required": [
-              "error",
-              "message",
-              "status",
-              "timestamp",
-              "path",
-              "method",
-              "requestId"
-            ]
+            }
           }
         }
       }
     }
-  },
-  "tags": [
-    {
-      "name": "Products",
-      "description": "Everything about products in the ecommerce platform"
-    },
-    {
-      "name": "Orders",
-      "description": "Operations related to order management"
-    }
-  ]
+  }
 }
