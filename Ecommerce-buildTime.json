@@ -2,7 +2,8 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Ecommerce-buildTime",
-    "version": "v0"
+    "version": "v0",
+    "description": "API specification for tracking the build time of ecommerce components and services."
   },
   "servers": [
     {
@@ -24,8 +25,8 @@
           "UserService"
         ],
         "operationId": "registerUser",
-        "summary": "Register a New User",
-        "description": "Create a new user account by providing the necessary user details.",
+        "summary": "Register a new user",
+        "description": "Creates a new user account with the provided details.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -38,7 +39,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successful registration of the user.",
+            "description": "User registration successful. Returns user details.",
             "content": {
               "*/*": {
                 "schema": {
@@ -76,21 +77,22 @@
           "UserService"
         ],
         "operationId": "getUser",
-        "summary": "Retrieve User Information",
-        "description": "Fetch details of a specific user by their unique user ID.",
+        "summary": "Retrieve user details",
+        "description": "Fetches information of a user given their user ID.",
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "12345"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Details of the user retrieved successfully.",
+            "description": "User details retrieved successfully.",
             "content": {
               "*/*": {
                 "schema": {
@@ -128,15 +130,16 @@
           "CartService"
         ],
         "operationId": "addToCart",
-        "summary": "Add Item to Cart",
-        "description": "Add a specified item to the user's shopping cart using their user ID.",
+        "summary": "Add item to cart",
+        "description": "Adds a specific item to the cart of the identified user.",
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "12345"
             }
           }
         ],
@@ -151,7 +154,7 @@
         },
         "responses": {
           "200": {
-            "description": "Item added to the cart successfully.",
+            "description": "Item successfully added to the cart.",
             "content": {
               "*/*": {
                 "schema": {
@@ -189,15 +192,16 @@
           "CartService"
         ],
         "operationId": "getCart",
-        "summary": "Get User's Cart",
-        "description": "Retrieve the current state of a user's shopping cart.",
+        "summary": "Get user cart",
+        "description": "Retrieves the current state of the user's cart.",
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "12345"
             }
           }
         ],
@@ -241,15 +245,16 @@
           "CartService"
         ],
         "operationId": "removeFromCart",
-        "summary": "Remove Item from Cart",
-        "description": "Remove a specific item from the user's cart using product ID.",
+        "summary": "Remove item from cart",
+        "description": "Removes an item from the user's cart using the product ID.",
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "12345"
             }
           },
           {
@@ -257,13 +262,14 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "98765"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Item removed from the cart successfully.",
+            "description": "Item successfully removed from cart.",
             "content": {
               "*/*": {
                 "schema": {
@@ -301,15 +307,16 @@
           "CartService"
         ],
         "operationId": "updateCart",
-        "summary": "Update Cart Items",
-        "description": "Modify the items in the user's cart by providing updated cart details.",
+        "summary": "Update cart items",
+        "description": "Updates items in the user's cart based on the provided details.",
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "12345"
             }
           }
         ],
@@ -362,21 +369,22 @@
           "PaymentService"
         ],
         "operationId": "getPayment",
-        "summary": "Retrieve Payment Details",
-        "description": "Obtain details of a particular payment using the payment ID.",
+        "summary": "Retrieve payment details",
+        "description": "Gets the details of a specific payment using the payment ID.",
         "parameters": [
           {
             "name": "paymentId",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "abcd1234"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Payment details retrieved successfully.",
+            "description": "Payment details fetched successfully.",
             "content": {
               "*/*": {
                 "schema": {
@@ -414,8 +422,8 @@
           "PaymentService"
         ],
         "operationId": "paymentWebhook",
-        "summary": "Process Payment Webhook",
-        "description": "Handle incoming payment webhook notifications to update payment status.",
+        "summary": "Handle payment webhook",
+        "description": "Processes incoming webhooks for payment updates.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -466,8 +474,7 @@
           "PaymentService"
         ],
         "operationId": "initiatePayment",
-        "summary": "Initiate a payment process",
-        "description": "This endpoint is used to begin the payment process by submitting the necessary payment information.",
+        "description": "Initiates a payment transaction based on the provided payment details.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -480,7 +487,7 @@
         },
         "responses": {
           "200": {
-            "description": "A successful response contains the details of the initiated payment.",
+            "description": "Payment transaction initiated successfully.",
             "content": {
               "*/*": {
                 "schema": {
@@ -518,12 +525,11 @@
           "ProductService"
         ],
         "operationId": "getAllProducts",
-        "summary": "Retrieve all products",
-        "description": "Fetch a list of all available products in the inventory.",
+        "description": "Retrieves a list of all available products.",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "The response contains an array of product details.",
+            "description": "A list of products retrieved successfully.",
             "content": {
               "*/*": {
                 "schema": {
@@ -562,8 +568,7 @@
           "ProductService"
         ],
         "operationId": "addProduct",
-        "summary": "Add a new product",
-        "description": "Create a new product by providing its details.",
+        "description": "Adds a new product to the catalog.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -576,7 +581,7 @@
         },
         "responses": {
           "200": {
-            "description": "The response contains the details of the newly added product.",
+            "description": "Product added successfully.",
             "content": {
               "*/*": {
                 "schema": {
@@ -614,8 +619,7 @@
           "ProductService"
         ],
         "operationId": "getProductById",
-        "summary": "Get product by ID",
-        "description": "Fetch the details of a specific product using its unique product ID.",
+        "description": "Retrieves details of a specific product using its ID.",
         "parameters": [
           {
             "name": "productId",
@@ -623,12 +627,13 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "123456"
           }
         ],
         "responses": {
           "200": {
-            "description": "The response contains the product details for the specified ID.",
+            "description": "Product details retrieved successfully.",
             "content": {
               "*/*": {
                 "schema": {
@@ -666,36 +671,39 @@
           "ProductService"
         ],
         "operationId": "searchProducts",
-        "summary": "Search for products",
-        "description": "Search for products using various query parameters such as category, price range, and sort options.",
+        "description": "Searches for products based on various filter criteria.",
         "parameters": [
           {
             "name": "X-Request-Id",
             "in": "header",
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "request-id-1234"
           },
           {
             "name": "X-Client-Id",
             "in": "header",
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "client-5678"
           },
           {
             "name": "Authorization",
             "in": "header",
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "Bearer token"
           },
           {
             "name": "category",
             "in": "query",
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "electronics"
           },
           {
             "name": "minPrice",
@@ -703,7 +711,8 @@
             "schema": {
               "type": "number",
               "format": "double"
-            }
+            },
+            "example": 10.0
           },
           {
             "name": "maxPrice",
@@ -711,33 +720,37 @@
             "schema": {
               "type": "number",
               "format": "double"
-            }
+            },
+            "example": 500.0
           },
           {
             "name": "page",
             "in": "query",
             "schema": {
               "type": "integer"
-            }
+            },
+            "example": 1
           },
           {
             "name": "size",
             "in": "query",
             "schema": {
               "type": "integer"
-            }
+            },
+            "example": 10
           },
           {
             "name": "sortBy",
             "in": "query",
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "price"
           }
         ],
         "responses": {
           "200": {
-            "description": "The response contains an array of products matching the search criteria.",
+            "description": "Products matching the search criteria retrieved successfully.",
             "content": {
               "*/*": {
                 "schema": {
@@ -778,8 +791,7 @@
           "OrderService"
         ],
         "operationId": "placeOrder",
-        "summary": "Place an order",
-        "description": "Submit a new order for a specified user identified by user ID.",
+        "description": "Places a new order for the specified user ID.",
         "parameters": [
           {
             "name": "userId",
@@ -787,12 +799,13 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "user-7890"
           }
         ],
         "responses": {
           "200": {
-            "description": "The response provides details of the successfully placed order.",
+            "description": "Order placed successfully.",
             "content": {
               "*/*": {
                 "schema": {
@@ -830,8 +843,7 @@
           "OrderService"
         ],
         "operationId": "getOrder",
-        "summary": "Get order by ID",
-        "description": "Retrieve the details of an order using its order ID.",
+        "description": "Retrieves details of a specific order using its ID.",
         "parameters": [
           {
             "name": "orderId",
@@ -839,12 +851,13 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "order-1234"
           }
         ],
         "responses": {
           "200": {
-            "description": "The response contains the details of the specified order.",
+            "description": "Order details retrieved successfully.",
             "content": {
               "*/*": {
                 "schema": {
@@ -880,8 +893,7 @@
           "OrderService"
         ],
         "operationId": "cancelOrder",
-        "summary": "Cancel an order",
-        "description": "Cancel an existing order using its order ID.",
+        "description": "Cancels a specific order using its ID.",
         "parameters": [
           {
             "name": "orderId",
@@ -889,12 +901,13 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "order-1234"
           }
         ],
         "responses": {
           "200": {
-            "description": "The response confirms the cancellation of the specified order.",
+            "description": "Order canceled successfully.",
             "content": {
               "*/*": {
                 "schema": {
@@ -932,8 +945,7 @@
           "OrderService"
         ],
         "operationId": "getUserOrders",
-        "summary": "Get orders for a user",
-        "description": "Retrieve the list of orders placed by a specific user identified by user ID.",
+        "description": "Retrieves a list of orders for a specific user ID.",
         "parameters": [
           {
             "name": "userId",
@@ -941,12 +953,13 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "user-7890"
           }
         ],
         "responses": {
           "200": {
-            "description": "The response includes an array of orders placed by the specified user.",
+            "description": "A list of user orders retrieved successfully.",
             "content": {
               "*/*": {
                 "schema": {
@@ -987,8 +1000,7 @@
           "ShippingService"
         ],
         "operationId": "addAddress",
-        "summary": "Add a new shipping address",
-        "description": "Add a new shipping address to the user's profile by providing address details.",
+        "description": "Adds a new shipping address for the user.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -1001,7 +1013,7 @@
         },
         "responses": {
           "200": {
-            "description": "The response contains the details of the newly added shipping address.",
+            "description": "Shipping address added successfully.",
             "content": {
               "*/*": {
                 "schema": {
@@ -1045,8 +1057,10 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
-            }
+              "type": "string",
+              "example": "12345"
+            },
+            "description": "The unique identifier for the address to be updated."
           }
         ],
         "requestBody": {
@@ -1054,13 +1068,21 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AddressRequestDTO"
+              },
+              "example": {
+                "street": "123 Main St",
+                "city": "Anytown",
+                "state": "CA",
+                "zipCode": "90210",
+                "country": "USA"
               }
             }
-          }
+          },
+          "description": "JSON object containing the updated address details."
         },
         "responses": {
           "200": {
-            "description": "Successfully updates the shipping address details for a specific address ID.",
+            "description": "Successful response containing updated address details.",
             "content": {
               "*/*": {
                 "schema": {
@@ -1097,20 +1119,22 @@
         "tags": [
           "ShippingService"
         ],
-        "operationId": "trackOrderStatus",
+        "operationId": "trackShippingOrder",
         "parameters": [
           {
             "name": "orderId",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
-            }
+              "type": "string",
+              "example": "ORD123456"
+            },
+            "description": "The unique identifier for the order you want to track."
           }
         ],
         "responses": {
           "200": {
-            "description": "Retrieves the current tracking information for the specified order ID.",
+            "description": "Successful response containing the tracking details of the order.",
             "content": {
               "*/*": {
                 "schema": {
