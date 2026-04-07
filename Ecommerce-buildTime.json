@@ -7,7 +7,7 @@
   "servers": [
     {
       "x-schema": "https://",
-      "url": "https://apis.apiwiz.io/v26/ecommerce",
+      "url": "https://35.162.152.203:2222/v26/ecommerce",
       "x-name": "Dev",
       "x-basePath": "/v26/ecommerce",
       "description": "Dev",
