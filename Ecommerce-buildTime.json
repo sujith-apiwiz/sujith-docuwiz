@@ -2,8 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Ecommerce-buildTime",
-    "version": "v0",
-    "description": "API specification for tracking the build time of ecommerce components and services."
+    "version": "v0"
   },
   "servers": [
     {
@@ -26,7 +25,7 @@
         ],
         "operationId": "registerUser",
         "summary": "Register a new user",
-        "description": "Creates a new user account with the provided details.",
+        "description": "Creates a new user account in the system.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -39,9 +38,9 @@
         },
         "responses": {
           "200": {
-            "description": "User registration successful. Returns user details.",
+            "description": "User successfully registered.",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UserResponseDTO"
                 }
@@ -49,21 +48,11 @@
             }
           },
           "400": {
-            "description": "Client error",
+            "description": "Invalid user data provided.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
+                  "$ref": "#/components/schemas/RegisterUserBadRequest"
                 }
               }
             }
@@ -71,52 +60,83 @@
         }
       }
     },
-    "/users/{userId}": {
-      "get": {
+    "/orders/place/{userId}": {
+      "post": {
         "tags": [
-          "UserService"
+          "OrderService"
         ],
-        "operationId": "getUser",
-        "summary": "Retrieve user details",
-        "description": "Fetches information of a user given their user ID.",
+        "operationId": "placeOrder",
+        "summary": "Place a new order",
+        "description": "Allows a user to place a new order in the system.",
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "example": "12345"
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "User details retrieved successfully.",
+            "description": "Order successfully placed.",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserResponseDTO"
+                  "$ref": "#/components/schemas/OrderResponseDTO"
                 }
               }
             }
           },
           "400": {
-            "description": "Client error",
+            "description": "Invalid order parameters supplied.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
+                  "$ref": "#/components/schemas/PlaceOrderBadRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/{orderId}": {
+      "get": {
+        "tags": [
+          "OrderService"
+        ],
+        "operationId": "getOrder",
+        "summary": "Retrieve order details",
+        "description": "Fetch details of a specific order using the order ID.",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponseDTO"
                 }
               }
             }
           },
-          "500": {
-            "description": "Server error",
+          "404": {
+            "description": "Order not found.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
+                  "$ref": "#/components/schemas/GetOrderNotFound"
                 }
               }
             }
@@ -131,15 +151,14 @@
         ],
         "operationId": "addToCart",
         "summary": "Add item to cart",
-        "description": "Adds a specific item to the cart of the identified user.",
+        "description": "Adds a new item to the user's shopping cart.",
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "example": "12345"
+              "type": "string"
             }
           }
         ],
@@ -154,9 +173,9 @@
         },
         "responses": {
           "200": {
-            "description": "Item successfully added to the cart.",
+            "description": "Item successfully added to cart.",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CartResponseDTO"
                 }
@@ -164,21 +183,11 @@
             }
           },
           "400": {
-            "description": "Client error",
+            "description": "Invalid cart item data.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
+                  "$ref": "#/components/schemas/AddToCartBadRequest"
                 }
               }
             }
@@ -192,46 +201,35 @@
           "CartService"
         ],
         "operationId": "getCart",
-        "summary": "Get user cart",
-        "description": "Retrieves the current state of the user's cart.",
+        "summary": "Get user's cart",
+        "description": "Retrieve the current items in the specified user's shopping cart.",
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "example": "12345"
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "User's cart retrieved successfully.",
+            "description": "Cart details retrieved successfully.",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CartResponseDTO"
                 }
               }
             }
           },
-          "400": {
-            "description": "Client error",
+          "404": {
+            "description": "Cart or user not found.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
+                  "$ref": "#/components/schemas/GetCartNotFound"
                 }
               }
             }
@@ -239,279 +237,41 @@
         }
       }
     },
-    "/cart/{userId}/remove/{productId}": {
-      "delete": {
-        "tags": [
-          "CartService"
-        ],
-        "operationId": "removeFromCart",
-        "summary": "Remove item from cart",
-        "description": "Removes an item from the user's cart using the product ID.",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "12345"
-            }
-          },
-          {
-            "name": "productId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "98765"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Item successfully removed from cart.",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/CartResponseDTO"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Client error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/cart/{userId}/update": {
-      "put": {
-        "tags": [
-          "CartService"
-        ],
-        "operationId": "updateCart",
-        "summary": "Update cart items",
-        "description": "Updates items in the user's cart based on the provided details.",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "12345"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CartUpdateRequestDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Cart updated successfully.",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/CartResponseDTO"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Client error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/payments/{paymentId}": {
+    "/shipping/{orderId}/track": {
       "get": {
         "tags": [
-          "PaymentService"
+          "ShippingService"
         ],
-        "operationId": "getPayment",
-        "summary": "Retrieve payment details",
-        "description": "Gets the details of a specific payment using the payment ID.",
+        "operationId": "trackOrder",
+        "summary": "Track shipping status",
+        "description": "Track the current shipping status of a specific order.",
         "parameters": [
           {
-            "name": "paymentId",
+            "name": "orderId",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "example": "abcd1234"
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Payment details fetched successfully.",
+            "description": "Shipping status retrieved successfully.",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaymentResponseDTO"
+                  "$ref": "#/components/schemas/TrackingResponseDTO"
                 }
               }
             }
           },
-          "400": {
-            "description": "Client error",
+          "404": {
+            "description": "Shipping details not found.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/payments/webhook": {
-      "post": {
-        "tags": [
-          "PaymentService"
-        ],
-        "operationId": "paymentWebhook",
-        "summary": "Handle payment webhook",
-        "description": "Processes incoming webhooks for payment updates.",
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PaymentWebhookDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Webhook processed successfully.",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PaymentResponseDTO"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Client error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/payments/initiate": {
-      "post": {
-        "tags": [
-          "PaymentService"
-        ],
-        "operationId": "initiatePayment",
-        "description": "Initiates a payment transaction based on the provided payment details.",
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PaymentRequestDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Payment transaction initiated successfully.",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PaymentResponseDTO"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Client error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
+                  "$ref": "#/components/schemas/TrackOrderNotFound"
                 }
               }
             }
@@ -520,55 +280,13 @@
       }
     },
     "/products": {
-      "get": {
-        "tags": [
-          "ProductService"
-        ],
-        "operationId": "getAllProducts",
-        "description": "Retrieves a list of all available products.",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "A list of products retrieved successfully.",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductResponseDTO"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Client error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          }
-        }
-      },
       "post": {
         "tags": [
           "ProductService"
         ],
         "operationId": "addProduct",
-        "description": "Adds a new product to the catalog.",
+        "summary": "Add a new product",
+        "description": "Add a new product to the catalog.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -583,7 +301,7 @@
           "200": {
             "description": "Product added successfully.",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProductResponseDTO"
                 }
@@ -591,21 +309,11 @@
             }
           },
           "400": {
-            "description": "Client error",
+            "description": "Invalid product data provided.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
+                  "$ref": "#/components/schemas/AddProductBadRequest"
                 }
               }
             }
@@ -613,431 +321,41 @@
         }
       }
     },
-    "/products/{productId}": {
-      "get": {
-        "tags": [
-          "ProductService"
-        ],
-        "operationId": "getProductById",
-        "description": "Retrieves details of a specific product using its ID.",
-        "parameters": [
-          {
-            "name": "productId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "123456"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Product details retrieved successfully.",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseDTO"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Client error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/products/search": {
-      "get": {
-        "tags": [
-          "ProductService"
-        ],
-        "operationId": "searchProducts",
-        "description": "Searches for products based on various filter criteria.",
-        "parameters": [
-          {
-            "name": "X-Request-Id",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "request-id-1234"
-          },
-          {
-            "name": "X-Client-Id",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "client-5678"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "Bearer token"
-          },
-          {
-            "name": "category",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "example": "electronics"
-          },
-          {
-            "name": "minPrice",
-            "in": "query",
-            "schema": {
-              "type": "number",
-              "format": "double"
-            },
-            "example": 10.0
-          },
-          {
-            "name": "maxPrice",
-            "in": "query",
-            "schema": {
-              "type": "number",
-              "format": "double"
-            },
-            "example": 500.0
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            },
-            "example": 1
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            },
-            "example": 10
-          },
-          {
-            "name": "sortBy",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "example": "price"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Products matching the search criteria retrieved successfully.",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductResponseDTO"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Client error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/orders/place/{userId}": {
+    "/payments/webhook": {
       "post": {
         "tags": [
-          "OrderService"
+          "PaymentService"
         ],
-        "operationId": "placeOrder",
-        "description": "Places a new order for the specified user ID.",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "user-7890"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Order placed successfully.",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderResponseDTO"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Client error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/orders/{orderId}": {
-      "get": {
-        "tags": [
-          "OrderService"
-        ],
-        "operationId": "getOrder",
-        "description": "Retrieves details of a specific order using its ID.",
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "order-1234"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Order details retrieved successfully.",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderResponseDTO"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Client error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "OrderService"
-        ],
-        "operationId": "cancelOrder",
-        "description": "Cancels a specific order using its ID.",
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "order-1234"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Order canceled successfully.",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrderResponseDTO"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Client error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/orders/user/{userId}": {
-      "get": {
-        "tags": [
-          "OrderService"
-        ],
-        "operationId": "getUserOrders",
-        "description": "Retrieves a list of orders for a specific user ID.",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "user-7890"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of user orders retrieved successfully.",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OrderResponseDTO"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Client error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/shipping/address": {
-      "post": {
-        "tags": [
-          "ShippingService"
-        ],
-        "operationId": "addAddress",
-        "description": "Adds a new shipping address for the user.",
+        "operationId": "paymentWebhook",
+        "summary": "Receive payment webhook notification",
+        "description": "Handles incoming webhook notifications for payment events.",
         "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddressRequestDTO"
+                "$ref": "#/components/schemas/PaymentWebhookDTO"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Shipping address added successfully.",
+            "description": "Webhook processed successfully.",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AddressResponseDTO"
+                  "$ref": "#/components/schemas/PaymentResponseDTO"
                 }
               }
             }
           },
           "400": {
-            "description": "Client error",
+            "description": "Invalid webhook payload.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
+                  "$ref": "#/components/schemas/PaymentWebhookBadRequest"
                 }
               }
             }
@@ -1045,68 +363,51 @@
         }
       }
     },
-    "/shipping/address/{addressId}": {
-      "put": {
+    "/payments/initiate": {
+      "post": {
         "tags": [
-          "ShippingService"
+          "PaymentService"
         ],
-        "operationId": "updateShippingAddress",
-        "parameters": [
-          {
-            "name": "addressId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "12345"
-            },
-            "description": "The unique identifier for the address to be updated."
-          }
-        ],
+        "summary": "Initiate a new payment",
+        "description": "This operation allows the client to initiate a payment process by providing necessary details in the request body.",
+        "operationId": "initiatePaymentTransaction",
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddressRequestDTO"
-              },
-              "example": {
-                "street": "123 Main St",
-                "city": "Anytown",
-                "state": "CA",
-                "zipCode": "90210",
-                "country": "USA"
+                "$ref": "#/components/schemas/PaymentRequestDTO"
               }
             }
-          },
-          "description": "JSON object containing the updated address details."
+          }
         },
         "responses": {
           "200": {
-            "description": "Successful response containing updated address details.",
+            "description": "Payment initiation was successful.",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AddressResponseDTO"
+                  "$ref": "#/components/schemas/PaymentResponseDTO"
                 }
               }
             }
           },
           "400": {
-            "description": "Client error",
+            "description": "The payment initiation request is invalid.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
+                  "$ref": "#/components/schemas/InitiatePaymentBadRequestError"
                 }
               }
             }
           },
           "500": {
-            "description": "Server error",
+            "description": "Internal server error during payment initiation.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
+                  "$ref": "#/components/schemas/InitiatePaymentInternalServerError"
                 }
               }
             }
@@ -1114,53 +415,79 @@
         }
       }
     },
-    "/shipping/{orderId}/track": {
-      "get": {
-        "tags": [
-          "ShippingService"
-        ],
-        "operationId": "trackShippingOrder",
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "required": true,
-            "schema": {
+    "components": {
+      "schemas": {
+        "InitiatePaymentBadRequestError": {
+          "type": "object",
+          "properties": {
+            "error": {
               "type": "string",
-              "example": "ORD123456"
+              "example": "Bad Request"
             },
-            "description": "The unique identifier for the order you want to track."
+            "message": {
+              "type": "string",
+              "example": "Validation failed"
+            },
+            "status": {
+              "type": "integer",
+              "example": 400
+            },
+            "timestamp": {
+              "type": "string",
+              "example": "2026-01-01T10:00:00Z"
+            },
+            "path": {
+              "type": "string",
+              "example": "/payments/initiate"
+            },
+            "requestId": {
+              "type": "string",
+              "example": "req-123"
+            },
+            "errorCode": {
+              "type": "string",
+              "example": "VALIDATION_ERROR"
+            },
+            "details": {
+              "type": "string",
+              "example": "Request body is missing 'amount' field"
+            }
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response containing the tracking details of the order.",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/TrackingResponseDTO"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Client error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/server_error_response"
-                }
-              }
+        },
+        "InitiatePaymentInternalServerError": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "example": "Internal Server Error"
+            },
+            "message": {
+              "type": "string",
+              "example": "Unexpected server error"
+            },
+            "status": {
+              "type": "integer",
+              "example": 500
+            },
+            "timestamp": {
+              "type": "string",
+              "example": "2026-01-01T10:00:00Z"
+            },
+            "path": {
+              "type": "string",
+              "example": "/payments/initiate"
+            },
+            "requestId": {
+              "type": "string",
+              "example": "req-456"
+            },
+            "errorCode": {
+              "type": "string",
+              "example": "SERVER_ERROR"
+            },
+            "details": {
+              "type": "string",
+              "example": "Database connection failed"
             }
           }
         }
@@ -1168,538 +495,6 @@
     }
   },
   "components": {
-    "schemas": {
-      "PaymentWebhookDTO": {
-        "type": "object",
-        "properties": {
-          "paymentId": {
-            "type": "string"
-          },
-          "gatewayResponse": {
-            "type": "string"
-          },
-          "transactionId": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string"
-          }
-        }
-      },
-      "OrderResponseDTO": {
-        "type": "object",
-        "properties": {
-          "totalAmount": {
-            "type": "number",
-            "format": "double"
-          },
-          "createdAt": {
-            "type": "string"
-          },
-          "orderId": {
-            "type": "string"
-          },
-          "totalDiscount": {
-            "type": "number",
-            "format": "double"
-          },
-          "currency": {
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OrderItemDTO"
-            }
-          },
-          "payableAmount": {
-            "type": "number",
-            "format": "double"
-          },
-          "paymentStatus": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string"
-          },
-          "updatedAt": {
-            "type": "string"
-          }
-        }
-      },
-      "UserResponseDTO": {
-        "type": "object",
-        "properties": {
-          "country": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": "string"
-          },
-          "phone": {
-            "type": "string"
-          },
-          "preferredCurrency": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "active": {
-            "type": "boolean"
-          },
-          "userType": {
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "updatedAt": {
-            "type": "string"
-          }
-        }
-      },
-      "OrderItemDTO": {
-        "type": "object",
-        "properties": {
-          "quantity": {
-            "type": "integer"
-          },
-          "productId": {
-            "type": "string"
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "discount": {
-            "type": "number",
-            "format": "double"
-          },
-          "finalPrice": {
-            "type": "number",
-            "format": "double"
-          },
-          "productName": {
-            "type": "string"
-          }
-        }
-      },
-      "CartItemDTO": {
-        "type": "object",
-        "properties": {
-          "quantity": {
-            "type": "integer"
-          },
-          "productId": {
-            "type": "string"
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "discount": {
-            "type": "number",
-            "format": "double"
-          },
-          "finalPrice": {
-            "type": "number",
-            "format": "double"
-          },
-          "currency": {
-            "type": "string"
-          },
-          "productName": {
-            "type": "string"
-          }
-        }
-      },
-      "TrackingResponseDTO": {
-        "type": "object",
-        "properties": {
-          "lastUpdated": {
-            "type": "string"
-          },
-          "orderId": {
-            "type": "string"
-          },
-          "courierPartner": {
-            "type": "string"
-          },
-          "estimatedDelivery": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string"
-          },
-          "trackingId": {
-            "type": "string"
-          }
-        }
-      },
-      "CartResponseDTO": {
-        "type": "object",
-        "properties": {
-          "totalAmount": {
-            "type": "number",
-            "format": "double"
-          },
-          "totalDiscount": {
-            "type": "number",
-            "format": "double"
-          },
-          "currency": {
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CartItemDTO"
-            }
-          },
-          "payableAmount": {
-            "type": "number",
-            "format": "double"
-          },
-          "updatedAt": {
-            "type": "string"
-          }
-        }
-      },
-      "AddressResponseDTO": {
-        "type": "object",
-        "properties": {
-          "pincode": {
-            "type": "string"
-          },
-          "country": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": "string"
-          },
-          "phone": {
-            "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "addressType": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "state": {
-            "type": "string"
-          },
-          "addressLine": {
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          },
-          "addressId": {
-            "type": "string"
-          },
-          "updatedAt": {
-            "type": "string"
-          }
-        }
-      },
-      "UserRequestDTO": {
-        "type": "object",
-        "properties": {
-          "country": {
-            "type": "string"
-          },
-          "phone": {
-            "type": "string"
-          },
-          "preferredCurrency": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "active": {
-            "type": "boolean"
-          },
-          "userType": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          }
-        }
-      },
-      "ProductResponseDTO": {
-        "type": "object",
-        "properties": {
-          "createdAt": {
-            "type": "string"
-          },
-          "productId": {
-            "type": "string"
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "name": {
-            "type": "string"
-          },
-          "rating": {
-            "type": "number",
-            "format": "double"
-          },
-          "available": {
-            "type": "boolean"
-          },
-          "description": {
-            "type": "string"
-          },
-          "currency": {
-            "type": "string"
-          },
-          "category": {
-            "type": "string"
-          },
-          "stock": {
-            "type": "integer"
-          },
-          "brand": {
-            "type": "string"
-          },
-          "updatedAt": {
-            "type": "string"
-          }
-        }
-      },
-      "ProductRequestDTO": {
-        "type": "object",
-        "properties": {
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "name": {
-            "type": "string"
-          },
-          "rating": {
-            "type": "number",
-            "format": "double"
-          },
-          "available": {
-            "type": "boolean"
-          },
-          "description": {
-            "type": "string"
-          },
-          "currency": {
-            "type": "string"
-          },
-          "category": {
-            "type": "string"
-          },
-          "stock": {
-            "type": "integer"
-          },
-          "brand": {
-            "type": "string"
-          }
-        }
-      },
-      "CartUpdateRequestDTO": {
-        "type": "object",
-        "properties": {
-          "quantity": {
-            "type": "integer"
-          },
-          "productId": {
-            "type": "string"
-          },
-          "operation": {
-            "type": "string"
-          }
-        }
-      },
-      "PaymentRequestDTO": {
-        "type": "object",
-        "properties": {
-          "amount": {
-            "type": "number",
-            "format": "double"
-          },
-          "orderId": {
-            "type": "string"
-          },
-          "paymentMethod": {
-            "type": "string"
-          },
-          "currency": {
-            "type": "string"
-          },
-          "paymentGateway": {
-            "type": "string"
-          }
-        }
-      },
-      "AddressRequestDTO": {
-        "type": "object",
-        "properties": {
-          "pincode": {
-            "type": "string"
-          },
-          "country": {
-            "type": "string"
-          },
-          "phone": {
-            "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "addressType": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "state": {
-            "type": "string"
-          },
-          "addressLine": {
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          }
-        }
-      },
-      "PaymentResponseDTO": {
-        "type": "object",
-        "properties": {
-          "createdAt": {
-            "type": "string"
-          },
-          "amount": {
-            "type": "number",
-            "format": "double"
-          },
-          "orderId": {
-            "type": "string"
-          },
-          "paymentId": {
-            "type": "string"
-          },
-          "paymentMethod": {
-            "type": "string"
-          },
-          "currency": {
-            "type": "string"
-          },
-          "transactionId": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string"
-          }
-        }
-      },
-      "client_error_response": {
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "string",
-            "example": "Bad Request"
-          },
-          "message": {
-            "type": "string",
-            "example": "Request validation failed"
-          },
-          "status": {
-            "type": "integer",
-            "example": 400
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2026-01-01T10:00:00Z"
-          },
-          "path": {
-            "type": "string",
-            "example": "/v1/resource"
-          },
-          "requestId": {
-            "type": "string",
-            "example": "req-12345"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "field": {
-                  "type": "string",
-                  "example": "fieldName"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Validation error message"
-                }
-              }
-            }
-          }
-        }
-      },
-      "server_error_response": {
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "string",
-            "example": "Internal Server Error"
-          },
-          "message": {
-            "type": "string",
-            "example": "An unexpected error occurred"
-          },
-          "status": {
-            "type": "integer",
-            "example": 500
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2026-01-01T10:00:00Z"
-          },
-          "path": {
-            "type": "string",
-            "example": "/v1/resource"
-          },
-          "requestId": {
-            "type": "string",
-            "example": "req-12345"
-          }
-        },
-        "example": {
-          "error": "Internal Server Error",
-          "message": "An unexpected error occurred",
-          "status": 500,
-          "timestamp": "2026-01-01T10:00:00Z",
-          "path": "/v1/resource",
-          "requestId": "req-12345"
-        }
-      }
-    }
+    "schemas": {}
   }
 }
