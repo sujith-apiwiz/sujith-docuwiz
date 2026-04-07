@@ -3,7 +3,7 @@
   "info": {
     "title": "Ecommerce-buildTime",
     "version": "v0",
-    "description": "This API is designed to manage and optimize the building and development processes of an ecommerce platform. It includes functionalities to handle products, orders, user accounts, inventory, and payment processing. Users can integrate this API to streamline their ecommerce operations and enhance customer experiences."
+    "description": "API for managing and processing ecommerce build-time operations including product listings, inventory management, order processing, and customer interactions."
   },
   "servers": [
     {
@@ -25,32 +25,23 @@
           "UserService"
         ],
         "operationId": "registerUser",
-        "summary": "Register a new user",
-        "description": "Creates a new user account in the system with the provided information.",
+        "summary": "Register a New User",
+        "description": "Create a new user account by providing necessary user details.",
         "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/UserRequestDTO"
-              },
-              "examples": {
-                "user": {
-                  "value": {
-                    "username": "john_doe",
-                    "password": "securePassword123",
-                    "email": "johndoe@example.com"
-                  }
-                }
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "User successfully registered and authenticated.",
+            "description": "User successfully registered.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/UserResponseDTO"
                 }
@@ -58,12 +49,77 @@
             }
           },
           "400": {
-            "description": "Invalid input, object invalid.",
-            "content": {}
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error.",
-            "content": {}
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -74,8 +130,8 @@
           "UserService"
         ],
         "operationId": "getUser",
-        "summary": "Retrieve user details",
-        "description": "Fetches detailed information about a user by their unique ID.",
+        "summary": "Retrieve User Information",
+        "description": "Fetch details of a specific user using their unique user ID.",
         "parameters": [
           {
             "name": "userId",
@@ -83,28 +139,92 @@
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "description": "The unique identifier of the user."
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "User details retrieved successfully.",
+            "description": "Successful retrieval of user details.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/UserResponseDTO"
                 }
               }
             }
           },
-          "404": {
-            "description": "User not found.",
-            "content": {}
+          "400": {
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error.",
-            "content": {}
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -115,8 +235,8 @@
           "CartService"
         ],
         "operationId": "addToCart",
-        "summary": "Add item to user's cart",
-        "description": "Adds a product to the user's shopping cart identified by the userId.",
+        "summary": "Add Item to Cart",
+        "description": "Add a specified item to the user's shopping cart.",
         "parameters": [
           {
             "name": "userId",
@@ -124,8 +244,7 @@
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "description": "The unique identifier of the user."
+            }
           }
         ],
         "requestBody": {
@@ -133,23 +252,15 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CartItemDTO"
-              },
-              "examples": {
-                "cartItem": {
-                  "value": {
-                    "product_id": "prod_123",
-                    "quantity": 2
-                  }
-                }
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Item added to the cart successfully.",
+            "description": "Item successfully added to cart.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/CartResponseDTO"
                 }
@@ -157,12 +268,77 @@
             }
           },
           "400": {
-            "description": "Invalid cart item data.",
-            "content": {}
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error.",
-            "content": {}
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -173,8 +349,8 @@
           "CartService"
         ],
         "operationId": "getCart",
-        "summary": "Retrieve user's cart",
-        "description": "Gets the current contents of the user's shopping cart.",
+        "summary": "Get Shopping Cart Contents",
+        "description": "Retrieve all items currently present in a user's shopping cart.",
         "parameters": [
           {
             "name": "userId",
@@ -182,28 +358,92 @@
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "description": "The unique identifier of the user."
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Cart details retrieved successfully.",
+            "description": "Successful retrieval of cart contents.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/CartResponseDTO"
                 }
               }
             }
           },
-          "404": {
-            "description": "Cart not found for the user.",
-            "content": {}
+          "400": {
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error.",
-            "content": {}
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -214,8 +454,8 @@
           "CartService"
         ],
         "operationId": "removeFromCart",
-        "summary": "Remove item from user's cart",
-        "description": "Removes a product from the user's shopping cart by product ID.",
+        "summary": "Remove Item from Cart",
+        "description": "Delete a specified item from the user's shopping cart.",
         "parameters": [
           {
             "name": "userId",
@@ -223,8 +463,7 @@
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "description": "The unique identifier of the user."
+            }
           },
           {
             "name": "productId",
@@ -232,28 +471,92 @@
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "description": "The unique identifier of the product to remove."
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Item removed from the cart successfully.",
+            "description": "Item successfully removed from cart.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/CartResponseDTO"
                 }
               }
             }
           },
-          "404": {
-            "description": "Product or cart not found.",
-            "content": {}
+          "400": {
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error.",
-            "content": {}
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -264,8 +567,8 @@
           "CartService"
         ],
         "operationId": "updateCart",
-        "summary": "Update user's cart items",
-        "description": "Updates the quantities of products in the user's shopping cart.",
+        "summary": "Update Cart Contents",
+        "description": "Modify the quantity or details of the items in the user's shopping cart.",
         "parameters": [
           {
             "name": "userId",
@@ -273,8 +576,7 @@
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "description": "The unique identifier of the user."
+            }
           }
         ],
         "requestBody": {
@@ -282,31 +584,15 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CartUpdateRequestDTO"
-              },
-              "examples": {
-                "updateCart": {
-                  "value": {
-                    "items": [
-                      {
-                        "product_id": "prod_123",
-                        "quantity": 3
-                      },
-                      {
-                        "product_id": "prod_456",
-                        "quantity": 1
-                      }
-                    ]
-                  }
-                }
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Cart updated successfully.",
+            "description": "Cart successfully updated.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/CartResponseDTO"
                 }
@@ -314,12 +600,77 @@
             }
           },
           "400": {
-            "description": "Invalid update data.",
-            "content": {}
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error.",
-            "content": {}
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -330,8 +681,8 @@
           "PaymentService"
         ],
         "operationId": "getPayment",
-        "summary": "Retrieve payment details",
-        "description": "Fetches information about a specific payment using its unique ID.",
+        "summary": "Retrieve Payment Details",
+        "description": "Access detailed information about a specific payment transaction using its ID.",
         "parameters": [
           {
             "name": "paymentId",
@@ -339,28 +690,92 @@
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "description": "The unique identifier of the payment transaction."
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Payment details retrieved successfully.",
+            "description": "Successful retrieval of payment details.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PaymentResponseDTO"
                 }
               }
             }
           },
-          "404": {
-            "description": "Payment not found.",
-            "content": {}
+          "400": {
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error.",
-            "content": {}
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -371,34 +786,23 @@
           "PaymentService"
         ],
         "operationId": "paymentWebhook",
-        "summary": "Handle payment webhook",
-        "description": "Endpoint to handle payment webhooks and update payment status based on incoming data.",
+        "summary": "Process Payment Webhook",
+        "description": "Receive and process webhook notifications related to payment events.",
         "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/PaymentWebhookDTO"
-              },
-              "examples": {
-                "webhookData": {
-                  "value": {
-                    "event": "payment.successful",
-                    "data": {
-                      "payment_id": "pay_123",
-                      "status": "succeeded"
-                    }
-                  }
-                }
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Webhook data processed successfully.",
+            "description": "Webhook successfully processed.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PaymentResponseDTO"
                 }
@@ -406,12 +810,77 @@
             }
           },
           "400": {
-            "description": "Invalid webhook data.",
-            "content": {}
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error.",
-            "content": {}
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -422,28 +891,23 @@
           "PaymentService"
         ],
         "operationId": "initiatePayment",
-        "summary": "Initiate a new payment",
-        "description": "This endpoint allows you to initiate a new payment. It requires a payment request payload containing necessary payment details.",
+        "summary": "Initiate Payment Process",
+        "description": "Begin the process of making a payment by submitting payment details.",
         "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/PaymentRequestDTO"
-              },
-              "example": {
-                "amount": 150.0,
-                "currency": "USD",
-                "paymentMethod": "credit_card"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Payment successfully initiated.",
+            "description": "Payment was successfully initiated.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PaymentResponseDTO"
                 }
@@ -451,10 +915,77 @@
             }
           },
           "400": {
-            "description": "Invalid payment request data."
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error during payment processing."
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -465,36 +996,95 @@
           "ProductService"
         ],
         "operationId": "getAllProducts",
-        "summary": "Retrieve all products",
+        "summary": "Retrieve All Products",
         "description": "Fetch a list of all available products in the catalog.",
+        "parameters": [],
         "responses": {
           "200": {
-            "description": "A list of products.",
+            "description": "Successfully retrieved product list.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/ProductResponseDTO"
                   }
-                },
-                "example": [
-                  {
-                    "id": "123",
-                    "name": "Product 1",
-                    "price": 20.99
-                  },
-                  {
-                    "id": "124",
-                    "name": "Product 2",
-                    "price": 15.99
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
                   }
-                ]
+                }
               }
             }
           },
           "500": {
-            "description": "Internal server error when retrieving products."
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -503,18 +1093,14 @@
           "ProductService"
         ],
         "operationId": "addProduct",
-        "summary": "Add a new product",
-        "description": "Create a new product entry in the catalog.",
+        "summary": "Add a New Product",
+        "description": "Add a new product to the inventory with the provided product details.",
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ProductRequestDTO"
-              },
-              "example": {
-                "name": "New Product",
-                "price": 25.5,
-                "description": "A description of the new product."
               }
             }
           }
@@ -523,7 +1109,7 @@
           "200": {
             "description": "Product successfully added.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ProductResponseDTO"
                 }
@@ -531,10 +1117,77 @@
             }
           },
           "400": {
-            "description": "Invalid product data."
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error during product addition."
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -545,14 +1198,13 @@
           "ProductService"
         ],
         "operationId": "getProductById",
-        "summary": "Retrieve a product by ID",
-        "description": "Fetch details of a specific product by its unique identifier.",
+        "summary": "Get Product Details by ID",
+        "description": "Retrieve detailed information of a specific product using its product ID.",
         "parameters": [
           {
             "name": "productId",
             "in": "path",
             "required": true,
-            "description": "The unique identifier of the product",
             "schema": {
               "type": "string"
             }
@@ -562,18 +1214,85 @@
           "200": {
             "description": "Product details retrieved successfully.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ProductResponseDTO"
                 }
               }
             }
           },
-          "404": {
-            "description": "Product not found."
+          "400": {
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error while retrieving the product."
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -584,13 +1303,12 @@
           "ProductService"
         ],
         "operationId": "searchProducts",
-        "summary": "Search for products",
-        "description": "Search for products with optional filters such as category, price range, pagination, and sorting.",
+        "summary": "Search for Products",
+        "description": "Find products based on various search criteria such as category, price, and sorting options.",
         "parameters": [
           {
             "name": "X-Request-Id",
             "in": "header",
-            "description": "Unique request identifier",
             "schema": {
               "type": "string"
             }
@@ -598,7 +1316,6 @@
           {
             "name": "X-Client-Id",
             "in": "header",
-            "description": "Client identifier for the request",
             "schema": {
               "type": "string"
             }
@@ -606,7 +1323,6 @@
           {
             "name": "Authorization",
             "in": "header",
-            "description": "Bearer token for authorization",
             "schema": {
               "type": "string"
             }
@@ -614,7 +1330,6 @@
           {
             "name": "category",
             "in": "query",
-            "description": "Filter products by category",
             "schema": {
               "type": "string"
             }
@@ -622,7 +1337,6 @@
           {
             "name": "minPrice",
             "in": "query",
-            "description": "Minimum price filter",
             "schema": {
               "type": "number",
               "format": "double"
@@ -631,7 +1345,6 @@
           {
             "name": "maxPrice",
             "in": "query",
-            "description": "Maximum price filter",
             "schema": {
               "type": "number",
               "format": "double"
@@ -640,7 +1353,6 @@
           {
             "name": "page",
             "in": "query",
-            "description": "Page number for pagination",
             "schema": {
               "type": "integer"
             }
@@ -648,7 +1360,6 @@
           {
             "name": "size",
             "in": "query",
-            "description": "Page size for pagination",
             "schema": {
               "type": "integer"
             }
@@ -656,7 +1367,6 @@
           {
             "name": "sortBy",
             "in": "query",
-            "description": "Field to sort results by",
             "schema": {
               "type": "string"
             }
@@ -664,30 +1374,90 @@
         ],
         "responses": {
           "200": {
-            "description": "Search results returned successfully.",
+            "description": "Product search results retrieved successfully.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/ProductResponseDTO"
                   }
-                },
-                "example": [
-                  {
-                    "id": "125",
-                    "name": "Searched Product",
-                    "price": 19.99
-                  }
-                ]
+                }
               }
             }
           },
           "400": {
-            "description": "Invalid search parameters."
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error during product search."
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -698,14 +1468,13 @@
           "OrderService"
         ],
         "operationId": "placeOrder",
-        "summary": "Place an order for a user",
-        "description": "This endpoint allows a user to place an order using their user ID.",
+        "summary": "Place an Order",
+        "description": "Submit a new order for a specified user using their user ID.",
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
-            "description": "User ID for whom the order is placed",
             "schema": {
               "type": "string"
             }
@@ -715,18 +1484,85 @@
           "200": {
             "description": "Order placed successfully.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/OrderResponseDTO"
                 }
               }
             }
           },
-          "404": {
-            "description": "User not found."
+          "400": {
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error while placing the order."
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -737,14 +1573,13 @@
           "OrderService"
         ],
         "operationId": "getOrder",
-        "summary": "Retrieve order details",
-        "description": "Fetch the details of a specific order using its unique order ID.",
+        "summary": "Get Order Details",
+        "description": "Retrieve detailed information about a specific order using its order ID.",
         "parameters": [
           {
             "name": "orderId",
             "in": "path",
             "required": true,
-            "description": "Unique order ID",
             "schema": {
               "type": "string"
             }
@@ -754,18 +1589,85 @@
           "200": {
             "description": "Order details retrieved successfully.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/OrderResponseDTO"
                 }
               }
             }
           },
-          "404": {
-            "description": "Order not found."
+          "400": {
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error while retrieving the order."
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -774,14 +1676,13 @@
           "OrderService"
         ],
         "operationId": "cancelOrder",
-        "summary": "Cancel an existing order",
-        "description": "Cancel an order by its unique order ID.",
+        "summary": "Cancel Order",
+        "description": "Cancel an existing order using its order ID.",
         "parameters": [
           {
             "name": "orderId",
             "in": "path",
             "required": true,
-            "description": "Unique order ID to cancel",
             "schema": {
               "type": "string"
             }
@@ -789,20 +1690,87 @@
         ],
         "responses": {
           "200": {
-            "description": "Order successfully cancelled.",
+            "description": "Order canceled successfully.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/OrderResponseDTO"
                 }
               }
             }
           },
-          "404": {
-            "description": "Order not found."
+          "400": {
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error while cancelling the order."
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -813,14 +1781,13 @@
           "OrderService"
         ],
         "operationId": "getUserOrders",
-        "summary": "Retrieve orders for a specific user",
-        "description": "Get a list of all orders placed by a specific user using their user ID.",
+        "summary": "Get User Orders",
+        "description": "Fetch a list of all orders placed by a specific user.",
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
-            "description": "User ID to fetch orders for",
             "schema": {
               "type": "string"
             }
@@ -828,9 +1795,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Orders retrieved successfully for the specified user.",
+            "description": "User orders retrieved successfully.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "type": "array",
                   "items": {
@@ -840,11 +1807,78 @@
               }
             }
           },
-          "404": {
-            "description": "User not found."
+          "400": {
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error while retrieving user orders."
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -855,28 +1889,23 @@
           "ShippingService"
         ],
         "operationId": "addAddress",
-        "summary": "Add a new shipping address",
-        "description": "Create a new shipping address entry in the system.",
+        "summary": "Add Shipping Address",
+        "description": "Add a new shipping address to the user's profile.",
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AddressRequestDTO"
-              },
-              "example": {
-                "street": "123 Main St",
-                "city": "Anytown",
-                "postalCode": "12345",
-                "country": "USA"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Address successfully added.",
+            "description": "Shipping address added successfully.",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/AddressResponseDTO"
                 }
@@ -884,10 +1913,77 @@
             }
           },
           "400": {
-            "description": "Invalid address data."
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error during address addition."
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -897,7 +1993,7 @@
         "tags": [
           "ShippingService"
         ],
-        "operationId": "updateAddress",
+        "operationId": "updateShippingAddress",
         "parameters": [
           {
             "name": "addressId",
@@ -906,7 +2002,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Unique identifier of the address to be updated."
+            "description": "Unique identifier for the address to be updated."
           }
         ],
         "requestBody": {
@@ -914,21 +2010,9 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AddressRequestDTO"
-              },
-              "examples": {
-                "example1": {
-                  "summary": "A sample address update",
-                  "value": {
-                    "street": "123 Main St",
-                    "city": "Springfield",
-                    "postcode": "12345",
-                    "country": "USA"
-                  }
-                }
               }
             }
-          },
-          "description": "The details of the address to be updated."
+          }
         },
         "responses": {
           "200": {
@@ -942,15 +2026,80 @@
             }
           },
           "400": {
-            "description": "Invalid address format or missing required fields."
-          },
-          "404": {
-            "description": "Address not found with given addressId."
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error while updating address."
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
-        }
+        },
+        "description": "Updates the shipping address information for a given address ID. The updated address data must be provided in the request body."
       }
     },
     "/shipping/{orderId}/track": {
@@ -958,7 +2107,7 @@
         "tags": [
           "ShippingService"
         ],
-        "operationId": "trackOrder",
+        "operationId": "trackShippingOrder",
         "parameters": [
           {
             "name": "orderId",
@@ -967,7 +2116,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Unique identifier of the order to be tracked."
+            "description": "Unique identifier for the order to be tracked."
           }
         ],
         "responses": {
@@ -981,13 +2130,81 @@
               }
             }
           },
-          "404": {
-            "description": "Order not found with given orderId."
+          "400": {
+            "description": "Client error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request validation failed"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "YYYY-MM-DDTHH:MM:SSZ"
+                    },
+                    "path": {
+                      "type": "string",
+                      "example": "/resource/path"
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "example": "unique-request-id"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "example": "fieldName"
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "Validation error message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error while fetching tracking information."
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    },
+                    "code": {
+                      "type": "integer",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
           }
-        }
+        },
+        "description": "Retrieves tracking information for a specific order using the given order ID, providing real-time status and location updates."
       }
     }
   },
@@ -997,24 +2214,16 @@
         "type": "object",
         "properties": {
           "paymentId": {
-            "type": "string",
-            "description": "Unique identifier for the payment transaction.",
-            "example": "pay_123456789"
+            "type": "string"
           },
           "gatewayResponse": {
-            "type": "string",
-            "description": "The response message from the payment gateway.",
-            "example": "Payment processed successfully."
+            "type": "string"
           },
           "transactionId": {
-            "type": "string",
-            "description": "Unique identifier for the transaction from the payment processor.",
-            "example": "tx_987654321"
+            "type": "string"
           },
           "status": {
-            "type": "string",
-            "description": "The current status of the payment.",
-            "example": "COMPLETED"
+            "type": "string"
           }
         }
       },
@@ -1023,63 +2232,42 @@
         "properties": {
           "totalAmount": {
             "type": "number",
-            "format": "double",
-            "description": "The total cost of the order before discounts.",
-            "example": 100.0
+            "format": "double"
           },
           "createdAt": {
-            "type": "string",
-            "description": "The date and time when the order was created.",
-            "example": "2023-10-01T12:00:00Z"
+            "type": "string"
           },
           "orderId": {
-            "type": "string",
-            "description": "Unique identifier for the order.",
-            "example": "order_12345"
+            "type": "string"
           },
           "totalDiscount": {
             "type": "number",
-            "format": "double",
-            "description": "Total discount applied to the order.",
-            "example": 20.0
+            "format": "double"
           },
           "currency": {
-            "type": "string",
-            "description": "Currency code for the order amounts.",
-            "example": "USD"
+            "type": "string"
           },
           "userId": {
-            "type": "string",
-            "description": "The ID of the user who placed the order.",
-            "example": "user_123456"
+            "type": "string"
           },
           "items": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/OrderItemDTO"
-            },
-            "description": "A list of items included in the order."
+            }
           },
           "payableAmount": {
             "type": "number",
-            "format": "double",
-            "description": "The final amount to be paid after discounts.",
-            "example": 80.0
+            "format": "double"
           },
           "paymentStatus": {
-            "type": "string",
-            "description": "Current payment status of the order.",
-            "example": "PAID"
+            "type": "string"
           },
           "status": {
-            "type": "string",
-            "description": "Current status of the order.",
-            "example": "SHIPPED"
+            "type": "string"
           },
           "updatedAt": {
-            "type": "string",
-            "description": "The date and time when the order status was last updated.",
-            "example": "2023-10-02T08:30:00Z"
+            "type": "string"
           }
         }
       },
@@ -1087,54 +2275,34 @@
         "type": "object",
         "properties": {
           "country": {
-            "type": "string",
-            "description": "Country of residence of the user.",
-            "example": "United States"
+            "type": "string"
           },
           "createdAt": {
-            "type": "string",
-            "description": "Date and time when the user account was created.",
-            "example": "2022-01-15T10:00:00Z"
+            "type": "string"
           },
           "phone": {
-            "type": "string",
-            "description": "Phone number of the user.",
-            "example": "+14151234567"
+            "type": "string"
           },
           "preferredCurrency": {
-            "type": "string",
-            "description": "The currency preferred by the user for transactions.",
-            "example": "USD"
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "description": "Full name of the user.",
-            "example": "John Doe"
+            "type": "string"
           },
           "active": {
-            "type": "boolean",
-            "description": "Indicates if the user's account is active.",
-            "example": true
+            "type": "boolean"
           },
           "userType": {
-            "type": "string",
-            "description": "Type of user (e.g., regular, admin, etc.).",
-            "example": "regular"
+            "type": "string"
           },
           "userId": {
-            "type": "string",
-            "description": "Unique identifier for the user.",
-            "example": "user_123456"
+            "type": "string"
           },
           "email": {
-            "type": "string",
-            "description": "Email address of the user.",
-            "example": "john.doe@example.com"
+            "type": "string"
           },
           "updatedAt": {
-            "type": "string",
-            "description": "The last time user information was updated.",
-            "example": "2023-09-25T14:15:00Z"
+            "type": "string"
           }
         }
       },
@@ -1142,37 +2310,25 @@
         "type": "object",
         "properties": {
           "quantity": {
-            "type": "integer",
-            "description": "Number of units of the product ordered.",
-            "example": 2
+            "type": "integer"
           },
           "productId": {
-            "type": "string",
-            "description": "Unique identifier of the product.",
-            "example": "prod_67890"
+            "type": "string"
           },
           "price": {
             "type": "number",
-            "format": "double",
-            "description": "Unit price of the product.",
-            "example": 50.0
+            "format": "double"
           },
           "discount": {
             "type": "number",
-            "format": "double",
-            "description": "Discount applied to the product's price.",
-            "example": 5.0
+            "format": "double"
           },
           "finalPrice": {
             "type": "number",
-            "format": "double",
-            "description": "Final price after applying the discount.",
-            "example": 45.0
+            "format": "double"
           },
           "productName": {
-            "type": "string",
-            "description": "Name of the product.",
-            "example": "Wireless Mouse"
+            "type": "string"
           }
         }
       },
@@ -1180,42 +2336,28 @@
         "type": "object",
         "properties": {
           "quantity": {
-            "type": "integer",
-            "description": "Number of units of the product in the cart.",
-            "example": 1
+            "type": "integer"
           },
           "productId": {
-            "type": "string",
-            "description": "Unique identifier of the product.",
-            "example": "prod_67890"
+            "type": "string"
           },
           "price": {
             "type": "number",
-            "format": "double",
-            "description": "Unit price of the product.",
-            "example": 50.0
+            "format": "double"
           },
           "discount": {
             "type": "number",
-            "format": "double",
-            "description": "Discount applied to the product's price in the cart.",
-            "example": 5.0
+            "format": "double"
           },
           "finalPrice": {
             "type": "number",
-            "format": "double",
-            "description": "Final price of product after discount.",
-            "example": 45.0
+            "format": "double"
           },
           "currency": {
-            "type": "string",
-            "description": "Currency code for the product's price.",
-            "example": "USD"
+            "type": "string"
           },
           "productName": {
-            "type": "string",
-            "description": "Name of the product.",
-            "example": "Wireless Mouse"
+            "type": "string"
           }
         }
       },
@@ -1223,34 +2365,22 @@
         "type": "object",
         "properties": {
           "lastUpdated": {
-            "type": "string",
-            "description": "The date and time when the tracking information was last updated.",
-            "example": "2023-10-02T15:45:00Z"
+            "type": "string"
           },
           "orderId": {
-            "type": "string",
-            "description": "Identifier for the order being tracked.",
-            "example": "order_12345"
+            "type": "string"
           },
           "courierPartner": {
-            "type": "string",
-            "description": "The name of the courier service handling the delivery.",
-            "example": "FedEx"
+            "type": "string"
           },
           "estimatedDelivery": {
-            "type": "string",
-            "description": "Estimated delivery date and time.",
-            "example": "2023-10-05T18:00:00Z"
+            "type": "string"
           },
           "status": {
-            "type": "string",
-            "description": "Current status of the shipment.",
-            "example": "In Transit"
+            "type": "string"
           },
           "trackingId": {
-            "type": "string",
-            "description": "Unique identifier for tracking the shipment.",
-            "example": "track_56789"
+            "type": "string"
           }
         }
       },
@@ -1259,43 +2389,30 @@
         "properties": {
           "totalAmount": {
             "type": "number",
-            "format": "double",
-            "description": "Total price of all items in the cart before discounts.",
-            "example": 120.0
+            "format": "double"
           },
           "totalDiscount": {
             "type": "number",
-            "format": "double",
-            "description": "Total discount applied to items in the cart.",
-            "example": 10.0
+            "format": "double"
           },
           "currency": {
-            "type": "string",
-            "description": "Currency code for the cart amounts.",
-            "example": "USD"
+            "type": "string"
           },
           "userId": {
-            "type": "string",
-            "description": "The ID of the user who owns the cart.",
-            "example": "user_123456"
+            "type": "string"
           },
           "items": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CartItemDTO"
-            },
-            "description": "List of items in the cart."
+            }
           },
           "payableAmount": {
             "type": "number",
-            "format": "double",
-            "description": "Final amount to be paid after discounts.",
-            "example": 110.0
+            "format": "double"
           },
           "updatedAt": {
-            "type": "string",
-            "description": "The last time the cart was updated.",
-            "example": "2023-10-02T14:30:00Z"
+            "type": "string"
           }
         }
       },
@@ -1303,64 +2420,40 @@
         "type": "object",
         "properties": {
           "pincode": {
-            "type": "string",
-            "description": "Postal code for the address.",
-            "example": "94107"
+            "type": "string"
           },
           "country": {
-            "type": "string",
-            "description": "Country of the address.",
-            "example": "United States"
+            "type": "string"
           },
           "createdAt": {
-            "type": "string",
-            "description": "The date and time when the address was created.",
-            "example": "2022-06-01T08:00:00Z"
+            "type": "string"
           },
           "phone": {
-            "type": "string",
-            "description": "Contact phone number for the address.",
-            "example": "+14151234567"
+            "type": "string"
           },
           "city": {
-            "type": "string",
-            "description": "City of the address.",
-            "example": "San Francisco"
+            "type": "string"
           },
           "addressType": {
-            "type": "string",
-            "description": "Type of address, e.g., home, office.",
-            "example": "home"
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "description": "Name of the person at this address.",
-            "example": "John Doe"
+            "type": "string"
           },
           "state": {
-            "type": "string",
-            "description": "State or region of the address.",
-            "example": "CA"
+            "type": "string"
           },
           "addressLine": {
-            "type": "string",
-            "description": "Street address details.",
-            "example": "1234 Market St"
+            "type": "string"
           },
           "userId": {
-            "type": "string",
-            "description": "ID of the user this address belongs to.",
-            "example": "user_123456"
+            "type": "string"
           },
           "addressId": {
-            "type": "string",
-            "description": "Unique identifier for the address.",
-            "example": "addr_123456789"
+            "type": "string"
           },
           "updatedAt": {
-            "type": "string",
-            "description": "The last time the address was updated.",
-            "example": "2023-09-10T09:30:00Z"
+            "type": "string"
           }
         }
       },
@@ -1368,39 +2461,25 @@
         "type": "object",
         "properties": {
           "country": {
-            "type": "string",
-            "description": "Country where the user resides.",
-            "example": "United States"
+            "type": "string"
           },
           "phone": {
-            "type": "string",
-            "description": "User's contact phone number.",
-            "example": "+14151234567"
+            "type": "string"
           },
           "preferredCurrency": {
-            "type": "string",
-            "description": "User's preferred currency for transactions.",
-            "example": "USD"
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "description": "User's full name.",
-            "example": "Jane Doe"
+            "type": "string"
           },
           "active": {
-            "type": "boolean",
-            "description": "Indicates whether the user's account should be active.",
-            "example": true
+            "type": "boolean"
           },
           "userType": {
-            "type": "string",
-            "description": "The role or type of user.",
-            "example": "regular"
+            "type": "string"
           },
           "email": {
-            "type": "string",
-            "description": "Email address of the user.",
-            "example": "jane.doe@example.com"
+            "type": "string"
           }
         }
       },
@@ -1408,66 +2487,42 @@
         "type": "object",
         "properties": {
           "createdAt": {
-            "type": "string",
-            "description": "Date and time when the product was created.",
-            "example": "2023-08-01T15:00:00Z"
+            "type": "string"
           },
           "productId": {
-            "type": "string",
-            "description": "Unique identifier of the product.",
-            "example": "prod_67890"
+            "type": "string"
           },
           "price": {
             "type": "number",
-            "format": "double",
-            "description": "Current price of the product.",
-            "example": 99.99
+            "format": "double"
           },
           "name": {
-            "type": "string",
-            "description": "Name of the product.",
-            "example": "Bluetooth Headphones"
+            "type": "string"
           },
           "rating": {
             "type": "number",
-            "format": "double",
-            "description": "Average customer rating of the product.",
-            "example": 4.5
+            "format": "double"
           },
           "available": {
-            "type": "boolean",
-            "description": "Availability status of the product.",
-            "example": true
+            "type": "boolean"
           },
           "description": {
-            "type": "string",
-            "description": "Detailed description of the product.",
-            "example": "High-quality wireless headphones with noise cancellation."
+            "type": "string"
           },
           "currency": {
-            "type": "string",
-            "description": "Currency code for the product price.",
-            "example": "USD"
+            "type": "string"
           },
           "category": {
-            "type": "string",
-            "description": "Category to which the product belongs.",
-            "example": "Electronics"
+            "type": "string"
           },
           "stock": {
-            "type": "integer",
-            "description": "Number of units available in stock.",
-            "example": 50
+            "type": "integer"
           },
           "brand": {
-            "type": "string",
-            "description": "Brand of the product.",
-            "example": "SoundTech"
+            "type": "string"
           },
           "updatedAt": {
-            "type": "string",
-            "description": "Date and time when product information was last updated.",
-            "example": "2023-09-10T12:00:00Z"
+            "type": "string"
           }
         }
       },
@@ -1476,50 +2531,32 @@
         "properties": {
           "price": {
             "type": "number",
-            "format": "double",
-            "description": "Proposed price of the product.",
-            "example": 99.99
+            "format": "double"
           },
           "name": {
-            "type": "string",
-            "description": "Proposed name of the product.",
-            "example": "Bluetooth Headphones"
+            "type": "string"
           },
           "rating": {
             "type": "number",
-            "format": "double",
-            "description": "Initial average or estimated rating value for the product.",
-            "example": 4.5
+            "format": "double"
           },
           "available": {
-            "type": "boolean",
-            "description": "Indicates availability status of the product.",
-            "example": true
+            "type": "boolean"
           },
           "description": {
-            "type": "string",
-            "description": "Detailed description of the product.",
-            "example": "High-quality wireless headphones with noise cancellation."
+            "type": "string"
           },
           "currency": {
-            "type": "string",
-            "description": "Currency code for setting the product price.",
-            "example": "USD"
+            "type": "string"
           },
           "category": {
-            "type": "string",
-            "description": "Proposed category for the product.",
-            "example": "Electronics"
+            "type": "string"
           },
           "stock": {
-            "type": "integer",
-            "description": "Proposed stock count for the product.",
-            "example": 50
+            "type": "integer"
           },
           "brand": {
-            "type": "string",
-            "description": "Brand name associated with the product.",
-            "example": "SoundTech"
+            "type": "string"
           }
         }
       },
@@ -1527,19 +2564,13 @@
         "type": "object",
         "properties": {
           "quantity": {
-            "type": "integer",
-            "description": "The number of units to add or remove in the cart.",
-            "example": 3
+            "type": "integer"
           },
           "productId": {
-            "type": "string",
-            "description": "The unique identifier of the product to update in the cart.",
-            "example": "prod_12345"
+            "type": "string"
           },
           "operation": {
-            "type": "string",
-            "description": "The type of update operation (e.g., 'add', 'remove').",
-            "example": "add"
+            "type": "string"
           }
         }
       },
@@ -1548,29 +2579,19 @@
         "properties": {
           "amount": {
             "type": "number",
-            "format": "double",
-            "description": "The total amount to be processed for payment.",
-            "example": 150.5
+            "format": "double"
           },
           "orderId": {
-            "type": "string",
-            "description": "The unique identifier for the order associated with the payment.",
-            "example": "order_98765"
+            "type": "string"
           },
           "paymentMethod": {
-            "type": "string",
-            "description": "The method of payment to be used (e.g., 'credit_card', 'paypal').",
-            "example": "credit_card"
+            "type": "string"
           },
           "currency": {
-            "type": "string",
-            "description": "The currency in which the payment is to be processed.",
-            "example": "USD"
+            "type": "string"
           },
           "paymentGateway": {
-            "type": "string",
-            "description": "The name or type of payment gateway to use for processing.",
-            "example": "Stripe"
+            "type": "string"
           }
         }
       },
@@ -1578,49 +2599,31 @@
         "type": "object",
         "properties": {
           "pincode": {
-            "type": "string",
-            "description": "The postal code for the address.",
-            "example": "94107"
+            "type": "string"
           },
           "country": {
-            "type": "string",
-            "description": "The country for the address.",
-            "example": "United States"
+            "type": "string"
           },
           "phone": {
-            "type": "string",
-            "description": "Contact number for the address.",
-            "example": "+14151234567"
+            "type": "string"
           },
           "city": {
-            "type": "string",
-            "description": "City for this address.",
-            "example": "San Francisco"
+            "type": "string"
           },
           "addressType": {
-            "type": "string",
-            "description": "Type of the address, such as 'home' or 'office'.",
-            "example": "home"
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "description": "Name of the recipient at this address.",
-            "example": "John Doe"
+            "type": "string"
           },
           "state": {
-            "type": "string",
-            "description": "State or region of the address.",
-            "example": "CA"
+            "type": "string"
           },
           "addressLine": {
-            "type": "string",
-            "description": "Street or detailed address line.",
-            "example": "1234 Market Street, Apt 101"
+            "type": "string"
           },
           "userId": {
-            "type": "string",
-            "description": "The ID of the user who owns this address.",
-            "example": "user_123456"
+            "type": "string"
           }
         }
       },
@@ -1628,45 +2631,29 @@
         "type": "object",
         "properties": {
           "createdAt": {
-            "type": "string",
-            "description": "The date and time when the payment record was created.",
-            "example": "2023-10-01T12:00:00Z"
+            "type": "string"
           },
           "amount": {
             "type": "number",
-            "format": "double",
-            "description": "The total amount of the payment.",
-            "example": 150.5
+            "format": "double"
           },
           "orderId": {
-            "type": "string",
-            "description": "The order identifier associated with this payment.",
-            "example": "order_98765"
+            "type": "string"
           },
           "paymentId": {
-            "type": "string",
-            "description": "The unique identifier for the payment transaction.",
-            "example": "pay_123456789"
+            "type": "string"
           },
           "paymentMethod": {
-            "type": "string",
-            "description": "The method used to make the payment.",
-            "example": "credit_card"
+            "type": "string"
           },
           "currency": {
-            "type": "string",
-            "description": "Currency code in which the payment was made.",
-            "example": "USD"
+            "type": "string"
           },
           "transactionId": {
-            "type": "string",
-            "description": "The transaction ID provided by the payment gateway.",
-            "example": "tx_987654321"
+            "type": "string"
           },
           "status": {
-            "type": "string",
-            "description": "The status of the payment transaction.",
-            "example": "COMPLETED"
+            "type": "string"
           }
         }
       }
