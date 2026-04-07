@@ -7,9 +7,9 @@
   "servers": [
     {
       "x-schema": "https://",
-      "url": "https://35.162.152.203:2222/v26/ecommerce",
+      "url": "https://35.162.152.203:2222/v1/ecommerce",
       "x-name": "Dev",
-      "x-basePath": "/v26/ecommerce",
+      "x-basePath": "/v1/ecommerce",
       "description": "Dev",
       "variables": {},
       "x-hide": false,
