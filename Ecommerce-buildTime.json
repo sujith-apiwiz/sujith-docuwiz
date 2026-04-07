@@ -1,20 +1,20 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.0",
   "info": {
     "title": "Ecommerce-buildTime",
+    "description": "This API provides capabilities to interact with the ecommerce system, including order processing, product management, and user accounts.",
     "version": "v0"
   },
   "servers": [
     {
-      "x-schema": "https://",
-      "url": "https://apis.apiwiz.io/v25/ecommerce",
-      "x-name": "Dev",
-      "x-basePath": "/v25/ecommerce",
-      "description": "Dev",
-      "variables": {},
-      "x-hide": false,
-      "x-environmentId": "69c6154344f75f22a5755564",
-      "x-environmentName": "DevEnv"
+      "url": "https://api.example.com/{basePath}",
+      "description": "Production server",
+      "variables": {
+        "basePath": {
+          "default": "v0",
+          "description": "The version of the API"
+        }
+      }
     }
   ],
   "paths": {
@@ -24,8 +24,6 @@
           "UserService"
         ],
         "operationId": "registerUser",
-        "summary": "Register a new user",
-        "description": "Creates a new user account in the system.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -38,21 +36,11 @@
         },
         "responses": {
           "200": {
-            "description": "User successfully registered.",
+            "description": "",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/UserResponseDTO"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid user data provided.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RegisterUserBadRequest"
                 }
               }
             }
@@ -66,8 +54,6 @@
           "OrderService"
         ],
         "operationId": "placeOrder",
-        "summary": "Place a new order",
-        "description": "Allows a user to place a new order in the system.",
         "parameters": [
           {
             "name": "userId",
@@ -80,21 +66,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Order successfully placed.",
+            "description": "",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/OrderResponseDTO"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid order parameters supplied.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PlaceOrderBadRequest"
                 }
               }
             }
@@ -108,8 +84,6 @@
           "OrderService"
         ],
         "operationId": "getOrder",
-        "summary": "Retrieve order details",
-        "description": "Fetch details of a specific order using the order ID.",
         "parameters": [
           {
             "name": "orderId",
@@ -122,21 +96,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Order details retrieved successfully.",
+            "description": "",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/OrderResponseDTO"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Order not found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetOrderNotFound"
                 }
               }
             }
@@ -150,8 +114,6 @@
           "CartService"
         ],
         "operationId": "addToCart",
-        "summary": "Add item to cart",
-        "description": "Adds a new item to the user's shopping cart.",
         "parameters": [
           {
             "name": "userId",
@@ -173,21 +135,11 @@
         },
         "responses": {
           "200": {
-            "description": "Item successfully added to cart.",
+            "description": "",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/CartResponseDTO"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid cart item data.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AddToCartBadRequest"
                 }
               }
             }
@@ -201,8 +153,6 @@
           "CartService"
         ],
         "operationId": "getCart",
-        "summary": "Get user's cart",
-        "description": "Retrieve the current items in the specified user's shopping cart.",
         "parameters": [
           {
             "name": "userId",
@@ -215,21 +165,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Cart details retrieved successfully.",
+            "description": "",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/CartResponseDTO"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Cart or user not found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetCartNotFound"
                 }
               }
             }
@@ -243,8 +183,6 @@
           "ShippingService"
         ],
         "operationId": "trackOrder",
-        "summary": "Track shipping status",
-        "description": "Track the current shipping status of a specific order.",
         "parameters": [
           {
             "name": "orderId",
@@ -257,21 +195,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Shipping status retrieved successfully.",
+            "description": "",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/TrackingResponseDTO"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Shipping details not found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TrackOrderNotFound"
                 }
               }
             }
@@ -285,8 +213,6 @@
           "ProductService"
         ],
         "operationId": "addProduct",
-        "summary": "Add a new product",
-        "description": "Add a new product to the catalog.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -299,21 +225,11 @@
         },
         "responses": {
           "200": {
-            "description": "Product added successfully.",
+            "description": "",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ProductResponseDTO"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid product data provided.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AddProductBadRequest"
                 }
               }
             }
@@ -327,8 +243,6 @@
           "PaymentService"
         ],
         "operationId": "paymentWebhook",
-        "summary": "Receive payment webhook notification",
-        "description": "Handles incoming webhook notifications for payment events.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -341,21 +255,11 @@
         },
         "responses": {
           "200": {
-            "description": "Webhook processed successfully.",
+            "description": "",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PaymentResponseDTO"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid webhook payload.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PaymentWebhookBadRequest"
                 }
               }
             }
@@ -368,9 +272,7 @@
         "tags": [
           "PaymentService"
         ],
-        "summary": "Initiate a new payment",
-        "description": "This operation allows the client to initiate a payment process by providing necessary details in the request body.",
-        "operationId": "initiatePaymentTransaction",
+        "operationId": "initiatePayment",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -383,31 +285,596 @@
         },
         "responses": {
           "200": {
-            "description": "Payment initiation was successful.",
+            "description": "",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PaymentResponseDTO"
                 }
               }
             }
-          },
-          "400": {
-            "description": "The payment initiation request is invalid.",
+          }
+        }
+      }
+    },
+    "openapi": "3.0.0",
+    "info": {
+      "title": "E-commerce API",
+      "version": "1.0.0",
+      "description": "API for managing users, orders, carts, products, payments, and shipping in an e-commerce system."
+    },
+    "servers": [
+      {
+        "url": "https://api.example.com/v1",
+        "description": "Production server"
+      }
+    ],
+    "tags": [
+      {
+        "name": "UserService",
+        "description": "Operations related to user management"
+      },
+      {
+        "name": "OrderService",
+        "description": "Operations for managing orders"
+      },
+      {
+        "name": "CartService",
+        "description": "Operations for managing shopping carts"
+      },
+      {
+        "name": "ShippingService",
+        "description": "Operations concerning shipping and tracking"
+      },
+      {
+        "name": "ProductService",
+        "description": "Operations for managing products"
+      },
+      {
+        "name": "PaymentService",
+        "description": "Operations related to payment processing"
+      }
+    ],
+    "paths": {
+      "/users": {
+        "post": {
+          "tags": [
+            "UserService"
+          ],
+          "summary": "Register a new user",
+          "description": "Creates a new user account in the system.",
+          "operationId": "registerUser",
+          "requestBody": {
+            "description": "Data required to register a user.",
+            "required": true,
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/InitiatePaymentBadRequestError"
+                  "$ref": "#/components/schemas/UserRequestDTO"
+                },
+                "examples": {
+                  "successfulRequest": {
+                    "summary": "Valid Request",
+                    "value": {
+                      "username": "johndoe",
+                      "email": "johndoe@example.com",
+                      "password": "x0$A2!H2+F::a"
+                    }
+                  }
                 }
               }
             }
           },
-          "500": {
-            "description": "Internal server error during payment initiation.",
+          "responses": {
+            "200": {
+              "description": "User registered successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserResponseDTO"
+                  },
+                  "examples": {
+                    "successfulResponse": {
+                      "summary": "Successful Response",
+                      "value": {
+                        "id": "123",
+                        "username": "johndoe",
+                        "email": "johndoe@example.com"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid input or missing required data.",
+              "content": {
+                "application/problem+json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ProblemDetail"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/orders/place/{userId}": {
+        "post": {
+          "tags": [
+            "OrderService"
+          ],
+          "summary": "Place an order",
+          "description": "Places a new order for the specified user.",
+          "operationId": "placeOrder",
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "description": "The unique identifier of the user placing the order.",
+              "schema": {
+                "type": "string",
+                "example": "123"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Order placed successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/OrderResponseDTO"
+                  },
+                  "examples": {
+                    "successfulResponse": {
+                      "summary": "Successful Response",
+                      "value": {
+                        "orderId": "order123",
+                        "status": "placed",
+                        "amount": 250.75
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid request payload or parameters.",
+              "content": {
+                "application/problem+json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ProblemDetail"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/orders/{orderId}": {
+        "get": {
+          "tags": [
+            "OrderService"
+          ],
+          "summary": "Get order details",
+          "description": "Retrieve the details of an existing order.",
+          "operationId": "getOrder",
+          "parameters": [
+            {
+              "name": "orderId",
+              "in": "path",
+              "required": true,
+              "description": "The unique identifier of the order.",
+              "schema": {
+                "type": "string",
+                "example": "order123"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Order details retrieved successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/OrderResponseDTO"
+                  },
+                  "examples": {
+                    "successfulResponse": {
+                      "summary": "Successful Response",
+                      "value": {
+                        "orderId": "order123",
+                        "status": "shipped",
+                        "items": [
+                          {
+                            "productId": "prod001",
+                            "quantity": 2
+                          }
+                        ],
+                        "amount": 100.5
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Order not found.",
+              "content": {
+                "application/problem+json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ProblemDetail"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/cart/{userId}/add": {
+        "post": {
+          "tags": [
+            "CartService"
+          ],
+          "summary": "Add item to cart",
+          "description": "Adds an item to the user's shopping cart.",
+          "operationId": "addToCart",
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "description": "The unique identifier of the user.",
+              "schema": {
+                "type": "string",
+                "example": "123"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "Data required to add an item to the cart.",
+            "required": true,
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/InitiatePaymentInternalServerError"
+                  "$ref": "#/components/schemas/CartItemDTO"
+                },
+                "examples": {
+                  "successfulRequest": {
+                    "summary": "Valid Request",
+                    "value": {
+                      "productId": "prod002",
+                      "quantity": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Item added to cart successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CartResponseDTO"
+                  },
+                  "examples": {
+                    "successfulResponse": {
+                      "summary": "Successful Response",
+                      "value": {
+                        "userId": "123",
+                        "items": [
+                          {
+                            "productId": "prod002",
+                            "quantity": 1
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid input or missing required data.",
+              "content": {
+                "application/problem+json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ProblemDetail"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/cart/{userId}": {
+        "get": {
+          "tags": [
+            "CartService"
+          ],
+          "summary": "Get user cart",
+          "description": "Retrieve the items in the user's shopping cart.",
+          "operationId": "getCart",
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "description": "The unique identifier of the user.",
+              "schema": {
+                "type": "string",
+                "example": "123"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Cart retrieved successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CartResponseDTO"
+                  },
+                  "examples": {
+                    "successfulResponse": {
+                      "summary": "Successful Response",
+                      "value": {
+                        "userId": "123",
+                        "items": [
+                          {
+                            "productId": "prod001",
+                            "quantity": 2
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/shipping/{orderId}/track": {
+        "get": {
+          "tags": [
+            "ShippingService"
+          ],
+          "summary": "Track order shipment",
+          "description": "Retrieve the shipment tracking information for a specific order.",
+          "operationId": "trackOrder",
+          "parameters": [
+            {
+              "name": "orderId",
+              "in": "path",
+              "required": true,
+              "description": "The unique identifier of the order to track.",
+              "schema": {
+                "type": "string",
+                "example": "order123"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Tracking information retrieved successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/TrackingResponseDTO"
+                  },
+                  "examples": {
+                    "successfulResponse": {
+                      "summary": "Successful Response",
+                      "value": {
+                        "orderId": "order123",
+                        "status": "In Transit",
+                        "location": "Distribution Center"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Order not found or tracking not available.",
+              "content": {
+                "application/problem+json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ProblemDetail"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/products": {
+        "post": {
+          "tags": [
+            "ProductService"
+          ],
+          "summary": "Add a new product",
+          "description": "Add a new product to the inventory.",
+          "operationId": "addProduct",
+          "requestBody": {
+            "description": "Data required to add a product.",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductRequestDTO"
+                },
+                "examples": {
+                  "successfulRequest": {
+                    "summary": "Valid Request",
+                    "value": {
+                      "name": "New Product",
+                      "price": 39.99,
+                      "category": "Electronics"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Product added successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ProductResponseDTO"
+                  },
+                  "examples": {
+                    "successfulResponse": {
+                      "summary": "Successful Response",
+                      "value": {
+                        "id": "prod003",
+                        "name": "New Product",
+                        "price": 39.99,
+                        "category": "Electronics"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid input or missing required data.",
+              "content": {
+                "application/problem+json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ProblemDetail"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/payments/webhook": {
+        "post": {
+          "tags": [
+            "PaymentService"
+          ],
+          "summary": "Process payment webhook",
+          "description": "Processes incoming payment notifications via webhook.",
+          "operationId": "paymentWebhook",
+          "requestBody": {
+            "description": "The webhook payload received for processing.",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentWebhookDTO"
+                },
+                "examples": {
+                  "successfulRequest": {
+                    "summary": "Valid Request",
+                    "value": {
+                      "transactionId": "txn456",
+                      "amount": 200.0,
+                      "status": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Payment webhook processed successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PaymentResponseDTO"
+                  },
+                  "examples": {
+                    "successfulResponse": {
+                      "summary": "Successful Response",
+                      "value": {
+                        "transactionId": "txn456",
+                        "status": "processed"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid webhook payload received.",
+              "content": {
+                "application/problem+json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ProblemDetail"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/payments/initiate": {
+        "post": {
+          "tags": [
+            "PaymentService"
+          ],
+          "summary": "Initiate a payment",
+          "description": "Initiate a payment transaction for an order.",
+          "operationId": "initiatePayment",
+          "requestBody": {
+            "description": "Data required to initiate a payment.",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequestDTO"
+                },
+                "examples": {
+                  "successfulRequest": {
+                    "summary": "Valid Request",
+                    "value": {
+                      "orderId": "order789",
+                      "amount": 200.0,
+                      "method": "credit_card"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Payment initiated successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PaymentResponseDTO"
+                  },
+                  "examples": {
+                    "successfulResponse": {
+                      "summary": "Successful Response",
+                      "value": {
+                        "paymentId": "pay456",
+                        "status": "initiated"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid payment initiation data.",
+              "content": {
+                "application/problem+json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ProblemDetail"
+                  }
                 }
               }
             }
@@ -417,84 +884,420 @@
     },
     "components": {
       "schemas": {
-        "InitiatePaymentBadRequestError": {
+        "UserRequestDTO": {
+          "title": "User Request",
+          "description": "Details required to create a new user account.",
           "type": "object",
           "properties": {
-            "error": {
+            "username": {
               "type": "string",
-              "example": "Bad Request"
+              "example": "johndoe",
+              "description": "The user's desired username."
             },
-            "message": {
+            "email": {
               "type": "string",
-              "example": "Validation failed"
+              "format": "email",
+              "example": "johndoe@example.com",
+              "description": "The user's email address."
             },
-            "status": {
-              "type": "integer",
-              "example": 400
-            },
-            "timestamp": {
+            "password": {
               "type": "string",
-              "example": "2026-01-01T10:00:00Z"
-            },
-            "path": {
+              "minLength": 8,
+              "example": "x0$A2!H2+F::a",
+              "description": "The user's chosen password."
+            }
+          },
+          "required": [
+            "username",
+            "email",
+            "password"
+          ]
+        },
+        "UserResponseDTO": {
+          "title": "User Response",
+          "description": "Response returned after user registration.",
+          "type": "object",
+          "properties": {
+            "id": {
               "type": "string",
-              "example": "/payments/initiate"
+              "example": "123",
+              "description": "Unique identifier for the user."
             },
-            "requestId": {
+            "username": {
               "type": "string",
-              "example": "req-123"
+              "example": "johndoe",
+              "description": "The registered username of the user."
             },
-            "errorCode": {
+            "email": {
               "type": "string",
-              "example": "VALIDATION_ERROR"
-            },
-            "details": {
-              "type": "string",
-              "example": "Request body is missing 'amount' field"
+              "format": "email",
+              "example": "johndoe@example.com",
+              "description": "The registered email address of the user."
             }
           }
         },
-        "InitiatePaymentInternalServerError": {
+        "OrderResponseDTO": {
+          "title": "Order Response",
+          "description": "Response with details of an order.",
           "type": "object",
           "properties": {
-            "error": {
+            "orderId": {
               "type": "string",
-              "example": "Internal Server Error"
+              "example": "order123",
+              "description": "Unique identifier for the order."
             },
-            "message": {
+            "status": {
               "type": "string",
-              "example": "Unexpected server error"
+              "example": "placed",
+              "description": "Current status of the order."
+            },
+            "amount": {
+              "type": "number",
+              "format": "double",
+              "example": 250.75,
+              "description": "Total amount for the order."
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "productId": {
+                    "type": "string",
+                    "example": "prod001",
+                    "description": "ID of the product in the order."
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "example": 2,
+                    "description": "Quantity of the product ordered."
+                  }
+                }
+              },
+              "description": "List of items in the order."
+            }
+          }
+        },
+        "CartItemDTO": {
+          "title": "Cart Item",
+          "description": "Details of an item to be added to the cart.",
+          "type": "object",
+          "properties": {
+            "productId": {
+              "type": "string",
+              "example": "prod002",
+              "description": "The unique identifier of the product to add."
+            },
+            "quantity": {
+              "type": "integer",
+              "example": 1,
+              "minimum": 1,
+              "description": "The amount of the product to add."
+            }
+          },
+          "required": [
+            "productId",
+            "quantity"
+          ]
+        },
+        "CartResponseDTO": {
+          "title": "Cart Response",
+          "description": "Response with details of the user's cart.",
+          "type": "object",
+          "properties": {
+            "userId": {
+              "type": "string",
+              "example": "123",
+              "description": "Unique identifier for the user."
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "productId": {
+                    "type": "string",
+                    "example": "prod001",
+                    "description": "ID of the product in the cart."
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "example": 2,
+                    "description": "Quantity of the product in the cart."
+                  }
+                }
+              },
+              "description": "List of items in the user's cart."
+            }
+          }
+        },
+        "TrackingResponseDTO": {
+          "title": "Tracking Response",
+          "description": "Details about the shipment tracking status of an order.",
+          "type": "object",
+          "properties": {
+            "orderId": {
+              "type": "string",
+              "example": "order123",
+              "description": "Unique identifier for the order."
+            },
+            "status": {
+              "type": "string",
+              "example": "In Transit",
+              "description": "Current status of the shipment."
+            },
+            "location": {
+              "type": "string",
+              "example": "Distribution Center",
+              "description": "Current location of the shipment."
+            }
+          }
+        },
+        "ProductRequestDTO": {
+          "title": "Product Request",
+          "description": "Details required to add a new product.",
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "example": "New Product",
+              "description": "Name of the new product."
+            },
+            "price": {
+              "type": "number",
+              "format": "double",
+              "example": 39.99,
+              "description": "Price of the new product."
+            },
+            "category": {
+              "type": "string",
+              "example": "Electronics",
+              "description": "Category of the new product."
+            }
+          },
+          "required": [
+            "name",
+            "price",
+            "category"
+          ]
+        },
+        "ProductResponseDTO": {
+          "title": "Product Response",
+          "description": "Response after adding a new product.",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "prod003",
+              "description": "Unique identifier for the new product."
+            },
+            "name": {
+              "type": "string",
+              "example": "New Product",
+              "description": "Name of the new product."
+            },
+            "price": {
+              "type": "number",
+              "format": "double",
+              "example": 39.99,
+              "description": "Price of the new product."
+            },
+            "category": {
+              "type": "string",
+              "example": "Electronics",
+              "description": "Category of the new product."
+            }
+          }
+        },
+        "PaymentWebhookDTO": {
+          "title": "Payment Webhook",
+          "description": "Details of the payment webhook payload.",
+          "type": "object",
+          "properties": {
+            "transactionId": {
+              "type": "string",
+              "example": "txn456",
+              "description": "Unique identifier for the payment transaction."
+            },
+            "amount": {
+              "type": "number",
+              "format": "double",
+              "example": 200.0,
+              "description": "Amount involved in the transaction."
+            },
+            "status": {
+              "type": "string",
+              "example": "success",
+              "description": "Status of the transaction."
+            }
+          },
+          "required": [
+            "transactionId",
+            "amount",
+            "status"
+          ]
+        },
+        "PaymentRequestDTO": {
+          "title": "Payment Request",
+          "description": "Details required to initiate a payment.",
+          "type": "object",
+          "properties": {
+            "orderId": {
+              "type": "string",
+              "example": "order789",
+              "description": "Unique identifier for the order."
+            },
+            "amount": {
+              "type": "number",
+              "format": "double",
+              "example": 200.0,
+              "description": "Total amount for the payment."
+            },
+            "method": {
+              "type": "string",
+              "example": "credit_card",
+              "description": "Payment method to use."
+            }
+          },
+          "required": [
+            "orderId",
+            "amount",
+            "method"
+          ]
+        },
+        "PaymentResponseDTO": {
+          "title": "Payment Response",
+          "description": "Response after initiating a payment.",
+          "type": "object",
+          "properties": {
+            "paymentId": {
+              "type": "string",
+              "example": "pay456",
+              "description": "Unique identifier for the payment."
+            },
+            "status": {
+              "type": "string",
+              "example": "initiated",
+              "description": "Current status of the payment."
+            }
+          }
+        },
+        "ProblemDetail": {
+          "title": "Problem Detail",
+          "description": "Standardized format for error response.",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "format": "uri",
+              "description": "A URI reference that identifies the problem type.",
+              "example": "https://example.com/probs/order-not-found"
+            },
+            "title": {
+              "type": "string",
+              "description": "A short, human-readable summary of the problem type.",
+              "example": "Order not found"
             },
             "status": {
               "type": "integer",
-              "example": 500
+              "format": "int32",
+              "description": "The HTTP status code.",
+              "example": 404
             },
-            "timestamp": {
+            "detail": {
               "type": "string",
-              "example": "2026-01-01T10:00:00Z"
+              "description": "A human-readable explanation specific to this occurrence of the problem.",
+              "example": "Order with ID 'order123' not found."
             },
-            "path": {
+            "instance": {
               "type": "string",
-              "example": "/payments/initiate"
-            },
-            "requestId": {
-              "type": "string",
-              "example": "req-456"
-            },
-            "errorCode": {
-              "type": "string",
-              "example": "SERVER_ERROR"
-            },
-            "details": {
-              "type": "string",
-              "example": "Database connection failed"
+              "format": "uri",
+              "description": "A URI reference that identifies the specific occurrence of the problem.",
+              "example": "/orders/order123"
             }
           }
         }
+      },
+      "securitySchemes": {
+        "BearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT",
+          "description": "JWT Authorization header using the Bearer scheme."
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ]
+  },
+  "components": {
+    "schemas": {
+      "ProblemDetail": {
+        "title": "Problem Detail",
+        "description": "A problem detail as per RFC 7807, providing error information.",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "format": "uri",
+            "description": "A URI reference that identifies the problem type."
+          },
+          "title": {
+            "type": "string",
+            "description": "A short, human-readable summary of the problem type."
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The HTTP status code for this occurrence of the problem."
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human-readable explanation specific to this occurrence of the problem."
+          },
+          "instance": {
+            "type": "string",
+            "format": "uri",
+            "description": "A URI reference that identifies the specific occurrence of the problem."
+          }
+        },
+        "required": [
+          "type",
+          "title",
+          "status",
+          "detail"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "X-API-Key",
+        "in": "header",
+        "description": "An API key for authenticating requests."
       }
     }
   },
-  "components": {
-    "schemas": {}
-  }
+  "tags": [
+    {
+      "name": "orders",
+      "description": "Operations related to managing and processing orders"
+    },
+    {
+      "name": "products",
+      "description": "Manage products in the ecommerce catalog"
+    },
+    {
+      "name": "users",
+      "description": "User account operations and profile management"
+    }
+  ],
+  "security": [
+    {
+      "api_key": []
+    }
+  ]
 }
