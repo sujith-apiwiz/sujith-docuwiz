@@ -11,9 +11,9 @@
       "variables": {},
       "x-schema": "https://",
       "x-name": "Dev",
-      "x-environmentName": "DevEnv-Test",
+      "x-environmentName": "DevEnv",
       "x-hide": false,
-      "x-environmentId": "69d77de31cdbcc768483123f",
+      "x-environmentId": "69d5e67b3de05b1d58c91c1b",
       "x-basePath": "/v1/ecommerce"
     }
   ],
