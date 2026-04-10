@@ -60,11 +60,7 @@
           "OrderService"
         ],
         "operationId": "placeOrder",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/_s_orders_s_place_s_userId_-_Operations_-_POST_-_Parameter_-_userId"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "",
@@ -91,11 +87,7 @@
           "OrderService"
         ],
         "operationId": "getOrder",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/_s_orders_s_orderId_-_Operations_-_GET_-_Parameter_-_orderId"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "",
@@ -122,11 +114,7 @@
           "CartService"
         ],
         "operationId": "addToCart",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/_s_cart_s_userId_s_add_-_Operations_-_POST_-_Parameter_-_userId"
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -162,11 +150,7 @@
           "CartService"
         ],
         "operationId": "getCart",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/_s_cart_s_userId_-_Operations_-_GET_-_Parameter_-_userId"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "",
@@ -193,11 +177,7 @@
           "ShippingService"
         ],
         "operationId": "trackOrder",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/_s_shipping_s_orderId_s_track_-_Operations_-_GET_-_Parameter_-_orderId"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "",
@@ -690,27 +670,6 @@
         }
       }
     },
-    "parameters": {
-      "userId": {
-        "name": "userId",
-        "in": "path",
-        "required": true,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "orderId": {
-        "name": "orderId",
-        "in": "path",
-        "required": true,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string"
-        }
-      }
-    }
+    "parameters": {}
   }
 }
