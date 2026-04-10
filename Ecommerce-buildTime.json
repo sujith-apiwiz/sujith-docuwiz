@@ -29,7 +29,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/user_request"
+                "$ref": "#/components/schemas/UserRequestDTO"
               }
             }
           }
@@ -41,7 +41,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/user_response"
+                  "$ref": "#/components/schemas/UserResponseDTO"
                 }
               }
             }
@@ -60,7 +60,11 @@
           "OrderService"
         ],
         "operationId": "placeOrder",
-        "parameters": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/_s_orders_s_place_s_userId_-_Operations_-_POST_-_Parameter_-_userId"
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -68,7 +72,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/order_response"
+                  "$ref": "#/components/schemas/OrderResponseDTO"
                 }
               }
             }
@@ -87,7 +91,11 @@
           "OrderService"
         ],
         "operationId": "getOrder",
-        "parameters": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/_s_orders_s_orderId_-_Operations_-_GET_-_Parameter_-_orderId"
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -95,7 +103,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/order_response"
+                  "$ref": "#/components/schemas/OrderResponseDTO"
                 }
               }
             }
@@ -114,12 +122,16 @@
           "CartService"
         ],
         "operationId": "addToCart",
-        "parameters": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/_s_cart_s_userId_s_add_-_Operations_-_POST_-_Parameter_-_userId"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/cart_item"
+                "$ref": "#/components/schemas/CartItemDTO"
               }
             }
           }
@@ -131,7 +143,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/cart_response"
+                  "$ref": "#/components/schemas/CartResponseDTO"
                 }
               }
             }
@@ -150,7 +162,11 @@
           "CartService"
         ],
         "operationId": "getCart",
-        "parameters": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/_s_cart_s_userId_-_Operations_-_GET_-_Parameter_-_userId"
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -158,7 +174,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/cart_response"
+                  "$ref": "#/components/schemas/CartResponseDTO"
                 }
               }
             }
@@ -177,7 +193,11 @@
           "ShippingService"
         ],
         "operationId": "trackOrder",
-        "parameters": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/_s_shipping_s_orderId_s_track_-_Operations_-_GET_-_Parameter_-_orderId"
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -185,7 +205,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/tracking_response"
+                  "$ref": "#/components/schemas/TrackingResponseDTO"
                 }
               }
             }
@@ -209,7 +229,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/product_request"
+                "$ref": "#/components/schemas/ProductRequestDTO"
               }
             }
           }
@@ -221,7 +241,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/product_response"
+                  "$ref": "#/components/schemas/ProductResponseDTO"
                 }
               }
             }
@@ -245,7 +265,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/payment_webhook"
+                "$ref": "#/components/schemas/PaymentWebhookDTO"
               }
             }
           }
@@ -257,7 +277,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/payment_response"
+                  "$ref": "#/components/schemas/PaymentResponseDTO"
                 }
               }
             }
@@ -281,7 +301,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/payment_request"
+                "$ref": "#/components/schemas/PaymentRequestDTO"
               }
             }
           }
@@ -293,7 +313,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/payment_response"
+                  "$ref": "#/components/schemas/PaymentResponseDTO"
                 }
               }
             }
@@ -309,7 +329,7 @@
   },
   "components": {
     "schemas": {
-      "payment_webhook": {
+      "PaymentWebhookDTO": {
         "type": "object",
         "properties": {
           "paymentId": {
@@ -326,7 +346,7 @@
           }
         }
       },
-      "order_response": {
+      "OrderResponseDTO": {
         "type": "object",
         "properties": {
           "totalAmount": {
@@ -352,7 +372,7 @@
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/order_item"
+              "$ref": "#/components/schemas/OrderItemDTO"
             }
           },
           "payableAmount": {
@@ -370,7 +390,7 @@
           }
         }
       },
-      "user_response": {
+      "UserResponseDTO": {
         "type": "object",
         "properties": {
           "country": {
@@ -405,7 +425,7 @@
           }
         }
       },
-      "product_request": {
+      "ProductRequestDTO": {
         "type": "object",
         "properties": {
           "price": {
@@ -439,7 +459,7 @@
           }
         }
       },
-      "order_item": {
+      "OrderItemDTO": {
         "type": "object",
         "properties": {
           "quantity": {
@@ -465,7 +485,7 @@
           }
         }
       },
-      "cart_item": {
+      "CartItemDTO": {
         "type": "object",
         "properties": {
           "quantity": {
@@ -494,7 +514,7 @@
           }
         }
       },
-      "tracking_response": {
+      "TrackingResponseDTO": {
         "type": "object",
         "properties": {
           "lastUpdated": {
@@ -517,7 +537,7 @@
           }
         }
       },
-      "cart_response": {
+      "CartResponseDTO": {
         "type": "object",
         "properties": {
           "totalAmount": {
@@ -537,7 +557,7 @@
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/cart_item"
+              "$ref": "#/components/schemas/CartItemDTO"
             }
           },
           "payableAmount": {
@@ -549,7 +569,7 @@
           }
         }
       },
-      "payment_request": {
+      "PaymentRequestDTO": {
         "type": "object",
         "properties": {
           "amount": {
@@ -570,7 +590,7 @@
           }
         }
       },
-      "user_request": {
+      "UserRequestDTO": {
         "type": "object",
         "properties": {
           "country": {
@@ -596,7 +616,7 @@
           }
         }
       },
-      "payment_response": {
+      "PaymentResponseDTO": {
         "type": "object",
         "properties": {
           "createdAt": {
@@ -626,7 +646,7 @@
           }
         }
       },
-      "product_response": {
+      "ProductResponseDTO": {
         "type": "object",
         "properties": {
           "createdAt": {
@@ -670,6 +690,57 @@
         }
       }
     },
-    "parameters": {}
+    "parameters": {
+      "_s_orders_s_place_s_userId_-_Operations_-_POST_-_Parameter_-_userId": {
+        "name": "userId",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "_s_orders_s_orderId_-_Operations_-_GET_-_Parameter_-_orderId": {
+        "name": "orderId",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "_s_cart_s_userId_s_add_-_Operations_-_POST_-_Parameter_-_userId": {
+        "name": "userId",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "_s_cart_s_userId_-_Operations_-_GET_-_Parameter_-_userId": {
+        "name": "userId",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "_s_shipping_s_orderId_s_track_-_Operations_-_GET_-_Parameter_-_orderId": {
+        "name": "orderId",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    }
   }
 }
