@@ -29,7 +29,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserRequestDTO"
+                "$ref": "#/components/schemas/user_request"
               }
             }
           }
@@ -41,7 +41,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserResponseDTO"
+                  "$ref": "#/components/schemas/user_response"
                 }
               }
             }
@@ -72,7 +72,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrderResponseDTO"
+                  "$ref": "#/components/schemas/order_response"
                 }
               }
             }
@@ -103,7 +103,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrderResponseDTO"
+                  "$ref": "#/components/schemas/order_response"
                 }
               }
             }
@@ -131,7 +131,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CartItemDTO"
+                "$ref": "#/components/schemas/cart_item"
               }
             }
           }
@@ -143,7 +143,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/CartResponseDTO"
+                  "$ref": "#/components/schemas/cart_response"
                 }
               }
             }
@@ -174,7 +174,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/CartResponseDTO"
+                  "$ref": "#/components/schemas/cart_response"
                 }
               }
             }
@@ -205,7 +205,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/TrackingResponseDTO"
+                  "$ref": "#/components/schemas/tracking_response"
                 }
               }
             }
@@ -229,7 +229,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductRequestDTO"
+                "$ref": "#/components/schemas/product_request"
               }
             }
           }
@@ -241,7 +241,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductResponseDTO"
+                  "$ref": "#/components/schemas/product_response"
                 }
               }
             }
@@ -265,7 +265,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PaymentWebhookDTO"
+                "$ref": "#/components/schemas/payment_webhook"
               }
             }
           }
@@ -277,7 +277,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaymentResponseDTO"
+                  "$ref": "#/components/schemas/payment_response"
                 }
               }
             }
@@ -301,7 +301,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PaymentRequestDTO"
+                "$ref": "#/components/schemas/payment_request"
               }
             }
           }
@@ -313,7 +313,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaymentResponseDTO"
+                  "$ref": "#/components/schemas/payment_response"
                 }
               }
             }
@@ -329,7 +329,7 @@
   },
   "components": {
     "schemas": {
-      "PaymentWebhookDTO": {
+      "payment_webhook": {
         "type": "object",
         "properties": {
           "paymentId": {
@@ -346,7 +346,7 @@
           }
         }
       },
-      "OrderResponseDTO": {
+      "order_response": {
         "type": "object",
         "properties": {
           "totalAmount": {
@@ -372,7 +372,7 @@
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/OrderItemDTO"
+              "$ref": "#/components/schemas/order_item"
             }
           },
           "payableAmount": {
@@ -390,7 +390,7 @@
           }
         }
       },
-      "UserResponseDTO": {
+      "user_response": {
         "type": "object",
         "properties": {
           "country": {
@@ -425,7 +425,7 @@
           }
         }
       },
-      "ProductRequestDTO": {
+      "product_request": {
         "type": "object",
         "properties": {
           "price": {
@@ -459,7 +459,7 @@
           }
         }
       },
-      "OrderItemDTO": {
+      "order_item": {
         "type": "object",
         "properties": {
           "quantity": {
@@ -485,7 +485,7 @@
           }
         }
       },
-      "CartItemDTO": {
+      "cart_item": {
         "type": "object",
         "properties": {
           "quantity": {
@@ -514,7 +514,7 @@
           }
         }
       },
-      "TrackingResponseDTO": {
+      "tracking_response": {
         "type": "object",
         "properties": {
           "lastUpdated": {
@@ -537,7 +537,7 @@
           }
         }
       },
-      "CartResponseDTO": {
+      "cart_response": {
         "type": "object",
         "properties": {
           "totalAmount": {
@@ -557,7 +557,7 @@
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CartItemDTO"
+              "$ref": "#/components/schemas/cart_item"
             }
           },
           "payableAmount": {
@@ -569,7 +569,7 @@
           }
         }
       },
-      "PaymentRequestDTO": {
+      "payment_request": {
         "type": "object",
         "properties": {
           "amount": {
@@ -590,7 +590,7 @@
           }
         }
       },
-      "UserRequestDTO": {
+      "user_request": {
         "type": "object",
         "properties": {
           "country": {
@@ -616,7 +616,7 @@
           }
         }
       },
-      "PaymentResponseDTO": {
+      "payment_response": {
         "type": "object",
         "properties": {
           "createdAt": {
@@ -646,7 +646,7 @@
           }
         }
       },
-      "ProductResponseDTO": {
+      "product_response": {
         "type": "object",
         "properties": {
           "createdAt": {
@@ -691,7 +691,7 @@
       }
     },
     "parameters": {
-      "_s_orders_s_place_s_userId_-_Operations_-_POST_-_Parameter_-_userId": {
+      "userId": {
         "name": "userId",
         "in": "path",
         "required": true,
@@ -701,37 +701,7 @@
           "type": "string"
         }
       },
-      "_s_orders_s_orderId_-_Operations_-_GET_-_Parameter_-_orderId": {
-        "name": "orderId",
-        "in": "path",
-        "required": true,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "_s_cart_s_userId_s_add_-_Operations_-_POST_-_Parameter_-_userId": {
-        "name": "userId",
-        "in": "path",
-        "required": true,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "_s_cart_s_userId_-_Operations_-_GET_-_Parameter_-_userId": {
-        "name": "userId",
-        "in": "path",
-        "required": true,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "_s_shipping_s_orderId_s_track_-_Operations_-_GET_-_Parameter_-_orderId": {
+      "orderId": {
         "name": "orderId",
         "in": "path",
         "required": true,
