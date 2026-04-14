@@ -2,11 +2,11 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Phone-runTime",
-    "description": "Phone-runTime is a robust API designed to provide developers with access to real-time phone data. This API allows for seamless integration of telecommunication functionalities into applications, enhancing user experience and providing actionable insights. Whether you are building a mobile app or a complex system that requires phone runtime details, our API supports various operations to cater to your needs.",
+    "description": "Phone-runTime is an API designed to provide real-time information and management for mobile phone applications. It facilitates seamless integration of various functionalities and services, enabling developers to enhance app performance and user experience.",
     "termsOfService": "https://www.phoneruntime.com/terms",
     "contact": {
-      "name": "Support Team",
-      "url": "https://www.phoneruntime.com/support",
+      "name": "API Support Team",
+      "url": "https://support.phoneruntime.com",
       "email": "support@phoneruntime.com"
     },
     "version": "1.0"
@@ -31,7 +31,7 @@
           "create"
         ],
         "summary": "Create a new resource",
-        "description": "This endpoint allows the user to create a new resource. The request should include the necessary data fields, and upon success, the resource will be created and returned.",
+        "description": "This operation allows you to create a new resource by providing the necessary data. A successful creation will return the details of the newly created resource.",
         "operationId": "createCreate",
         "parameters": [
           {
@@ -150,131 +150,14 @@
       "servers": [],
       "parameters": []
     },
-    "/get": {
-      "get": {
-        "tags": [
-          "get"
-        ],
-        "summary": "Retrieve a resource",
-        "description": "This endpoint retrieves the specified resource based on the given parameters. The response will include the resource details if found.",
-        "operationId": "getGet",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/host"
-          },
-          {
-            "$ref": "#/components/parameters/content-type"
-          },
-          {
-            "$ref": "#/components/parameters/x-application-type"
-          },
-          {
-            "$ref": "#/components/parameters/x-tenant"
-          },
-          {
-            "$ref": "#/components/parameters/user-agent"
-          },
-          {
-            "$ref": "#/components/parameters/accept"
-          },
-          {
-            "$ref": "#/components/parameters/cache-control"
-          },
-          {
-            "$ref": "#/components/parameters/postman-token"
-          },
-          {
-            "$ref": "#/components/parameters/accept-encoding"
-          },
-          {
-            "$ref": "#/components/parameters/x-forwarded-proto"
-          },
-          {
-            "$ref": "#/components/parameters/x-envoy-external-address"
-          },
-          {
-            "$ref": "#/components/parameters/x-request-id"
-          },
-          {
-            "$ref": "#/components/parameters/x-envoy-decorator-operation"
-          },
-          {
-            "$ref": "#/components/parameters/x-envoy-peer-metadata"
-          },
-          {
-            "$ref": "#/components/parameters/x-envoy-peer-metadata-id"
-          },
-          {
-            "$ref": "#/components/parameters/x-envoy-attempt-count"
-          },
-          {
-            "$ref": "#/components/parameters/x-b3-traceid"
-          },
-          {
-            "$ref": "#/components/parameters/x-b3-spanid"
-          },
-          {
-            "$ref": "#/components/parameters/x-b3-sampled"
-          },
-          {
-            "$ref": "#/components/parameters/traceid"
-          },
-          {
-            "$ref": "#/components/parameters/request-timestamp"
-          },
-          {
-            "$ref": "#/components/parameters/response-timestamp"
-          },
-          {
-            "$ref": "#/components/parameters/gateway-type"
-          },
-          {
-            "$ref": "#/components/parameters/spanid"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "200Description",
-            "headers": {
-              "content-type": {
-                "$ref": "#/components/headers/content-type"
-              },
-              "x-log-id": {
-                "$ref": "#/components/headers/x-log-id"
-              },
-              "traceid": {
-                "$ref": "#/components/headers/traceid"
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/get_get_response_200"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "headers": {},
-            "content": {}
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "headers": {},
-            "content": {}
-          }
-        },
-        "callbacks": {},
-        "security": [],
-        "servers": []
-      },
-      "servers": [],
-      "parameters": []
-    },
     "/update": {
       "put": {
-        "operationId": "PUT_update",
+        "tags": [
+          "update"
+        ],
+        "summary": "Update an existing resource",
+        "description": "This operation updates the specified resource with new data. Upon success, it will return the updated resource details.",
+        "operationId": "updateUpdate",
         "parameters": [
           {
             "$ref": "#/components/parameters/host"
@@ -373,6 +256,16 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {},
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {},
+            "content": {}
           }
         },
         "callbacks": {},
@@ -390,129 +283,23 @@
         "properties": {
           "message": {
             "type": "string",
-            "example": "juxnigffdndykwlunjnp"
+            "example": "xevivcbfhlhwidjvzujg"
           }
         },
-        "example": "{\n  \"message\" : \"juxnigffdndykwlunjnp\"\n}"
-      },
-      "get_get_response_200": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string",
-            "example": "qcgjdneluzwdxaafkwvn"
-          }
-        },
-        "example": "{\n  \"message\" : \"qcgjdneluzwdxaafkwvn\"\n}"
+        "example": "{\n  \"message\" : \"xevivcbfhlhwidjvzujg\"\n}"
       },
       "update_put_response_200": {
         "type": "object",
         "properties": {
           "message": {
             "type": "string",
-            "example": "vwwdcdvhkkhzlbygjjaf"
+            "example": "oznpvrowfhvtvphsirck"
           }
         },
-        "example": "{\n  \"message\" : \"vwwdcdvhkkhzlbygjjaf\"\n}"
+        "example": "{\n  \"message\" : \"oznpvrowfhvtvphsirck\"\n}"
       }
     },
     "parameters": {
-      "response-timestamp": {
-        "name": "response-timestamp",
-        "in": "header",
-        "required": false,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string",
-          "example": "1090530739188"
-        },
-        "example": "1090530739188"
-      },
-      "x-b3-traceid": {
-        "name": "x-b3-traceid",
-        "in": "header",
-        "required": false,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string",
-          "example": "z7PftEjb94iNh72yjZ11tn1F2mrj3iEz"
-        },
-        "example": "z7PftEjb94iNh72yjZ11tn1F2mrj3iEz"
-      },
-      "x-request-id": {
-        "name": "x-request-id",
-        "in": "header",
-        "required": false,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string",
-          "example": "ZvYmEm6D298j7sGBZp9UrU5709VDVnxHFQiR"
-        },
-        "example": "ZvYmEm6D298j7sGBZp9UrU5709VDVnxHFQiR"
-      },
-      "traceid": {
-        "name": "traceid",
-        "in": "header",
-        "required": false,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string",
-          "example": "aMbyS4BA5jxv6rIN"
-        },
-        "example": "aMbyS4BA5jxv6rIN"
-      },
-      "accept": {
-        "name": "accept",
-        "in": "header",
-        "required": false,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string",
-          "example": "JkR"
-        },
-        "example": "JkR"
-      },
-      "postman-token": {
-        "name": "postman-token",
-        "in": "header",
-        "required": false,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string",
-          "example": "7OkGq4S43ah2EIdmFtD51o8E7NbPSc7LLap5"
-        },
-        "example": "7OkGq4S43ah2EIdmFtD51o8E7NbPSc7LLap5"
-      },
-      "x-b3-sampled": {
-        "name": "x-b3-sampled",
-        "in": "header",
-        "required": false,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string",
-          "example": "8"
-        },
-        "example": "8"
-      },
-      "x-application-type": {
-        "name": "x-application-type",
-        "in": "header",
-        "required": false,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string",
-          "example": "bhwhlofwtp"
-        },
-        "example": "bhwhlofwtp"
-      },
       "host": {
         "name": "host",
         "in": "header",
@@ -521,105 +308,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "IJDNX9:(JiSq.cnUu)J:Pg94|QR"
+          "example": "AH)^KkJ%wWIb4nWOb#mW^\"?h0K]"
         },
-        "example": "IJDNX9:(JiSq.cnUu)J:Pg94|QR"
-      },
-      "x-envoy-peer-metadata": {
-        "name": "x-envoy-peer-metadata",
-        "in": "header",
-        "required": false,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string",
-          "example": "8pQ2saByIMujQC5o3Glqjy2so15i1YxlibWsgCnRdaLyRDbgWYDZBenBvmEkTesnMkbQfRlLS77KH88wvsmhAmo7WlV0WdplRcNOkZ3QMiyPjSllVEUsTqZsMtt0ADQSWFpdeBwrpM2enXKUDc4t5Mg9lj03F0DOThbhdwX2cQdr43uWhkk1C3IvLp9z9aiNv7XHG6BpWjkvNmjocMqGLIt9QkvB39jMojMriwhNj8q7v8mZvjpHmATYOAjNpyQR5ZejW5fK07VP3tGwSf35I5YPGnNsYCTfUbja25AHqJp03okqUwCAbzBvOONXzyIuER367k2APuCLY3T4XZ2FRulFelZ2NIpP8LD8phabV6QIxtPVOkEy5n7U0VMhna6IG6jPsXdV0muzlp90UVX9XZhQ1CoMbLrEooVDxohqqKQKRvUP2iaay3OgHmV3wH78l9SVnTSCYJnDSQ6DK3TXwePqpOsGjT3DCccQSF8O4MX2RydovIsK9E8fs3ZBpsRe7rHKhChNcbIb22oRbqbtzHaLa5O3ZaqQpodTd6Ie4qNVs93qovFWNtXxlMq3X688m6f1jaqw3xEnyVm0iVRDXjq7EdPDmW0hxSmEkD2PrTx5UmPV9t26WYZIHyxAX3PeAycrqt2yzXemvJ4zkNMDxbYGSmZUHtKNuc1xAtJ1cD18LTD73Bzu1wNkTlzOrg6jABfOXKuxJf32AaGiK4LV8JJD6JZwrGNcus6xWKAJvDP4hn9LVPQfrEB6vVltiezTWFp9QblgOi3xF4INIkbG75TAvNGhwgdStSGycmNMl3LfWgTD237JnAKqAgWop2yST8ddPcOkcOzop88WpTu0WoNhgzB8Va9jEnj4t9NNfhvqHsncj5CojNcnoQEDCZ17chC9lrE06rGHnQ4T81l17UavFdplx06b1dWUUhfUoLA9yHVMSb9vkYgtdomYkiqND6EpUspgVZBCf0f6esLIlRtaJK0kc1stnsKhANjiPLymwTCGEO1h3gL8rQRv8ZQAhFIaRetcAVN9m1uUvhvfUTDQPml9Y9sR"
-        },
-        "example": "8pQ2saByIMujQC5o3Glqjy2so15i1YxlibWsgCnRdaLyRDbgWYDZBenBvmEkTesnMkbQfRlLS77KH88wvsmhAmo7WlV0WdplRcNOkZ3QMiyPjSllVEUsTqZsMtt0ADQSWFpdeBwrpM2enXKUDc4t5Mg9lj03F0DOThbhdwX2cQdr43uWhkk1C3IvLp9z9aiNv7XHG6BpWjkvNmjocMqGLIt9QkvB39jMojMriwhNj8q7v8mZvjpHmATYOAjNpyQR5ZejW5fK07VP3tGwSf35I5YPGnNsYCTfUbja25AHqJp03okqUwCAbzBvOONXzyIuER367k2APuCLY3T4XZ2FRulFelZ2NIpP8LD8phabV6QIxtPVOkEy5n7U0VMhna6IG6jPsXdV0muzlp90UVX9XZhQ1CoMbLrEooVDxohqqKQKRvUP2iaay3OgHmV3wH78l9SVnTSCYJnDSQ6DK3TXwePqpOsGjT3DCccQSF8O4MX2RydovIsK9E8fs3ZBpsRe7rHKhChNcbIb22oRbqbtzHaLa5O3ZaqQpodTd6Ie4qNVs93qovFWNtXxlMq3X688m6f1jaqw3xEnyVm0iVRDXjq7EdPDmW0hxSmEkD2PrTx5UmPV9t26WYZIHyxAX3PeAycrqt2yzXemvJ4zkNMDxbYGSmZUHtKNuc1xAtJ1cD18LTD73Bzu1wNkTlzOrg6jABfOXKuxJf32AaGiK4LV8JJD6JZwrGNcus6xWKAJvDP4hn9LVPQfrEB6vVltiezTWFp9QblgOi3xF4INIkbG75TAvNGhwgdStSGycmNMl3LfWgTD237JnAKqAgWop2yST8ddPcOkcOzop88WpTu0WoNhgzB8Va9jEnj4t9NNfhvqHsncj5CojNcnoQEDCZ17chC9lrE06rGHnQ4T81l17UavFdplx06b1dWUUhfUoLA9yHVMSb9vkYgtdomYkiqND6EpUspgVZBCf0f6esLIlRtaJK0kc1stnsKhANjiPLymwTCGEO1h3gL8rQRv8ZQAhFIaRetcAVN9m1uUvhvfUTDQPml9Y9sR"
-      },
-      "cache-control": {
-        "name": "cache-control",
-        "in": "header",
-        "required": false,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string",
-          "example": "VLZJ1,3%"
-        },
-        "example": "VLZJ1,3%"
-      },
-      "request-timestamp": {
-        "name": "request-timestamp",
-        "in": "header",
-        "required": false,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string",
-          "example": "6430942547997"
-        },
-        "example": "6430942547997"
-      },
-      "x-forwarded-proto": {
-        "name": "x-forwarded-proto",
-        "in": "header",
-        "required": false,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string",
-          "example": "knatb"
-        },
-        "example": "knatb"
-      },
-      "x-envoy-peer-metadata-id": {
-        "name": "x-envoy-peer-metadata-id",
-        "in": "header",
-        "required": false,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string",
-          "example": "l2LjUvWqaGnpEHaPoo2rHEceZALELeCeprZzWt3CgbI7rNnWES0qsBWjOs9NPn4zVuWoWdRRfccRyvxkSFRIdKoNQNrgkIOjyg0tFG"
-        },
-        "example": "l2LjUvWqaGnpEHaPoo2rHEceZALELeCeprZzWt3CgbI7rNnWES0qsBWjOs9NPn4zVuWoWdRRfccRyvxkSFRIdKoNQNrgkIOjyg0tFG"
-      },
-      "spanid": {
-        "name": "spanid",
-        "in": "header",
-        "required": false,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string",
-          "example": "EDW8JMsrWGRBuRB3"
-        },
-        "example": "EDW8JMsrWGRBuRB3"
-      },
-      "gateway-type": {
-        "name": "gateway-type",
-        "in": "header",
-        "required": false,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string",
-          "example": ")?p0*GtVe*o"
-        },
-        "example": ")?p0*GtVe*o"
-      },
-      "x-envoy-decorator-operation": {
-        "name": "x-envoy-decorator-operation",
-        "in": "header",
-        "required": false,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string",
-          "example": "OgKfpAJz6ZfRAyUK1g0bA9tOVMVe6WZtT3zZ1KtfBY4Dz0Sj7eIOJ1p"
-        },
-        "example": "OgKfpAJz6ZfRAyUK1g0bA9tOVMVe6WZtT3zZ1KtfBY4Dz0Sj7eIOJ1p"
+        "example": "AH)^KkJ%wWIb4nWOb#mW^\"?h0K]"
       },
       "content-type": {
         "name": "content-type",
@@ -629,33 +320,21 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "w#\"/c]n9elVh[.Nr"
+          "example": "F8:9bWzH&v5pLwbg"
         },
-        "example": "w#\"/c]n9elVh[.Nr"
+        "example": "F8:9bWzH&v5pLwbg"
       },
-      "x-b3-spanid": {
-        "name": "x-b3-spanid",
+      "x-application-type": {
+        "name": "x-application-type",
         "in": "header",
         "required": false,
         "style": "simple",
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "gcbbeTDyFjUDLXBd"
+          "example": "brrkhdlmgj"
         },
-        "example": "gcbbeTDyFjUDLXBd"
-      },
-      "user-agent": {
-        "name": "user-agent",
-        "in": "header",
-        "required": false,
-        "style": "simple",
-        "explode": false,
-        "schema": {
-          "type": "string",
-          "example": "jNQHmKOeppl8f7YYcPBtN"
-        },
-        "example": "jNQHmKOeppl8f7YYcPBtN"
+        "example": "brrkhdlmgj"
       },
       "x-tenant": {
         "name": "x-tenant",
@@ -665,45 +344,57 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "99n76hr8IRqq02pmwhVhhI2Qd3ySvxZaS1T9JBloAakEKDJmMYBI3aRk"
+          "example": "kTCvMYMWgGKRGB5wfV7axTZ8pCCezJbGaELq8oR5OZpgewMToiF4akvh"
         },
-        "example": "99n76hr8IRqq02pmwhVhhI2Qd3ySvxZaS1T9JBloAakEKDJmMYBI3aRk"
+        "example": "kTCvMYMWgGKRGB5wfV7axTZ8pCCezJbGaELq8oR5OZpgewMToiF4akvh"
       },
-      "x-envoy-external-address": {
-        "name": "x-envoy-external-address",
+      "user-agent": {
+        "name": "user-agent",
         "in": "header",
         "required": false,
         "style": "simple",
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "nYBato1|7+:H!x"
+          "example": "Eiv7f93yqzbcXmFA6htiO"
         },
-        "example": "nYBato1|7+:H!x"
+        "example": "Eiv7f93yqzbcXmFA6htiO"
       },
-      "x-envoy-attempt-count": {
-        "name": "x-envoy-attempt-count",
+      "accept": {
+        "name": "accept",
         "in": "header",
         "required": false,
         "style": "simple",
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "4"
+          "example": "&+b"
         },
-        "example": "4"
+        "example": "&+b"
       },
-      "content-length": {
-        "name": "content-length",
+      "cache-control": {
+        "name": "cache-control",
         "in": "header",
         "required": false,
         "style": "simple",
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "0"
+          "example": "$JPK}SY%"
         },
-        "example": "0"
+        "example": "$JPK}SY%"
+      },
+      "postman-token": {
+        "name": "postman-token",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "gqJJywlLvCQnhAKYNk0k2kYPty2GPJMePiGf"
+        },
+        "example": "gqJJywlLvCQnhAKYNk0k2kYPty2GPJMePiGf"
       },
       "accept-encoding": {
         "name": "accept-encoding",
@@ -713,38 +404,230 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "0\"1p'YFi%Wm0bWJ[A"
+          "example": "(z)Yt_ejINn*k[[Xu"
         },
-        "example": "0\"1p'YFi%Wm0bWJ[A"
-      }
-    },
-    "headers": {
-      "x-log-id": {
+        "example": "(z)Yt_ejINn*k[[Xu"
+      },
+      "content-length": {
+        "name": "content-length",
+        "in": "header",
+        "required": false,
         "style": "simple",
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "GK9RMLiFU0VCMkpBDlfUlehT"
+          "example": "1"
         },
-        "example": "GK9RMLiFU0VCMkpBDlfUlehT"
+        "example": "1"
       },
+      "x-forwarded-proto": {
+        "name": "x-forwarded-proto",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "xorcl"
+        },
+        "example": "xorcl"
+      },
+      "x-envoy-external-address": {
+        "name": "x-envoy-external-address",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "*i]TJTa$R,I2pX"
+        },
+        "example": "*i]TJTa$R,I2pX"
+      },
+      "x-request-id": {
+        "name": "x-request-id",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "yy9htEktp7UsGrQmzIkkTyMkWvgAJEXSyYM7"
+        },
+        "example": "yy9htEktp7UsGrQmzIkkTyMkWvgAJEXSyYM7"
+      },
+      "x-envoy-decorator-operation": {
+        "name": "x-envoy-decorator-operation",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "Hk7Ef8oJSK1Sai339pKrANX6pUkZpysNYNQsBrUhaEwKLDtiDM5DWyG"
+        },
+        "example": "Hk7Ef8oJSK1Sai339pKrANX6pUkZpysNYNQsBrUhaEwKLDtiDM5DWyG"
+      },
+      "x-envoy-peer-metadata": {
+        "name": "x-envoy-peer-metadata",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "UCEMsFLax7MKb0Zu1LnZBjN8MC3LiAzyrkIzTzHFIFd2cyHt9L1B2oFC9R2m3GEFC8ToGvByxbMqjs6vORvBeg0PGX2j45esZfHEoUbQ032EGEW1xtpJzdCN43GNVB2iZwZb484kmaJbc58sYnLnDB0O1qeEv9uzJIkNNBh3EjH7DBWc22XjuMTxqRPQSUwjqzjJ7ZOTTXSYxHW2AclicQIHc8NdQyv3GeZ7vy83dhODybUoFPbwxzOZti3szo5cnB0vOuUxEaxDEbWaU4kfjLc7s33U0F1EbBleORJ29EN6ypBgN8aTlQCl8UYVhFG9bS2PRLEfQpBctJFKUIZkncZd6r3g2UVIB9fq7KiQNpfvOTpG2DaWJpKwij8BishGH4z5ynoWYWtm2tIEAICIIb2Bio1eT5K1aAC39yQauveAOjPQr8xQDES12Rlm0q1gp3FaQGH2olK95XLWc7aOVXFidWcxjgNufIL0O10cDJWIApiz5yxQK8TajS8IAN09FWUapbZ3pNWX1fVp4DWfrCFX8SZhbO35POIvLR5BD9yY6U31G5MqTWCnVFjIOQONnrOlnj6FkgyO0anm4ahBkQ4u5oeEOzMsUQcqRBnsskvplYsCHJSblJRZv8aOlYJ7ug2jLb8U029QlAete046lOKNuCO2Mz1gJgqidwFyJ1LNZJi0p2ZsLTZ06CmUHDV9z5UyOTPCAHfWklzgz7VyhwpQktujSwJ1LTsba8ebfiruXeOzx23HJFpkEDJXaZ2bkmt5ZVUci3EQM8OodYVPwiPTfRYrjaGdb1zdMFIPjBQoKeh0Yu7KeZuiSwLzvdVL2UAkDTPuLxTiDBmxFZF9Jov3bZd78i5AyY80cJtkIevtmZC9EoNs1mHYzGyQ1VLfy85tzlCcsJ8DZ0kjD8f16ch4Za8V0k9NGAsE1DncOZCkepBgPC2DkM0yMmcGZFgqV3BPd281ncZnWJRCALM7BjnmEngHbf1YOhexQsbgIeEXD6DeB1hbCjq0EG298WfqfhnuOkzN1AZippc0cJ5Bq6EjnK0SGnQ7"
+        },
+        "example": "UCEMsFLax7MKb0Zu1LnZBjN8MC3LiAzyrkIzTzHFIFd2cyHt9L1B2oFC9R2m3GEFC8ToGvByxbMqjs6vORvBeg0PGX2j45esZfHEoUbQ032EGEW1xtpJzdCN43GNVB2iZwZb484kmaJbc58sYnLnDB0O1qeEv9uzJIkNNBh3EjH7DBWc22XjuMTxqRPQSUwjqzjJ7ZOTTXSYxHW2AclicQIHc8NdQyv3GeZ7vy83dhODybUoFPbwxzOZti3szo5cnB0vOuUxEaxDEbWaU4kfjLc7s33U0F1EbBleORJ29EN6ypBgN8aTlQCl8UYVhFG9bS2PRLEfQpBctJFKUIZkncZd6r3g2UVIB9fq7KiQNpfvOTpG2DaWJpKwij8BishGH4z5ynoWYWtm2tIEAICIIb2Bio1eT5K1aAC39yQauveAOjPQr8xQDES12Rlm0q1gp3FaQGH2olK95XLWc7aOVXFidWcxjgNufIL0O10cDJWIApiz5yxQK8TajS8IAN09FWUapbZ3pNWX1fVp4DWfrCFX8SZhbO35POIvLR5BD9yY6U31G5MqTWCnVFjIOQONnrOlnj6FkgyO0anm4ahBkQ4u5oeEOzMsUQcqRBnsskvplYsCHJSblJRZv8aOlYJ7ug2jLb8U029QlAete046lOKNuCO2Mz1gJgqidwFyJ1LNZJi0p2ZsLTZ06CmUHDV9z5UyOTPCAHfWklzgz7VyhwpQktujSwJ1LTsba8ebfiruXeOzx23HJFpkEDJXaZ2bkmt5ZVUci3EQM8OodYVPwiPTfRYrjaGdb1zdMFIPjBQoKeh0Yu7KeZuiSwLzvdVL2UAkDTPuLxTiDBmxFZF9Jov3bZd78i5AyY80cJtkIevtmZC9EoNs1mHYzGyQ1VLfy85tzlCcsJ8DZ0kjD8f16ch4Za8V0k9NGAsE1DncOZCkepBgPC2DkM0yMmcGZFgqV3BPd281ncZnWJRCALM7BjnmEngHbf1YOhexQsbgIeEXD6DeB1hbCjq0EG298WfqfhnuOkzN1AZippc0cJ5Bq6EjnK0SGnQ7"
+      },
+      "x-envoy-peer-metadata-id": {
+        "name": "x-envoy-peer-metadata-id",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "98O47M4mZ0g0WvNcDzMt4z4W72wcEir1HdloRV32rVZKp4zylGBKTq5LbHOyKPn7lhXMjjCGvru2N95I3OY1HG4Vco6n4Nr2GJuxWE"
+        },
+        "example": "98O47M4mZ0g0WvNcDzMt4z4W72wcEir1HdloRV32rVZKp4zylGBKTq5LbHOyKPn7lhXMjjCGvru2N95I3OY1HG4Vco6n4Nr2GJuxWE"
+      },
+      "x-envoy-attempt-count": {
+        "name": "x-envoy-attempt-count",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "2"
+        },
+        "example": "2"
+      },
+      "x-b3-traceid": {
+        "name": "x-b3-traceid",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "yY9YYhyMO1QDwyFDPEIPfD0uwBI6ClaA"
+        },
+        "example": "yY9YYhyMO1QDwyFDPEIPfD0uwBI6ClaA"
+      },
+      "x-b3-spanid": {
+        "name": "x-b3-spanid",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "Slz18L8IqSHshoj3"
+        },
+        "example": "Slz18L8IqSHshoj3"
+      },
+      "x-b3-sampled": {
+        "name": "x-b3-sampled",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "7"
+        },
+        "example": "7"
+      },
+      "traceid": {
+        "name": "traceid",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "k8lkJz7TDOxjCNiz"
+        },
+        "example": "k8lkJz7TDOxjCNiz"
+      },
+      "request-timestamp": {
+        "name": "request-timestamp",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "3830652830935"
+        },
+        "example": "3830652830935"
+      },
+      "response-timestamp": {
+        "name": "response-timestamp",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "2303983239285"
+        },
+        "example": "2303983239285"
+      },
+      "gateway-type": {
+        "name": "gateway-type",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": ".nbuwae^9}x"
+        },
+        "example": ".nbuwae^9}x"
+      },
+      "spanid": {
+        "name": "spanid",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "c1Ocr0Vp6QIS6C0q"
+        },
+        "example": "c1Ocr0Vp6QIS6C0q"
+      }
+    },
+    "headers": {
       "content-type": {
         "style": "simple",
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "cnHFFcYy7A7#s5O="
+          "example": "NK(KZr_6_rcS3cCY"
         },
-        "example": "cnHFFcYy7A7#s5O="
+        "example": "NK(KZr_6_rcS3cCY"
+      },
+      "x-log-id": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "VoqU8gkdeu031FuGJkzaz6xT"
+        },
+        "example": "VoqU8gkdeu031FuGJkzaz6xT"
       },
       "traceid": {
         "style": "simple",
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "pdHhz78R48dU696k"
+          "example": "2whm4Poc5dj8rHq"
         },
-        "example": "pdHhz78R48dU696k"
+        "example": "2whm4Poc5dj8rHq"
       }
     }
   }
