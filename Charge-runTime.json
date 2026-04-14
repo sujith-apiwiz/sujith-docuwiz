@@ -19,9 +19,9 @@
     }
   ],
   "paths": {
-    "/GET-1": {
-      "get": {
-        "operationId": "GET_GET-1",
+    "/POST-1": {
+      "post": {
+        "operationId": "POST_POST-1",
         "parameters": [
           {
             "$ref": "#/components/parameters/referer"
@@ -65,7 +65,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/get-1_get_response_200"
+                  "$ref": "#/components/schemas/post-1_post_response_200"
                 }
               }
             }
@@ -91,7 +91,7 @@
   },
   "components": {
     "schemas": {
-      "get-1_get_response_200": {
+      "post-1_post_response_200": {
         "type": "object"
       }
     },
@@ -104,9 +104,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "v^5KzyUwU?PfRq6OpzMG11H*wLcv_RydHNl6"
+          "example": "@H]Y7xAKkiP:^\"kiz\".#5WHGz.?7NEFv#ABQ"
         },
-        "example": "v^5KzyUwU?PfRq6OpzMG11H*wLcv_RydHNl6"
+        "example": "@H]Y7xAKkiP:^\"kiz\".#5WHGz.?7NEFv#ABQ"
       },
       "priority": {
         "name": "priority",
@@ -116,9 +116,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "TiuP1j"
+          "example": "lklbmQ"
         },
-        "example": "TiuP1j"
+        "example": "lklbmQ"
       },
       "sec-ch-ua": {
         "name": "sec-ch-ua",
@@ -128,9 +128,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "bTlXlabUDeqnKrdfVVwugTNeKVKUvclif2EEDbRAMkdUXD9DCLrOpL4glxrkD1hn6"
+          "example": "FAIyg5Asxu9QIVHPAhSSBXwH9kWc7Wt3KKypP8jSYysmhBGpupGOrb9YMGViBawqG"
         },
-        "example": "bTlXlabUDeqnKrdfVVwugTNeKVKUvclif2EEDbRAMkdUXD9DCLrOpL4glxrkD1hn6"
+        "example": "FAIyg5Asxu9QIVHPAhSSBXwH9kWc7Wt3KKypP8jSYysmhBGpupGOrb9YMGViBawqG"
       },
       "sec-fetch-dest": {
         "name": "sec-fetch-dest",
@@ -140,9 +140,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "suzzq"
+          "example": "predw"
         },
-        "example": "suzzq"
+        "example": "predw"
       },
       "sec-fetch-mode": {
         "name": "sec-fetch-mode",
@@ -152,9 +152,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "cmfj"
+          "example": "byeq"
         },
-        "example": "cmfj"
+        "example": "byeq"
       },
       "sec-fetch-site": {
         "name": "sec-fetch-site",
@@ -164,9 +164,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "$\"T)<;dfs"
+          "example": "oGL(8].dd"
         },
-        "example": "$\"T)<;dfs"
+        "example": "oGL(8].dd"
       },
       "accept-language": {
         "name": "accept-language",
@@ -176,9 +176,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "iWn7jXDgPmEA1nB2jLoiIARdR1"
+          "example": "kbD9gLHVejZtmIKkAyri3541aX"
         },
-        "example": "iWn7jXDgPmEA1nB2jLoiIARdR1"
+        "example": "kbD9gLHVejZtmIKkAyri3541aX"
       },
       "sec-ch-ua-mobile": {
         "name": "sec-ch-ua-mobile",
@@ -188,9 +188,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "Y9"
+          "example": "1%"
         },
-        "example": "Y9"
+        "example": "1%"
       },
       "sec-ch-ua-platform": {
         "name": "sec-ch-ua-platform",
@@ -200,9 +200,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "VS2^3#C"
+          "example": "Z\"IA3'^"
         },
-        "example": "VS2^3#C"
+        "example": "Z\"IA3'^"
       },
       "x-apiwiz-enable-events": {
         "name": "x-apiwiz-enable-events",
@@ -212,9 +212,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "zipr"
+          "example": "qppo"
         },
-        "example": "zipr"
+        "example": "qppo"
       }
     },
     "headers": {
@@ -223,9 +223,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "t4WeuDp6cAp1SCiwWvjVKqOT"
+          "example": "vlIqhTn2jGvnuTShc8EUn3Mb"
         },
-        "example": "t4WeuDp6cAp1SCiwWvjVKqOT"
+        "example": "vlIqhTn2jGvnuTShc8EUn3Mb"
       }
     }
   }
