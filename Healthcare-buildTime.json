@@ -2,7 +2,14 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Healthcare-buildTime",
-    "version": "v3"
+    "description": "This API provides healthcare-related services and functionalities, enabling efficient management of patient data, appointments, and medical records.",
+    "termsOfService": "https://www.healthcare-example.com/terms/",
+    "contact": {
+      "name": "Healthcare API Support",
+      "url": "https://www.healthcare-example.com/support",
+      "email": "support@healthcare-example.com"
+    },
+    "version": "v0"
   },
   "servers": [
     {
@@ -17,31 +24,131 @@
       "x-basePath": "/v1/healthcare"
     }
   ],
+  "tags": [
+    {
+      "name": "patients",
+      "description": "Operations related to patient information management including creation, update, and retrieval."
+    },
+    {
+      "name": "appointments",
+      "description": "Endpoints for scheduling, updating, and cancelling patient appointments."
+    },
+    {
+      "name": "medicalRecords",
+      "description": "Access and management of patient medical records and clinical data."
+    }
+  ],
   "paths": {
     "/patients": {
       "post": {
         "tags": [
           "PatientService"
         ],
+        "summary": "Register a new patient in the system",
+        "description": "Create a new patient record with the provided details. The request body must include all necessary patient information. Returns the newly created patient details upon successful registration.",
         "operationId": "registerPatient",
         "parameters": [],
         "requestBody": {
+          "description": "Patient registration data",
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/patient_request"
+              },
+              "example": {
+                "firstName": "John",
+                "lastName": "Doe",
+                "dateOfBirth": "1990-05-15",
+                "gender": "male",
+                "contact": {
+                  "email": "john.doe@example.com",
+                  "phone": "+1234567890"
+                },
+                "address": {
+                  "street": "123 Main St",
+                  "city": "Springfield",
+                  "state": "IL",
+                  "zip": "62704"
+                }
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Patient registered successfully",
             "headers": {},
             "content": {
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/patient_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid patient registration data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "InvalidPatientData",
+                  "message": "Provided patient data is invalid or incomplete.",
+                  "status": 400,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "path": "/patients",
+                  "requestId": "req-391b2f7e",
+                  "errorCode": "PATIENT_REGISTRATION_INVALID_DATA",
+                  "details": [
+                    {
+                      "field": "dateOfBirth",
+                      "issue": "Date of birth must be a valid past date"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Patient already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "PatientAlreadyExists",
+                  "message": "A patient with the given details already exists.",
+                  "status": 409,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "path": "/patients",
+                  "requestId": "req-7af3c4e1",
+                  "errorCode": "PATIENT_DUPLICATE",
+                  "details": [
+                    {
+                      "field": "email",
+                      "issue": "Email address is already registered"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/server_error_response"
+                },
+                "example": {
+                  "error": "InternalServerError",
+                  "message": "An unexpected error occurred. Please try again later.",
+                  "status": 500,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "requestId": "req-acc9b473"
                 }
               }
             }
@@ -59,16 +166,85 @@
         "tags": [
           "AppointmentService"
         ],
+        "summary": "Book an appointment for a patient",
+        "description": "Schedules a new appointment for the patient identified by patientId. Returns the details of the booked appointment upon success.",
         "operationId": "bookAppointment",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "",
+            "description": "Appointment booked successfully",
             "headers": {},
             "content": {
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/appointment_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid appointment booking request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "InvalidAppointmentRequest",
+                  "message": "The appointment details provided are invalid.",
+                  "status": 400,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "path": "/appointments/book/{patientId}",
+                  "requestId": "req-2a7c149f",
+                  "errorCode": "APPOINTMENT_BOOKING_INVALID",
+                  "details": [
+                    {
+                      "field": "appointmentDate",
+                      "issue": "Appointment date must be in the future"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Patient not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "PatientNotFound",
+                  "message": "No patient found with the specified patientId.",
+                  "status": 404,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "path": "/appointments/book/{patientId}",
+                  "requestId": "req-9fdc3b45",
+                  "errorCode": "PATIENT_NOT_FOUND",
+                  "details": [
+                    {
+                      "field": "patientId",
+                      "issue": "No patient exists with this ID"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/server_error_response"
+                },
+                "example": {
+                  "error": "InternalServerError",
+                  "message": "An unexpected error occurred. Please try again later.",
+                  "status": 500,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "requestId": "req-6d71fe92"
                 }
               }
             }
@@ -90,16 +266,85 @@
         "tags": [
           "AppointmentService"
         ],
+        "summary": "Retrieve appointment details by appointment ID",
+        "description": "Fetch detailed information about a specific appointment using the appointmentId path parameter.",
         "operationId": "getAppointment",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "",
+            "description": "Appointment details retrieved successfully",
             "headers": {},
             "content": {
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/appointment_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid appointment ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "InvalidAppointmentId",
+                  "message": "The appointmentId provided is not valid.",
+                  "status": 400,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "path": "/appointments/{appointmentId}",
+                  "requestId": "req-f84a2d3c",
+                  "errorCode": "APPOINTMENT_INVALID_ID",
+                  "details": [
+                    {
+                      "field": "appointmentId",
+                      "issue": "Format does not match expected pattern"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Appointment not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "AppointmentNotFound",
+                  "message": "No appointment found with the specified ID.",
+                  "status": 404,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "path": "/appointments/{appointmentId}",
+                  "requestId": "req-3ef6b2dd",
+                  "errorCode": "APPOINTMENT_NOT_FOUND",
+                  "details": [
+                    {
+                      "field": "appointmentId",
+                      "issue": "No appointment matches this ID"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/server_error_response"
+                },
+                "example": {
+                  "error": "InternalServerError",
+                  "message": "An unexpected error occurred. Please try again later.",
+                  "status": 500,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "requestId": "req-a6f1d729"
                 }
               }
             }
@@ -121,25 +366,102 @@
         "tags": [
           "PrescriptionService"
         ],
+        "summary": "Add a prescription for a specific patient",
+        "description": "Add a new prescription item to the patient identified by patientId. Request body must contain prescription details. Returns the updated prescription response.",
         "operationId": "addPrescription",
         "parameters": [],
         "requestBody": {
+          "description": "Prescription details to add for the patient",
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/prescription_item"
+              },
+              "example": {
+                "medicationName": "Amoxicillin",
+                "dosage": "500 mg",
+                "frequency": "Three times a day",
+                "duration": "7 days",
+                "notes": "Take with food"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Prescription added successfully",
             "headers": {},
             "content": {
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/prescription_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid prescription data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "InvalidPrescriptionData",
+                  "message": "The prescription details provided are invalid or incomplete.",
+                  "status": 400,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "path": "/prescriptions/{patientId}/add",
+                  "requestId": "req-c7f59ec3",
+                  "errorCode": "PRESCRIPTION_INVALID_DATA",
+                  "details": [
+                    {
+                      "field": "dosage",
+                      "issue": "Dosage must be specified and valid"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Patient not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "PatientNotFound",
+                  "message": "No patient found with the specified patientId.",
+                  "status": 404,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "path": "/prescriptions/{patientId}/add",
+                  "requestId": "req-8d5e3b27",
+                  "errorCode": "PATIENT_NOT_FOUND",
+                  "details": [
+                    {
+                      "field": "patientId",
+                      "issue": "Patient ID does not exist"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/server_error_response"
+                },
+                "example": {
+                  "error": "InternalServerError",
+                  "message": "An unexpected error occurred. Please try again later.",
+                  "status": 500,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "requestId": "req-b2f0a7aa"
                 }
               }
             }
@@ -161,16 +483,85 @@
         "tags": [
           "PrescriptionService"
         ],
+        "summary": "Retrieve all prescriptions for a patient",
+        "description": "Get all prescription records associated with the specified patientId.",
         "operationId": "getPrescriptions",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "",
+            "description": "Prescriptions retrieved successfully",
             "headers": {},
             "content": {
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/prescription_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid patient ID supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "InvalidPatientId",
+                  "message": "The patientId supplied is not valid.",
+                  "status": 400,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "path": "/prescriptions/{patientId}",
+                  "requestId": "req-a839d14c",
+                  "errorCode": "PATIENT_INVALID_ID",
+                  "details": [
+                    {
+                      "field": "patientId",
+                      "issue": "Format is incorrect"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Patient not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "PatientNotFound",
+                  "message": "No patient found with the specified patientId.",
+                  "status": 404,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "path": "/prescriptions/{patientId}",
+                  "requestId": "req-c1f5826f",
+                  "errorCode": "PATIENT_NOT_FOUND",
+                  "details": [
+                    {
+                      "field": "patientId",
+                      "issue": "No matching patient record"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/server_error_response"
+                },
+                "example": {
+                  "error": "InternalServerError",
+                  "message": "An unexpected error occurred. Please try again later.",
+                  "status": 500,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "requestId": "req-7abf6123"
                 }
               }
             }
@@ -192,16 +583,85 @@
         "tags": [
           "LabService"
         ],
+        "summary": "Retrieve lab report tracking information",
+        "description": "Fetch the tracking status and details of a lab report for the specified appointment ID. Returns current progress, estimated completion time, and relevant lab details.",
         "operationId": "trackLabReport",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "",
+            "description": "Successful retrieval of lab report tracking information.",
             "headers": {},
             "content": {
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/lab_tracking_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request due to invalid appointmentId format or missing required parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "InvalidAppointmentId",
+                  "message": "The provided appointmentId is invalid or malformed.",
+                  "status": 400,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "path": "/labs/invalid-id/track",
+                  "requestId": "req-5f3a1b2c",
+                  "errorCode": "INVALID_APPOINTMENT_ID",
+                  "details": [
+                    {
+                      "field": "appointmentId",
+                      "issue": "Appointment ID does not match expected format."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Lab report not found for the provided appointmentId.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "LabReportNotFound",
+                  "message": "No lab report available for the specified appointmentId.",
+                  "status": 404,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "path": "/labs/ord-7b3d8f2a/track",
+                  "requestId": "req-3e92ac7d",
+                  "errorCode": "LAB_REPORT_NOT_FOUND",
+                  "details": [
+                    {
+                      "field": "appointmentId",
+                      "issue": "No lab report associated with this appointment."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error occurred while retrieving lab report tracking.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/server_error_response"
+                },
+                "example": {
+                  "error": "InternalServerError",
+                  "message": "An unexpected error occurred. Please try again later.",
+                  "status": 500,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "requestId": "req-7c1b9f4d"
                 }
               }
             }
@@ -223,25 +683,103 @@
         "tags": [
           "DoctorService"
         ],
+        "summary": "Add a new doctor to the system",
+        "description": "Create a new doctor record in the system with the provided details such as name, specialization, contact information, and professional credentials. Returns the created doctor details.",
         "operationId": "addDoctor",
         "parameters": [],
         "requestBody": {
+          "description": "Doctor details to be added",
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/doctor_request"
+              },
+              "example": {
+                "name": "Dr. John Smith",
+                "specialization": "Cardiology",
+                "email": "john.smith@example.com",
+                "phone": "+1-555-123-4567",
+                "licenseNumber": "MD-987654321",
+                "clinicAddress": "123 Health St, Wellness City, CA"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Doctor successfully added.",
             "headers": {},
             "content": {
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/doctor_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request due to invalid input or missing required fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "InvalidDoctorData",
+                  "message": "One or more fields in the doctor request are invalid or missing.",
+                  "status": 400,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "path": "/doctors",
+                  "requestId": "req-9a5b2e3f",
+                  "errorCode": "INVALID_DOCTOR_REQUEST",
+                  "details": [
+                    {
+                      "field": "email",
+                      "issue": "Email address format is incorrect."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict due to doctor already existing with the same license number or email.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "DoctorAlreadyExists",
+                  "message": "A doctor with the given license number or email already exists.",
+                  "status": 409,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "path": "/doctors",
+                  "requestId": "req-b4e23fac",
+                  "errorCode": "DOCTOR_ALREADY_EXISTS",
+                  "details": [
+                    {
+                      "field": "licenseNumber",
+                      "issue": "Duplicate license number detected."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error occurred while adding the doctor.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/server_error_response"
+                },
+                "example": {
+                  "error": "InternalServerError",
+                  "message": "An unexpected error occurred. Please try again later.",
+                  "status": 500,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "requestId": "req-4d7f8a29"
                 }
               }
             }
@@ -259,25 +797,82 @@
         "tags": [
           "BillingService"
         ],
+        "summary": "Receive billing service webhook notifications",
+        "description": "Endpoint to receive billing events and notifications from external billing services. Processes webhook payload for billing status updates or payment confirmations.",
         "operationId": "billingWebhook",
         "parameters": [],
         "requestBody": {
+          "description": "Webhook payload sent by the billing service",
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/billing_webhook"
+              },
+              "example": {
+                "event": "payment_success",
+                "paymentId": "pay-123abc456def",
+                "amount": 149.99,
+                "currency": "USD",
+                "timestamp": "2026-01-15T10:22:30Z",
+                "status": "completed",
+                "metadata": {
+                  "orderId": "ord-7b3d8f2a",
+                  "customerId": "cust-9d8e7f6a"
+                }
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Webhook received and processed successfully.",
             "headers": {},
             "content": {
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/billing_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request due to invalid webhook payload.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "InvalidWebhookPayload",
+                  "message": "The webhook payload is missing required fields or contains invalid data.",
+                  "status": 400,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "path": "/billing/webhook",
+                  "requestId": "req-2f3bc345",
+                  "errorCode": "INVALID_WEBHOOK_PAYLOAD",
+                  "details": [
+                    {
+                      "field": "paymentId",
+                      "issue": "Payment ID is required and must be a valid string."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error occurred while processing webhook.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/server_error_response"
+                },
+                "example": {
+                  "error": "InternalServerError",
+                  "message": "An unexpected error occurred. Please try again later.",
+                  "status": 500,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "requestId": "req-3e6a59db"
                 }
               }
             }
@@ -295,25 +890,84 @@
         "tags": [
           "BillingService"
         ],
+        "summary": "Initiate a billing process",
+        "description": "Starts a billing transaction based on the provided billing request details. Returns the billing response including payment instructions and transaction identifiers.",
         "operationId": "initiateBilling",
         "parameters": [],
         "requestBody": {
+          "description": "Billing initiation request containing payment and order details",
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/billing_request"
+              },
+              "example": {
+                "orderId": "ord-7b3d8f2a",
+                "customerId": "cust-9d8e7f6a",
+                "amount": 299.99,
+                "currency": "USD",
+                "paymentMethod": "credit_card",
+                "billingAddress": {
+                  "street": "456 Commerce Blvd",
+                  "city": "Trade City",
+                  "state": "TX",
+                  "zipcode": "75001",
+                  "country": "USA"
+                }
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Billing transaction successfully initiated.",
             "headers": {},
             "content": {
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/billing_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request due to invalid billing request data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "InvalidBillingRequest",
+                  "message": "Billing request data is incomplete or contains errors.",
+                  "status": 400,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "path": "/billing/initiate",
+                  "requestId": "req-6e1a78fc",
+                  "errorCode": "INVALID_BILLING_REQUEST",
+                  "details": [
+                    {
+                      "field": "amount",
+                      "issue": "Amount must be a positive number."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error occurred while initiating billing.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/server_error_response"
+                },
+                "example": {
+                  "error": "InternalServerError",
+                  "message": "An unexpected error occurred. Please try again later.",
+                  "status": 500,
+                  "timestamp": "2026-01-15T10:23:45Z",
+                  "requestId": "req-1b9d7c3a"
                 }
               }
             }
@@ -333,19 +987,29 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "Full name of the patient",
+            "example": "John Doe"
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "description": "Email address of the patient",
+            "example": "john.doe@example.com"
           },
           "phone": {
-            "type": "string"
+            "type": "string",
+            "description": "Contact phone number of the patient",
+            "example": "+1234567890"
           },
           "age": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Age of the patient in years",
+            "example": 35
           },
           "gender": {
-            "type": "string"
+            "type": "string",
+            "description": "Gender of the patient",
+            "example": "male"
           }
         }
       },
@@ -353,25 +1017,39 @@
         "type": "object",
         "properties": {
           "patientId": {
-            "type": "string"
+            "type": "string",
+            "description": "Unique identifier for the patient",
+            "example": "p123456789"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "Full name of the patient",
+            "example": "John Doe"
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "description": "Email address of the patient",
+            "example": "john.doe@example.com"
           },
           "phone": {
-            "type": "string"
+            "type": "string",
+            "description": "Contact phone number of the patient",
+            "example": "+1234567890"
           },
           "age": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Age of the patient in years",
+            "example": 35
           },
           "gender": {
-            "type": "string"
+            "type": "string",
+            "description": "Gender of the patient",
+            "example": "male"
           },
           "createdAt": {
-            "type": "string"
+            "type": "string",
+            "description": "Timestamp when the patient record was created",
+            "example": "2024-06-15T08:30:00Z"
           }
         }
       },
@@ -379,19 +1057,29 @@
         "type": "object",
         "properties": {
           "appointmentId": {
-            "type": "string"
+            "type": "string",
+            "description": "Unique identifier for the appointment",
+            "example": "a987654321"
           },
           "patientId": {
-            "type": "string"
+            "type": "string",
+            "description": "Identifier of the patient for the appointment",
+            "example": "p123456789"
           },
           "doctorName": {
-            "type": "string"
+            "type": "string",
+            "description": "Name of the doctor for the appointment",
+            "example": "Dr. Jane Smith"
           },
           "appointmentDate": {
-            "type": "string"
+            "type": "string",
+            "description": "Date and time of the appointment in ISO 8601 format",
+            "example": "2024-07-01T14:00:00Z"
           },
           "status": {
-            "type": "string"
+            "type": "string",
+            "description": "Current status of the appointment",
+            "example": "confirmed"
           }
         }
       },
@@ -399,13 +1087,19 @@
         "type": "object",
         "properties": {
           "medicineName": {
-            "type": "string"
+            "type": "string",
+            "description": "Name of the prescribed medicine",
+            "example": "Amoxicillin"
           },
           "dosage": {
-            "type": "string"
+            "type": "string",
+            "description": "Dosage instructions for the medicine",
+            "example": "500mg twice a day"
           },
           "duration": {
-            "type": "string"
+            "type": "string",
+            "description": "Duration for which the medicine is prescribed",
+            "example": "7 days"
           }
         }
       },
@@ -413,10 +1107,20 @@
         "type": "object",
         "properties": {
           "patientId": {
-            "type": "string"
+            "type": "string",
+            "description": "Unique identifier for the patient",
+            "example": "patient-12345"
           },
           "items": {
             "type": "array",
+            "description": "List of prescribed items for the patient",
+            "example": [
+              {
+                "medicineName": "Amoxicillin",
+                "dosage": "500mg",
+                "frequency": "3 times a day"
+              }
+            ],
             "items": {
               "$ref": "#/components/schemas/prescription_item"
             }
@@ -427,13 +1131,19 @@
         "type": "object",
         "properties": {
           "appointmentId": {
-            "type": "string"
+            "type": "string",
+            "description": "Unique identifier for the appointment",
+            "example": "appt-98765"
           },
           "labStatus": {
-            "type": "string"
+            "type": "string",
+            "description": "Current status of the laboratory processing",
+            "example": "In Progress"
           },
           "reportReady": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Indicates if the lab report is ready for download",
+            "example": true
           }
         }
       },
@@ -441,13 +1151,19 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "Full name of the doctor",
+            "example": "Dr. Jane Smith"
           },
           "specialization": {
-            "type": "string"
+            "type": "string",
+            "description": "Medical specialization of the doctor",
+            "example": "Cardiology"
           },
           "experience": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Total years of medical experience",
+            "example": 12
           }
         }
       },
@@ -455,13 +1171,19 @@
         "type": "object",
         "properties": {
           "doctorId": {
-            "type": "string"
+            "type": "string",
+            "description": "Unique identifier assigned to the doctor",
+            "example": "doc-2023"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "Full name of the doctor",
+            "example": "Dr. Jane Smith"
           },
           "specialization": {
-            "type": "string"
+            "type": "string",
+            "description": "Medical field the doctor specializes in",
+            "example": "Cardiology"
           }
         }
       },
@@ -470,10 +1192,14 @@
         "properties": {
           "amount": {
             "type": "number",
-            "format": "double"
+            "description": "The total amount to be billed",
+            "format": "double",
+            "example": 150.75
           },
           "appointmentId": {
-            "type": "string"
+            "type": "string",
+            "description": "Identifier for the relevant appointment",
+            "example": "appt-987654"
           }
         }
       },
@@ -481,14 +1207,20 @@
         "type": "object",
         "properties": {
           "billingId": {
-            "type": "string"
+            "type": "string",
+            "description": "Unique billing transaction identifier",
+            "example": "bill-123456"
           },
           "amount": {
             "type": "number",
-            "format": "double"
+            "description": "Amount that was billed",
+            "format": "double",
+            "example": 150.75
           },
           "status": {
-            "type": "string"
+            "type": "string",
+            "description": "Current status of the billing transaction",
+            "example": "paid"
           }
         }
       },
@@ -496,12 +1228,109 @@
         "type": "object",
         "properties": {
           "billingId": {
-            "type": "string"
+            "type": "string",
+            "description": "Billing transaction identifier for the webhook event",
+            "example": "bill-123456"
           },
           "status": {
-            "type": "string"
+            "type": "string",
+            "description": "Updated status sent by the webhook",
+            "example": "completed"
           }
         }
+      },
+      "client_error_response": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Summary of the client error",
+            "example": "Bad Request"
+          },
+          "message": {
+            "type": "string",
+            "description": "Detailed message about the error",
+            "example": "Invalid input"
+          },
+          "status": {
+            "type": "integer",
+            "description": "HTTP status code of the error",
+            "example": 400
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Time the error occurred",
+            "format": "date-time",
+            "example": "2026-01-01T10:00:00Z"
+          },
+          "path": {
+            "type": "string",
+            "description": "Request path that triggered the error",
+            "example": "/users"
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Unique identifier for the request",
+            "example": "req-123"
+          },
+          "errorCode": {
+            "type": "string",
+            "description": "Specific error code for the client error",
+            "example": "VALIDATION_ERROR"
+          },
+          "details": {
+            "type": "array",
+            "description": "List of specific issues causing the error",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string",
+                  "description": "The field related to the error detail",
+                  "example": "email"
+                },
+                "issue": {
+                  "type": "string",
+                  "description": "Description of the issue for the field",
+                  "example": "Invalid email format"
+                }
+              }
+            }
+          }
+        },
+        "description": "Client-side error response (4XX)"
+      },
+      "server_error_response": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Short description of the error type",
+            "example": "Internal Server Error"
+          },
+          "message": {
+            "type": "string",
+            "description": "Detailed error message describing what went wrong",
+            "example": "Unexpected error"
+          },
+          "status": {
+            "type": "integer",
+            "description": "HTTP status code of the error response",
+            "example": 500
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Date and time when the error occurred in ISO 8601 format",
+            "format": "date-time",
+            "example": "2026-01-01T10:00:00Z"
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Unique identifier for the request to trace the error",
+            "example": "req-789"
+          }
+        },
+        "description": "Server-side error response (5XX)"
       }
     },
     "parameters": {
