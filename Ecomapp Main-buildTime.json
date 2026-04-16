@@ -2,12 +2,12 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Ecomapp Main-buildTime",
-    "description": "Ecomapp is a comprehensive e-commerce platform API that allows seamless integration and management of online store functionalities.",
-    "termsOfService": "https://ecomapp.example.com/terms",
+    "description": "API documentation for the Ecomapp Main-buildTime service, providing endpoints for ecommerce operations, product management, and order processing.",
+    "termsOfService": "https://www.ecomapp.com/terms",
     "contact": {
-      "name": "Ecomapp Support Team",
-      "url": "https://ecomapp.example.com/support",
-      "email": "support@ecomapp.example.com"
+      "name": "Ecomapp Support",
+      "url": "https://www.ecomapp.com/support",
+      "email": "support@ecomapp.com"
     },
     "version": "v0"
   },
@@ -27,19 +27,15 @@
   "tags": [
     {
       "name": "products",
-      "description": "Operations related to product catalog management including listing, creation, and updates."
+      "description": "Operations related to product listings, creation, updating, and deletion."
     },
     {
       "name": "orders",
-      "description": "Endpoints to manage customer orders, track status, and handle order history."
+      "description": "Manage customer orders including creation, retrieval, updating, and cancellations."
     },
     {
       "name": "users",
-      "description": "User account management including registration, authentication, and profile updates."
-    },
-    {
-      "name": "payments",
-      "description": "Payment processing and transaction management endpoints."
+      "description": "User account and authentication related endpoints."
     }
   ],
   "paths": {
@@ -48,13 +44,13 @@
         "tags": [
           "CartService"
         ],
-        "summary": "Retrieve the current shopping cart for a user",
-        "description": "Fetches the shopping cart contents associated with the specified userId. Returns the current items and their quantities in the user's cart.",
+        "summary": "Retrieve the shopping cart for a specific user",
+        "description": "Fetches the current state of the shopping cart for the user identified by the userId path parameter. This includes all items currently in the cart along with quantities and pricing details.",
         "operationId": "getCart",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Successful retrieval of the user's shopping cart",
+            "description": "Successful retrieval of user's cart",
             "headers": {},
             "content": {
               "*/*": {
@@ -73,16 +69,16 @@
                 },
                 "example": {
                   "error": "InvalidUserId",
-                  "message": "The provided userId is not valid.",
+                  "message": "The provided userId path parameter is invalid.",
                   "status": 400,
                   "timestamp": "2026-01-15T10:23:45Z",
-                  "path": "/cart/{userId}",
-                  "requestId": "req-21ab67",
+                  "path": "/cart/invalidUser",
+                  "requestId": "req-4f2b9a51",
                   "errorCode": "INVALID_USER_ID",
                   "details": [
                     {
                       "field": "userId",
-                      "issue": "The userId format is incorrect"
+                      "issue": "User ID format is not recognized"
                     }
                   ]
                 }
@@ -90,7 +86,7 @@
             }
           },
           "500": {
-            "description": "Internal server error",
+            "description": "Unexpected server error",
             "content": {
               "application/json": {
                 "schema": {
@@ -101,7 +97,7 @@
                   "message": "An unexpected error occurred. Please try again later.",
                   "status": 500,
                   "timestamp": "2026-01-15T10:23:45Z",
-                  "requestId": "req-21ab67"
+                  "requestId": "req-4f2b9a52"
                 }
               }
             }
@@ -124,11 +120,11 @@
           "CartService"
         ],
         "summary": "Add an item to the user's shopping cart",
-        "description": "Adds a specified product and quantity to the shopping cart of the user identified by userId. Returns the updated cart contents after addition.",
+        "description": "Adds a specified product item with details defined in the request body to the shopping cart of the user identified by the userId path parameter. Returns the updated cart.",
         "operationId": "addToCart",
         "parameters": [],
         "requestBody": {
-          "description": "Details of the cart item to add including product and quantity",
+          "description": "The cart item object representing the product and quantity to add",
           "content": {
             "application/json": {
               "schema": {
@@ -136,14 +132,16 @@
               },
               "example": {
                 "productId": "prod-72f4a9be",
-                "quantity": 2
+                "quantity": 3,
+                "price": 29.99,
+                "notes": "Gift wrap this item"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Item successfully added to cart, returning updated cart",
+            "description": "Item successfully added to the cart",
             "headers": {},
             "content": {
               "*/*": {
@@ -154,7 +152,7 @@
             }
           },
           "400": {
-            "description": "Invalid request data for adding cart item",
+            "description": "Invalid request body or parameters",
             "content": {
               "application/json": {
                 "schema": {
@@ -162,11 +160,11 @@
                 },
                 "example": {
                   "error": "InvalidCartItem",
-                  "message": "The cart item data is invalid or incomplete.",
+                  "message": "The cart item data provided is invalid or incomplete.",
                   "status": 400,
                   "timestamp": "2026-01-15T10:23:45Z",
-                  "path": "/cart/{userId}/add",
-                  "requestId": "req-35cd81",
+                  "path": "/cart/usr-4f2a9c1e/add",
+                  "requestId": "req-8e3c2b11",
                   "errorCode": "INVALID_CART_ITEM",
                   "details": [
                     {
@@ -179,7 +177,7 @@
             }
           },
           "500": {
-            "description": "Internal server error",
+            "description": "Unexpected server error",
             "content": {
               "application/json": {
                 "schema": {
@@ -190,7 +188,7 @@
                   "message": "An unexpected error occurred. Please try again later.",
                   "status": 500,
                   "timestamp": "2026-01-15T10:23:45Z",
-                  "requestId": "req-35cd81"
+                  "requestId": "req-8e3c2b12"
                 }
               }
             }
@@ -212,8 +210,8 @@
         "tags": [
           "OrderService"
         ],
-        "summary": "Place a new order for the user",
-        "description": "Creates a new order based on the current cart contents for the specified userId. Returns details of the placed order including order ID and status.",
+        "summary": "Place a new order for the specified user",
+        "description": "Creates a new order on behalf of the user denoted by userId. This operation finalizes the user's current cart into an order and returns the order details.",
         "operationId": "placeOrder",
         "parameters": [],
         "responses": {
@@ -229,7 +227,7 @@
             }
           },
           "400": {
-            "description": "Invalid order placement request",
+            "description": "Invalid userId or order data",
             "content": {
               "application/json": {
                 "schema": {
@@ -237,16 +235,16 @@
                 },
                 "example": {
                   "error": "InvalidOrderRequest",
-                  "message": "The order placement request is invalid or missing required information.",
+                  "message": "Order placement request failed due to invalid userId or order state.",
                   "status": 400,
                   "timestamp": "2026-01-15T10:23:45Z",
-                  "path": "/orders/place/{userId}",
-                  "requestId": "req-594cee",
+                  "path": "/orders/place/usr-invalid",
+                  "requestId": "req-5a7b3c22",
                   "errorCode": "INVALID_ORDER_REQUEST",
                   "details": [
                     {
                       "field": "userId",
-                      "issue": "UserId is required and must be valid"
+                      "issue": "User ID does not exist or is malformed"
                     }
                   ]
                 }
@@ -262,16 +260,16 @@
                 },
                 "example": {
                   "error": "UserOrCartNotFound",
-                  "message": "No active cart found for the specified userId.",
+                  "message": "The user or the user's cart could not be found.",
                   "status": 404,
                   "timestamp": "2026-01-15T10:23:45Z",
-                  "path": "/orders/place/{userId}",
-                  "requestId": "req-594cee",
-                  "errorCode": "USER_CART_NOT_FOUND",
+                  "path": "/orders/place/usr-unknown",
+                  "requestId": "req-5a7b3c23",
+                  "errorCode": "USER_OR_CART_NOT_FOUND",
                   "details": [
                     {
                       "field": "userId",
-                      "issue": "No cart exists for this userId"
+                      "issue": "No active cart found for this user"
                     }
                   ]
                 }
@@ -279,7 +277,7 @@
             }
           },
           "500": {
-            "description": "Internal server error",
+            "description": "Unexpected server error",
             "content": {
               "application/json": {
                 "schema": {
@@ -290,7 +288,7 @@
                   "message": "An unexpected error occurred. Please try again later.",
                   "status": 500,
                   "timestamp": "2026-01-15T10:23:45Z",
-                  "requestId": "req-594cee"
+                  "requestId": "req-5a7b3c24"
                 }
               }
             }
@@ -312,13 +310,13 @@
         "tags": [
           "OrderService"
         ],
-        "summary": "Retrieve details of a specific order",
-        "description": "Fetches the full details of an order identified by orderId, including order items, status, and shipment information.",
+        "summary": "Retrieve details of a specific order by orderId",
+        "description": "Fetches detailed information about an order specified by its unique orderId, including items, status, pricing, and shipping information.",
         "operationId": "getOrder",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Successful retrieval of the order details",
+            "description": "Successful retrieval of order details",
             "headers": {},
             "content": {
               "*/*": {
@@ -337,16 +335,16 @@
                 },
                 "example": {
                   "error": "InvalidOrderId",
-                  "message": "The orderId provided is not valid.",
+                  "message": "The provided orderId path parameter is invalid.",
                   "status": 400,
                   "timestamp": "2026-01-15T10:23:45Z",
-                  "path": "/orders/{orderId}",
-                  "requestId": "req-713edf",
+                  "path": "/orders/invalidOrder",
+                  "requestId": "req-6c8d4e73",
                   "errorCode": "INVALID_ORDER_ID",
                   "details": [
                     {
                       "field": "orderId",
-                      "issue": "The orderId format is incorrect"
+                      "issue": "Order ID format is not recognized"
                     }
                   ]
                 }
@@ -365,13 +363,13 @@
                   "message": "No order found with the specified orderId.",
                   "status": 404,
                   "timestamp": "2026-01-15T10:23:45Z",
-                  "path": "/orders/{orderId}",
-                  "requestId": "req-713edf",
+                  "path": "/orders/ord-unknown",
+                  "requestId": "req-6c8d4e74",
                   "errorCode": "ORDER_NOT_FOUND",
                   "details": [
                     {
                       "field": "orderId",
-                      "issue": "No matching order for this orderId"
+                      "issue": "Order does not exist"
                     }
                   ]
                 }
@@ -379,7 +377,7 @@
             }
           },
           "500": {
-            "description": "Internal server error",
+            "description": "Unexpected server error",
             "content": {
               "application/json": {
                 "schema": {
@@ -390,7 +388,7 @@
                   "message": "An unexpected error occurred. Please try again later.",
                   "status": 500,
                   "timestamp": "2026-01-15T10:23:45Z",
-                  "requestId": "req-713edf"
+                  "requestId": "req-6c8d4e75"
                 }
               }
             }
@@ -412,28 +410,24 @@
         "tags": [
           "PaymentService"
         ],
-        "summary": "Initiate a payment transaction",
-        "description": "Starts a payment process based on the provided payment request details such as amount, method, and order information. Returns payment transaction details upon initiation.",
+        "summary": "Initiate a new payment transaction",
+        "description": "Starts a payment process with required payment details provided in the request body. Returns payment processing information or confirmation.",
         "operationId": "initiatePayment",
         "parameters": [],
         "requestBody": {
-          "description": "Payment details required to initiate a transaction",
+          "description": "Payment request details including amount, method, and payer information",
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/payment_request"
               },
               "example": {
-                "orderId": "ord-7b3d8f2a",
+                "paymentMethod": "credit_card",
                 "amount": 150.75,
                 "currency": "USD",
-                "paymentMethod": "credit_card",
-                "cardInfo": {
-                  "number": "4111111111111111",
-                  "expiryMonth": "12",
-                  "expiryYear": "2027",
-                  "cvv": "123"
-                }
+                "payerId": "usr-4f2a9c1e",
+                "orderId": "ord-7b3d8f2a",
+                "description": "Payment for order ord-7b3d8f2a"
               }
             }
           }
@@ -459,16 +453,16 @@
                 },
                 "example": {
                   "error": "InvalidPaymentRequest",
-                  "message": "Payment request contains invalid or missing fields.",
+                  "message": "The payment request details are invalid or incomplete.",
                   "status": 400,
                   "timestamp": "2026-01-15T10:23:45Z",
                   "path": "/payments/initiate",
-                  "requestId": "req-94e1b2",
+                  "requestId": "req-7d1e3f45",
                   "errorCode": "INVALID_PAYMENT_REQUEST",
                   "details": [
                     {
-                      "field": "paymentMethod",
-                      "issue": "Payment method is missing or not supported"
+                      "field": "amount",
+                      "issue": "Amount must be a positive number"
                     }
                   ]
                 }
@@ -476,24 +470,24 @@
             }
           },
           "402": {
-            "description": "Payment required or payment failed",
+            "description": "Payment required or failed",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/client_error_response"
                 },
                 "example": {
-                  "error": "PaymentRequired",
-                  "message": "Payment could not be processed due to insufficient funds or declined transaction.",
+                  "error": "PaymentFailed",
+                  "message": "The payment could not be processed due to insufficient funds or declined card.",
                   "status": 402,
                   "timestamp": "2026-01-15T10:23:45Z",
                   "path": "/payments/initiate",
-                  "requestId": "req-94e1b2",
+                  "requestId": "req-7d1e3f46",
                   "errorCode": "PAYMENT_FAILED",
                   "details": [
                     {
                       "field": "paymentMethod",
-                      "issue": "Payment was declined by the provider"
+                      "issue": "Card declined or insufficient funds"
                     }
                   ]
                 }
@@ -501,7 +495,7 @@
             }
           },
           "500": {
-            "description": "Internal server error",
+            "description": "Unexpected server error",
             "content": {
               "application/json": {
                 "schema": {
@@ -512,7 +506,7 @@
                   "message": "An unexpected error occurred. Please try again later.",
                   "status": 500,
                   "timestamp": "2026-01-15T10:23:45Z",
-                  "requestId": "req-94e1b2"
+                  "requestId": "req-7d1e3f47"
                 }
               }
             }
@@ -530,33 +524,32 @@
         "tags": [
           "PaymentService"
         ],
-        "summary": "Process a payment webhook event",
-        "description": "Receives payment webhook notifications to update payment status. The request body contains details about the payment event sent by the payment provider. A successful processing returns the current payment response reflecting the updated state.",
+        "summary": "Process payment gateway webhook notifications",
+        "description": "Receives and processes webhook notifications from the payment gateway. The request body contains details about the payment event which will be validated and handled accordingly. Expected outcome is a successful processing acknowledgment or appropriate error response.",
         "operationId": "paymentWebhook",
         "parameters": [],
         "requestBody": {
-          "description": "Payload representing the payment webhook event data",
+          "description": "Payment webhook event payload",
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/payment_webhook"
               },
               "example": {
-                "eventType": "payment_succeeded",
-                "paymentId": "pay-9a7d6c3f",
-                "amount": 49.99,
+                "eventType": "payment_completed",
+                "paymentId": "pay-5e2d7f9a",
+                "orderId": "ord-7b3d8f2a",
+                "amount": 150.75,
                 "currency": "USD",
-                "timestamp": "2026-01-15T09:30:00Z",
-                "metadata": {
-                  "orderId": "ord-7b3d8f2a"
-                }
+                "status": "completed",
+                "timestamp": "2026-01-15T10:20:30Z"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Payment webhook processed successfully",
+            "description": "Webhook processed successfully",
             "headers": {},
             "content": {
               "*/*": {
@@ -567,24 +560,24 @@
             }
           },
           "400": {
-            "description": "Invalid webhook payload or missing required fields",
+            "description": "Invalid webhook payload",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/client_error_response"
                 },
                 "example": {
-                  "error": "InvalidWebhookPayload",
-                  "message": "The webhook payload is missing required fields or is malformed.",
+                  "error": "InvalidPayload",
+                  "message": "The webhook payload is missing required fields or contains invalid data.",
                   "status": 400,
                   "timestamp": "2026-01-15T10:23:45Z",
                   "path": "/payments/webhook",
-                  "requestId": "req-8f3d9c2b",
+                  "requestId": "req-91abf1c3",
                   "errorCode": "PAYMENT_WEBHOOK_INVALID_PAYLOAD",
                   "details": [
                     {
                       "field": "paymentId",
-                      "issue": "Missing payment identifier"
+                      "issue": "Missing or invalid paymentId"
                     }
                   ]
                 }
@@ -592,7 +585,7 @@
             }
           },
           "402": {
-            "description": "Payment required or failed processing due to payment status",
+            "description": "Payment required or issue with payment status",
             "content": {
               "application/json": {
                 "schema": {
@@ -600,16 +593,16 @@
                 },
                 "example": {
                   "error": "PaymentRequired",
-                  "message": "The payment status indicates a required action or failure.",
+                  "message": "The payment has not been completed or was declined.",
                   "status": 402,
                   "timestamp": "2026-01-15T10:23:45Z",
                   "path": "/payments/webhook",
-                  "requestId": "req-1a7c5e8d",
-                  "errorCode": "PAYMENT_ACTION_REQUIRED",
+                  "requestId": "req-35bd7f6b",
+                  "errorCode": "PAYMENT_INCOMPLETE",
                   "details": [
                     {
                       "field": "status",
-                      "issue": "Payment is in a failed or pending state requiring user action."
+                      "issue": "Payment status is not completed"
                     }
                   ]
                 }
@@ -617,7 +610,7 @@
             }
           },
           "500": {
-            "description": "Unexpected server error occurred while processing payment webhook",
+            "description": "Internal server error processing webhook",
             "content": {
               "application/json": {
                 "schema": {
@@ -628,7 +621,7 @@
                   "message": "An unexpected error occurred. Please try again later.",
                   "status": 500,
                   "timestamp": "2026-01-15T10:23:45Z",
-                  "requestId": "req-6f8d2b4a"
+                  "requestId": "req-cf9a1872"
                 }
               }
             }
@@ -647,11 +640,11 @@
           "ProductService"
         ],
         "summary": "Add a new product to the catalog",
-        "description": "Creates a new product entry in the catalog with the details specified in the request body, such as name, description, price, and inventory. Returns the added product with its assigned identifiers and metadata.",
+        "description": "Creates a new product entry in the catalog. The request body should include all required product details such as name, description, price, and inventory quantity. Returns the created product information upon success.",
         "operationId": "addProduct",
         "parameters": [],
         "requestBody": {
-          "description": "Details of the product to be added",
+          "description": "New product details",
           "content": {
             "application/json": {
               "schema": {
@@ -659,19 +652,15 @@
               },
               "example": {
                 "name": "Wireless Mouse",
-                "description": "Ergonomic wireless mouse with 1600 DPI sensor",
+                "description": "Ergonomic wireless mouse with adjustable DPI settings",
                 "price": 29.99,
                 "currency": "USD",
-                "sku": "WM-001",
                 "inventory": 150,
-                "categories": [
-                  "electronics",
-                  "accessories"
-                ],
+                "category": "electronics",
                 "tags": [
                   "wireless",
                   "mouse",
-                  "ergonomic"
+                  "peripheral"
                 ]
               }
             }
@@ -690,7 +679,7 @@
             }
           },
           "400": {
-            "description": "Invalid product data or missing required fields",
+            "description": "Invalid product input",
             "content": {
               "application/json": {
                 "schema": {
@@ -698,11 +687,11 @@
                 },
                 "example": {
                   "error": "InvalidProductData",
-                  "message": "The product data provided is invalid or incomplete.",
+                  "message": "Product data is incomplete or contains invalid values.",
                   "status": 400,
                   "timestamp": "2026-01-15T10:23:45Z",
                   "path": "/products",
-                  "requestId": "req-4a9d3e1c",
+                  "requestId": "req-2a5d9e8f",
                   "errorCode": "PRODUCT_INVALID_DATA",
                   "details": [
                     {
@@ -715,7 +704,7 @@
             }
           },
           "409": {
-            "description": "Conflict due to product SKU already existing",
+            "description": "Product already exists",
             "content": {
               "application/json": {
                 "schema": {
@@ -723,16 +712,16 @@
                 },
                 "example": {
                   "error": "ProductAlreadyExists",
-                  "message": "A product with the given SKU already exists.",
+                  "message": "A product with the same name or SKU already exists.",
                   "status": 409,
                   "timestamp": "2026-01-15T10:23:45Z",
                   "path": "/products",
-                  "requestId": "req-9c7b4a5f",
-                  "errorCode": "PRODUCT_CONFLICT_SKU",
+                  "requestId": "req-61b4f2a7",
+                  "errorCode": "PRODUCT_DUPLICATE",
                   "details": [
                     {
-                      "field": "sku",
-                      "issue": "SKU 'WM-001' already in use"
+                      "field": "name",
+                      "issue": "Duplicate product name"
                     }
                   ]
                 }
@@ -740,7 +729,7 @@
             }
           },
           "500": {
-            "description": "Unexpected server error occurred while adding product",
+            "description": "Internal server error adding product",
             "content": {
               "application/json": {
                 "schema": {
@@ -751,7 +740,7 @@
                   "message": "An unexpected error occurred. Please try again later.",
                   "status": 500,
                   "timestamp": "2026-01-15T10:23:45Z",
-                  "requestId": "req-bd7f3e19"
+                  "requestId": "req-ae3f4521"
                 }
               }
             }
@@ -769,8 +758,8 @@
         "tags": [
           "ShippingService"
         ],
-        "summary": "Retrieve tracking information for a shipment",
-        "description": "Fetches the current tracking status and location history for the shipment of the specified order identified by orderId. Returns detailed tracking data including estimated delivery.",
+        "summary": "Retrieve tracking information for an order",
+        "description": "Fetches the current shipping and tracking details for the specified order identified by orderId. Returns tracking status, estimated delivery dates, and carrier information if available.",
         "operationId": "trackOrder",
         "parameters": [],
         "responses": {
@@ -786,7 +775,7 @@
             }
           },
           "404": {
-            "description": "Order or tracking information not found",
+            "description": "Order tracking information not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -794,16 +783,16 @@
                 },
                 "example": {
                   "error": "TrackingNotFound",
-                  "message": "Tracking information for the specified order could not be found.",
+                  "message": "No tracking information available for the specified orderId.",
                   "status": 404,
                   "timestamp": "2026-01-15T10:23:45Z",
                   "path": "/shipping/ord-7b3d8f2a/track",
-                  "requestId": "req-5d8f3c1a",
+                  "requestId": "req-9d4e5f33",
                   "errorCode": "SHIPPING_TRACKING_NOT_FOUND",
                   "details": [
                     {
                       "field": "orderId",
-                      "issue": "Order ID 'ord-7b3d8f2a' does not exist or has no tracking info"
+                      "issue": "No tracking record found"
                     }
                   ]
                 }
@@ -811,7 +800,7 @@
             }
           },
           "500": {
-            "description": "Unexpected server error occurred while retrieving tracking information",
+            "description": "Internal server error retrieving tracking data",
             "content": {
               "application/json": {
                 "schema": {
@@ -822,7 +811,7 @@
                   "message": "An unexpected error occurred. Please try again later.",
                   "status": 500,
                   "timestamp": "2026-01-15T10:23:45Z",
-                  "requestId": "req-7b4a9c3e"
+                  "requestId": "req-d5c7e9a8"
                 }
               }
             }
@@ -845,21 +834,22 @@
           "UserService"
         ],
         "summary": "Register a new user account",
-        "description": "Creates a new user account with the provided registration information including username, email, and password. On success, returns the newly created user's profile information.",
+        "description": "Creates a new user account in the system. The request body must include user details such as username, email, password, and other optional profile information. Responds with created user details upon success.",
         "operationId": "registerUser",
         "parameters": [],
         "requestBody": {
-          "description": "User registration details",
+          "description": "New user registration information",
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/user_request"
               },
               "example": {
-                "username": "johndoe",
-                "email": "john.doe@example.com",
-                "password": "Str0ngP@ssw0rd!",
-                "fullName": "John Doe",
+                "username": "jdoe",
+                "email": "jdoe@example.com",
+                "password": "P@ssw0rd!",
+                "firstName": "John",
+                "lastName": "Doe",
                 "phone": "+1234567890"
               }
             }
@@ -878,20 +868,20 @@
             }
           },
           "400": {
-            "description": "Invalid registration data or validation failure",
+            "description": "Invalid user registration data",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/client_error_response"
                 },
                 "example": {
-                  "error": "InvalidRegistrationData",
-                  "message": "One or more fields are invalid in the registration data.",
+                  "error": "InvalidUserData",
+                  "message": "User registration data is incomplete or invalid.",
                   "status": 400,
                   "timestamp": "2026-01-15T10:23:45Z",
                   "path": "/users",
-                  "requestId": "req-3c9d4e7f",
-                  "errorCode": "USER_REGISTRATION_VALIDATION_FAILED",
+                  "requestId": "req-4f6e8b2c",
+                  "errorCode": "USER_INVALID_DATA",
                   "details": [
                     {
                       "field": "email",
@@ -903,7 +893,7 @@
             }
           },
           "409": {
-            "description": "User account with provided email or username already exists",
+            "description": "User already exists",
             "content": {
               "application/json": {
                 "schema": {
@@ -911,16 +901,16 @@
                 },
                 "example": {
                   "error": "UserAlreadyExists",
-                  "message": "A user account with the provided email or username already exists.",
+                  "message": "A user with the given email or username already exists.",
                   "status": 409,
                   "timestamp": "2026-01-15T10:23:45Z",
                   "path": "/users",
-                  "requestId": "req-5f7b2d1c",
-                  "errorCode": "USER_CONFLICT_ACCOUNT_EXISTS",
+                  "requestId": "req-81d3f7e1",
+                  "errorCode": "USER_DUPLICATE",
                   "details": [
                     {
                       "field": "email",
-                      "issue": "Email 'john.doe@example.com' is already registered"
+                      "issue": "Duplicate email address"
                     }
                   ]
                 }
@@ -928,7 +918,7 @@
             }
           },
           "500": {
-            "description": "Unexpected server error occurred during user registration",
+            "description": "Internal server error registering user",
             "content": {
               "application/json": {
                 "schema": {
@@ -939,7 +929,7 @@
                   "message": "An unexpected error occurred. Please try again later.",
                   "status": 500,
                   "timestamp": "2026-01-15T10:23:45Z",
-                  "requestId": "req-9b3c6f5d"
+                  "requestId": "req-bf94d32f"
                 }
               }
             }
@@ -960,40 +950,40 @@
         "properties": {
           "currency": {
             "type": "string",
-            "description": "Currency code for the prices, e.g., USD, EUR.",
+            "description": "Currency code for the item's price, e.g., USD, EUR.",
             "example": "USD"
           },
           "discount": {
             "type": "number",
-            "description": "Discount amount applied to this item.",
+            "description": "Discount amount applied to the item.",
             "format": "double",
             "example": 5.0
           },
           "finalPrice": {
             "type": "number",
-            "description": "Final price after discount for this item.",
+            "description": "Final price after applying discount.",
             "format": "double",
             "example": 95.0
           },
           "price": {
             "type": "number",
-            "description": "Original price per unit of the product.",
+            "description": "Original price of a single item before discount.",
             "format": "double",
             "example": 100.0
           },
           "productId": {
             "type": "string",
-            "description": "Unique identifier of the product.",
-            "example": "prod-12345"
+            "description": "Unique identifier for the product.",
+            "example": "prod_abc123"
           },
           "productName": {
             "type": "string",
             "description": "Name of the product.",
-            "example": "Wireless Mouse"
+            "example": "Wireless Bluetooth Headphones"
           },
           "quantity": {
             "type": "integer",
-            "description": "Quantity of the product added to the cart.",
+            "description": "Quantity of the product in the cart.",
             "example": 2
           }
         }
@@ -1003,44 +993,54 @@
         "properties": {
           "currency": {
             "type": "string",
-            "description": "Currency code used in the cart.",
+            "description": "Currency code for all items in the cart.",
             "example": "USD"
           },
           "items": {
             "type": "array",
-            "description": "List of items currently in the cart.",
-            "example": [],
+            "description": "List of all items added to the cart.",
+            "example": [
+              {
+                "currency": "USD",
+                "discount": 5.0,
+                "finalPrice": 95.0,
+                "price": 100.0,
+                "productId": "prod_abc123",
+                "productName": "Wireless Bluetooth Headphones",
+                "quantity": 2
+              }
+            ],
             "items": {
               "$ref": "#/components/schemas/cart_item"
             }
           },
           "payableAmount": {
             "type": "number",
-            "description": "Total amount to be paid after applying discounts.",
+            "description": "Total amount payable after all discounts.",
             "format": "double",
             "example": 190.0
           },
           "totalAmount": {
             "type": "number",
-            "description": "Total original amount before discounts.",
+            "description": "Total price of items before discounts.",
             "format": "double",
             "example": 200.0
           },
           "totalDiscount": {
             "type": "number",
-            "description": "Total discount applied to the cart.",
+            "description": "Total discount applied to all items.",
             "format": "double",
             "example": 10.0
           },
           "updatedAt": {
             "type": "string",
-            "description": "Timestamp of the last update to the cart.",
-            "example": "2024-05-01T15:30:00Z"
+            "description": "Timestamp when the cart was last updated (ISO 8601 format).",
+            "example": "2024-05-01T15:20:30Z"
           },
           "userId": {
             "type": "string",
-            "description": "Identifier of the user owning the cart.",
-            "example": "user-67890"
+            "description": "Unique identifier of the user owning the cart.",
+            "example": "user_xyz789"
           }
         }
       },
@@ -1049,35 +1049,35 @@
         "properties": {
           "discount": {
             "type": "number",
-            "description": "Discount amount applied to this order item.",
+            "description": "Discount amount applied to the order item.",
             "format": "double",
-            "example": 7.5
+            "example": 3.0
           },
           "finalPrice": {
             "type": "number",
-            "description": "Final price after discount for this order item.",
+            "description": "Final price of the order item after discounts.",
             "format": "double",
-            "example": 92.5
+            "example": 97.0
           },
           "price": {
             "type": "number",
-            "description": "Original price per unit of the product ordered.",
+            "description": "Original price of a single item in the order.",
             "format": "double",
             "example": 100.0
           },
           "productId": {
             "type": "string",
-            "description": "Unique identifier of the ordered product.",
-            "example": "prod-12345"
+            "description": "Unique identifier for the product in the order.",
+            "example": "prod_abc123"
           },
           "productName": {
             "type": "string",
-            "description": "Name of the product ordered.",
-            "example": "Wireless Mouse"
+            "description": "Name of the product in the order.",
+            "example": "Wireless Bluetooth Headphones"
           },
           "quantity": {
             "type": "integer",
-            "description": "Quantity of the product ordered.",
+            "description": "Quantity of this product in the order.",
             "example": 1
           }
         }
@@ -1087,18 +1087,27 @@
         "properties": {
           "createdAt": {
             "type": "string",
-            "description": "Order creation timestamp in ISO 8601 format.",
-            "example": "2024-04-25T12:00:00Z"
+            "description": "Timestamp when the order was created (ISO 8601 format).",
+            "example": "2024-04-25T10:30:00Z"
           },
           "currency": {
             "type": "string",
-            "description": "Currency code used for the order prices.",
+            "description": "Currency code used for the order.",
             "example": "USD"
           },
           "items": {
             "type": "array",
-            "description": "List of items included in the order.",
-            "example": [],
+            "description": "Array of items included in the order.",
+            "example": [
+              {
+                "discount": 3.0,
+                "finalPrice": 97.0,
+                "price": 100.0,
+                "productId": "prod_abc123",
+                "productName": "Wireless Bluetooth Headphones",
+                "quantity": 1
+              }
+            ],
             "items": {
               "$ref": "#/components/schemas/order_item"
             }
@@ -1106,45 +1115,45 @@
           "orderId": {
             "type": "string",
             "description": "Unique identifier for the order.",
-            "example": "order-98765"
+            "example": "order_987654"
           },
           "payableAmount": {
             "type": "number",
-            "description": "Total payable amount after discounts and adjustments.",
+            "description": "Total amount to be paid for the order.",
             "format": "double",
-            "example": 185.0
+            "example": 97.0
           },
           "paymentStatus": {
             "type": "string",
-            "description": "Current status of the order payment.",
+            "description": "Current payment status of the order.",
             "example": "Paid"
           },
           "status": {
             "type": "string",
-            "description": "Current overall status of the order.",
-            "example": "Shipped"
+            "description": "Current status of the order (e.g., Processing, Shipped).",
+            "example": "Processing"
           },
           "totalAmount": {
             "type": "number",
-            "description": "Total original amount for the order before discounts.",
+            "description": "Total amount for all items before discounts.",
             "format": "double",
-            "example": 200.0
+            "example": 100.0
           },
           "totalDiscount": {
             "type": "number",
-            "description": "Total discounts applied to the order.",
+            "description": "Total discount applied across all order items.",
             "format": "double",
-            "example": 15.0
+            "example": 3.0
           },
           "updatedAt": {
             "type": "string",
-            "description": "Timestamp of the last update to the order.",
-            "example": "2024-04-27T09:15:00Z"
+            "description": "Timestamp when the order was last updated (ISO 8601 format).",
+            "example": "2024-04-26T12:00:00Z"
           },
           "userId": {
             "type": "string",
-            "description": "Identifier of the user who placed the order.",
-            "example": "user-67890"
+            "description": "User identifier who placed the order.",
+            "example": "user_xyz789"
           }
         }
       },
@@ -1153,28 +1162,28 @@
         "properties": {
           "amount": {
             "type": "number",
-            "description": "The total amount to be paid.",
+            "description": "The total payment amount to be charged.",
             "format": "double",
-            "example": 150.75
+            "example": 99.99
           },
           "currency": {
             "type": "string",
-            "description": "The currency code for the payment amount, following ISO 4217 standard.",
+            "description": "The ISO 4217 currency code for the payment.",
             "example": "USD"
           },
           "orderId": {
             "type": "string",
-            "description": "Unique identifier for the order related to this payment.",
+            "description": "Unique identifier for the associated order.",
             "example": "ORD123456789"
           },
           "paymentGateway": {
             "type": "string",
-            "description": "Name of the payment gateway to process this payment.",
+            "description": "The payment gateway used to process the payment.",
             "example": "Stripe"
           },
           "paymentMethod": {
             "type": "string",
-            "description": "The method used for payment such as credit card or PayPal.",
+            "description": "The payment method chosen by the customer.",
             "example": "credit_card"
           }
         }
@@ -1184,44 +1193,44 @@
         "properties": {
           "amount": {
             "type": "number",
-            "description": "The amount that was processed in the payment.",
+            "description": "The payment amount processed.",
             "format": "double",
-            "example": 150.75
+            "example": 99.99
           },
           "createdAt": {
             "type": "string",
-            "description": "ISO 8601 timestamp when the payment was created.",
-            "example": "2024-06-01T12:34:56Z"
+            "description": "Timestamp when the payment was created in ISO 8601 format.",
+            "example": "2024-01-15T14:30:00Z"
           },
           "currency": {
             "type": "string",
-            "description": "Currency code used for the payment.",
+            "description": "The currency code of the processed payment.",
             "example": "USD"
           },
           "orderId": {
             "type": "string",
-            "description": "Order identifier tied to this payment.",
+            "description": "Identifier for the order related to the payment.",
             "example": "ORD123456789"
           },
           "paymentId": {
             "type": "string",
-            "description": "Unique identifier assigned to the payment.",
+            "description": "Unique identifier for the payment transaction.",
             "example": "PAY987654321"
           },
           "paymentMethod": {
             "type": "string",
-            "description": "Method used for payment processing.",
+            "description": "Method used to complete the payment.",
             "example": "credit_card"
           },
           "status": {
             "type": "string",
-            "description": "Current status of the payment (e.g., successful, pending, failed).",
-            "example": "successful"
+            "description": "Current status of the payment.",
+            "example": "completed"
           },
           "transactionId": {
             "type": "string",
-            "description": "Identifier for the transaction assigned by the payment gateway.",
-            "example": "TX1234567890"
+            "description": "Identifier for the transaction from the payment gateway.",
+            "example": "TXN1234567890"
           }
         }
       },
@@ -1230,23 +1239,23 @@
         "properties": {
           "gatewayResponse": {
             "type": "string",
-            "description": "Response message received from the payment gateway.",
-            "example": "Payment processed successfully"
+            "description": "The response message from the payment gateway.",
+            "example": "Payment approved"
           },
           "paymentId": {
             "type": "string",
-            "description": "Unique identifier of the payment related to the webhook event.",
+            "description": "Identifier for the payment associated with this webhook.",
             "example": "PAY987654321"
           },
           "status": {
             "type": "string",
-            "description": "Status update from the payment gateway for this payment.",
+            "description": "The updated status of the payment from the webhook event.",
             "example": "completed"
           },
           "transactionId": {
             "type": "string",
-            "description": "Transaction ID as reported by the payment gateway.",
-            "example": "TX1234567890"
+            "description": "Transaction identifier provided by the payment gateway.",
+            "example": "TXN1234567890"
           }
         }
       },
@@ -1255,7 +1264,7 @@
         "properties": {
           "available": {
             "type": "boolean",
-            "description": "Availability status of the product in inventory.",
+            "description": "Indicates if the product is currently available in stock.",
             "example": true
           },
           "brand": {
@@ -1265,7 +1274,7 @@
           },
           "category": {
             "type": "string",
-            "description": "Category under which the product is classified.",
+            "description": "Category under which the product is listed.",
             "example": "Electronics"
           },
           "currency": {
@@ -1276,18 +1285,18 @@
           "description": {
             "type": "string",
             "description": "Detailed description of the product.",
-            "example": "High-quality wireless headphones with noise cancellation."
+            "example": "A high-quality wireless headset with noise cancellation."
           },
           "name": {
             "type": "string",
             "description": "Name of the product.",
-            "example": "Wireless Headphones"
+            "example": "Wireless Headset"
           },
           "price": {
             "type": "number",
-            "description": "Retail price of the product.",
+            "description": "Selling price of the product.",
             "format": "double",
-            "example": 299.99
+            "example": 149.99
           },
           "rating": {
             "type": "number",
@@ -1297,8 +1306,8 @@
           },
           "stock": {
             "type": "integer",
-            "description": "Quantity of product units in stock.",
-            "example": 150
+            "description": "Number of items available in stock.",
+            "example": 42
           }
         }
       },
@@ -1307,65 +1316,65 @@
         "properties": {
           "available": {
             "type": "boolean",
-            "description": "Indicates if the product is currently available for purchase",
+            "description": "Indicates if the product is currently available for purchase.",
             "example": true
           },
           "brand": {
             "type": "string",
-            "description": "The brand name of the product",
+            "description": "The brand name of the product.",
             "example": "Acme"
           },
           "category": {
             "type": "string",
-            "description": "Product category or classification",
+            "description": "Category to which the product belongs.",
             "example": "Electronics"
           },
           "createdAt": {
             "type": "string",
-            "description": "Date and time when the product was created in the system (ISO 8601 format)",
-            "example": "2023-04-10T14:30:00Z"
+            "description": "ISO 8601 date-time string when the product was created.",
+            "example": "2024-05-01T12:00:00Z"
           },
           "currency": {
             "type": "string",
-            "description": "Currency code for the product price (ISO 4217 format)",
+            "description": "ISO 4217 currency code for the product price.",
             "example": "USD"
           },
           "description": {
             "type": "string",
-            "description": "Detailed description of the product",
-            "example": "High-quality noise-cancelling headphones with Bluetooth connectivity"
+            "description": "Detailed description of the product.",
+            "example": "A high-quality wireless mouse with ergonomic design."
           },
           "name": {
             "type": "string",
-            "description": "Name of the product",
-            "example": "Wireless Headphones Model X"
+            "description": "Name of the product.",
+            "example": "Wireless Ergonomic Mouse"
           },
           "price": {
             "type": "number",
-            "description": "Retail price of the product",
+            "description": "The price of the product in the specified currency.",
             "format": "double",
-            "example": 199.99
+            "example": 29.99
           },
           "productId": {
             "type": "string",
-            "description": "Unique identifier for the product",
-            "example": "prd_123456"
+            "description": "Unique identifier for the product.",
+            "example": "prod-12345"
           },
           "rating": {
             "type": "number",
-            "description": "Average customer rating for the product (scale 1-5)",
+            "description": "Average customer rating of the product out of 5.",
             "format": "double",
             "example": 4.5
           },
           "stock": {
             "type": "integer",
-            "description": "Number of product units currently in stock",
+            "description": "Number of items currently in stock.",
             "example": 150
           },
           "updatedAt": {
             "type": "string",
-            "description": "Date and time when the product information was last updated (ISO 8601 format)",
-            "example": "2024-04-20T11:00:00Z"
+            "description": "ISO 8601 date-time string for the last update of the product details.",
+            "example": "2024-05-10T08:30:00Z"
           }
         }
       },
@@ -1374,33 +1383,33 @@
         "properties": {
           "courierPartner": {
             "type": "string",
-            "description": "Name of the courier service handling the delivery",
-            "example": "FastShip Couriers"
+            "description": "Name of the courier partner handling the shipment.",
+            "example": "FastShip Express"
           },
           "estimatedDelivery": {
             "type": "string",
-            "description": "Estimated delivery date and time (ISO 8601 format)",
-            "example": "2024-06-15T18:00:00Z"
+            "description": "Estimated delivery date time in ISO 8601 format.",
+            "example": "2024-06-05T15:00:00Z"
           },
           "lastUpdated": {
             "type": "string",
-            "description": "Date and time when the tracking information was last updated (ISO 8601 format)",
-            "example": "2024-06-10T09:30:00Z"
+            "description": "Last timestamp when the tracking status was updated.",
+            "example": "2024-06-01T10:45:00Z"
           },
           "orderId": {
             "type": "string",
-            "description": "Unique identifier for the order being tracked",
-            "example": "ord_78910"
+            "description": "Unique identifier for the order being tracked.",
+            "example": "order-67890"
           },
           "status": {
             "type": "string",
-            "description": "Current status of the delivery",
+            "description": "Current status of the order shipment.",
             "example": "In Transit"
           },
           "trackingId": {
             "type": "string",
-            "description": "Courier tracking ID for the shipment",
-            "example": "trk_456789"
+            "description": "Unique tracking ID assigned by the courier.",
+            "example": "TRACK123456789"
           }
         }
       },
@@ -1409,37 +1418,37 @@
         "properties": {
           "active": {
             "type": "boolean",
-            "description": "Indicates whether the user account is active",
+            "description": "Indicates whether the user account is active.",
             "example": true
           },
           "country": {
             "type": "string",
-            "description": "Country in which the user resides",
-            "example": "United States"
+            "description": "Country code representing the user's country.",
+            "example": "US"
           },
           "email": {
             "type": "string",
-            "description": "User's email address",
+            "description": "User's email address.",
             "example": "user@example.com"
           },
           "name": {
             "type": "string",
-            "description": "Full name of the user",
-            "example": "Jane Doe"
+            "description": "Full name of the user.",
+            "example": "John Doe"
           },
           "phone": {
             "type": "string",
-            "description": "User's phone number including country code",
-            "example": "+12345556789"
+            "description": "User's phone number in international format.",
+            "example": "+1234567890"
           },
           "preferredCurrency": {
             "type": "string",
-            "description": "Currency preferred by the user for transactions (ISO 4217 code)",
+            "description": "The preferred currency code for transactions.",
             "example": "USD"
           },
           "userType": {
             "type": "string",
-            "description": "Type or role of the user in the system",
+            "description": "Type of user, e.g., 'admin', 'customer'.",
             "example": "customer"
           }
         }
@@ -1449,53 +1458,53 @@
         "properties": {
           "active": {
             "type": "boolean",
-            "description": "Indicates whether the user account is currently active",
+            "description": "Indicates if the user account is currently active.",
             "example": true
           },
           "country": {
             "type": "string",
-            "description": "Country associated with the user",
-            "example": "United States"
+            "description": "Country code of the user's location.",
+            "example": "US"
           },
           "createdAt": {
             "type": "string",
-            "description": "Date and time when the user account was created (ISO 8601 format)",
-            "example": "2023-01-15T08:00:00Z"
+            "description": "ISO 8601 timestamp when the user account was created.",
+            "example": "2023-12-15T09:00:00Z"
           },
           "email": {
             "type": "string",
-            "description": "User's email address",
+            "description": "Registered email address of the user.",
             "example": "user@example.com"
           },
           "name": {
             "type": "string",
-            "description": "Full name of the user",
-            "example": "Jane Doe"
+            "description": "Full name of the user.",
+            "example": "John Doe"
           },
           "phone": {
             "type": "string",
-            "description": "User's contact phone number",
-            "example": "+12345556789"
+            "description": "User's contact phone number.",
+            "example": "+1234567890"
           },
           "preferredCurrency": {
             "type": "string",
-            "description": "User's preferred currency for transactions (ISO 4217 code)",
+            "description": "Currency code preferred by the user for transactions.",
             "example": "USD"
           },
           "updatedAt": {
             "type": "string",
-            "description": "Date and time when the user information was last updated (ISO 8601 format)",
-            "example": "2024-05-20T17:45:00Z"
+            "description": "ISO 8601 timestamp of the last update made to the user account.",
+            "example": "2024-05-20T16:20:00Z"
           },
           "userId": {
             "type": "string",
-            "description": "Unique identifier for the user",
-            "example": "usr_987654"
+            "description": "Unique identifier for the user.",
+            "example": "user-abc123"
           },
           "userType": {
             "type": "string",
-            "description": "Role or type assigned to the user",
-            "example": "admin"
+            "description": "Role or type of the user, such as 'admin' or 'customer'.",
+            "example": "customer"
           }
         }
       },
@@ -1504,55 +1513,55 @@
         "properties": {
           "error": {
             "type": "string",
-            "description": "A brief description of the error type.",
+            "description": "Brief description of the client error",
             "example": "Bad Request"
           },
           "message": {
             "type": "string",
-            "description": "Detailed message explaining the error.",
+            "description": "Detailed message explaining the error",
             "example": "Invalid input"
           },
           "status": {
             "type": "integer",
-            "description": "HTTP status code associated with the error.",
+            "description": "HTTP status code for the error",
             "example": 400
           },
           "timestamp": {
             "type": "string",
-            "description": "The time when the error occurred in ISO8601 format.",
+            "description": "Timestamp when the error occurred",
             "format": "date-time",
             "example": "2026-01-01T10:00:00Z"
           },
           "path": {
             "type": "string",
-            "description": "The API endpoint path that was called.",
+            "description": "API endpoint path where the error happened",
             "example": "/users"
           },
           "requestId": {
             "type": "string",
-            "description": "Unique identifier for the request to facilitate tracking.",
+            "description": "Unique identifier for the request",
             "example": "req-123"
           },
           "errorCode": {
             "type": "string",
-            "description": "Specific code representing the error type.",
+            "description": "Specific error code representing the error type",
             "example": "VALIDATION_ERROR"
           },
           "details": {
             "type": "array",
-            "description": "A list of detailed issues related to the error.",
+            "description": "List of detailed error information for each invalid field",
             "items": {
               "type": "object",
               "properties": {
                 "field": {
                   "type": "string",
-                  "description": "The specific field in the input that caused the problem.",
+                  "description": "Name of the field with the issue",
                   "example": "email"
                 },
                 "issue": {
                   "type": "string",
-                  "description": "Description of the issue with the field.",
-                  "example": "Invalid email format"
+                  "description": "Description of the issue on the field",
+                  "example": "Must be a valid email address"
                 }
               }
             }
@@ -1565,28 +1574,28 @@
         "properties": {
           "error": {
             "type": "string",
-            "description": "A brief description of the server error.",
+            "description": "Brief description of the server error",
             "example": "Internal Server Error"
           },
           "message": {
             "type": "string",
-            "description": "Detailed message explaining the server error.",
+            "description": "Detailed message explaining the error",
             "example": "Unexpected error"
           },
           "status": {
             "type": "integer",
-            "description": "HTTP status code representing the server error.",
+            "description": "HTTP status code for the error",
             "example": 500
           },
           "timestamp": {
             "type": "string",
-            "description": "The time when the server error occurred in ISO8601 format.",
+            "description": "Timestamp when the error occurred",
             "format": "date-time",
             "example": "2026-01-01T10:00:00Z"
           },
           "requestId": {
             "type": "string",
-            "description": "Unique identifier for the request to assist in tracking server issues.",
+            "description": "Unique identifier for the request",
             "example": "req-789"
           }
         },
