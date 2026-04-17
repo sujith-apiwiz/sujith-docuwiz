@@ -24,7 +24,11 @@
           "CartService"
         ],
         "operationId": "getCart",
-        "parameters": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/_s_cart_s_userId_-_Operations_-_GET_-_Parameter_-_userId"
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -32,7 +36,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/cart_response"
+                  "$ref": "#/components/schemas/CartResponseDTO"
                 }
               }
             }
@@ -43,11 +47,7 @@
         "servers": []
       },
       "servers": [],
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/userId"
-        }
-      ]
+      "parameters": []
     },
     "/cart/{userId}/add": {
       "post": {
@@ -55,12 +55,16 @@
           "CartService"
         ],
         "operationId": "addToCart",
-        "parameters": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/_s_cart_s_userId_s_add_-_Operations_-_POST_-_Parameter_-_userId"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/cart_item"
+                "$ref": "#/components/schemas/CartItemDTO"
               }
             }
           }
@@ -72,7 +76,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/cart_response"
+                  "$ref": "#/components/schemas/CartResponseDTO"
                 }
               }
             }
@@ -83,11 +87,7 @@
         "servers": []
       },
       "servers": [],
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/userId"
-        }
-      ]
+      "parameters": []
     },
     "/orders/place/{userId}": {
       "post": {
@@ -95,7 +95,11 @@
           "OrderService"
         ],
         "operationId": "placeOrder",
-        "parameters": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/_s_orders_s_place_s_userId_-_Operations_-_POST_-_Parameter_-_userId"
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -103,7 +107,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/order_response"
+                  "$ref": "#/components/schemas/OrderResponseDTO"
                 }
               }
             }
@@ -114,11 +118,7 @@
         "servers": []
       },
       "servers": [],
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/userId"
-        }
-      ]
+      "parameters": []
     },
     "/orders/{orderId}": {
       "get": {
@@ -126,7 +126,11 @@
           "OrderService"
         ],
         "operationId": "getOrder",
-        "parameters": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/_s_orders_s_orderId_-_Operations_-_GET_-_Parameter_-_orderId"
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -134,7 +138,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/order_response"
+                  "$ref": "#/components/schemas/OrderResponseDTO"
                 }
               }
             }
@@ -145,11 +149,7 @@
         "servers": []
       },
       "servers": [],
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/orderId"
-        }
-      ]
+      "parameters": []
     },
     "/payments/initiate": {
       "post": {
@@ -162,7 +162,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/payment_request"
+                "$ref": "#/components/schemas/PaymentRequestDTO"
               }
             }
           }
@@ -174,7 +174,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/payment_response"
+                  "$ref": "#/components/schemas/PaymentResponseDTO"
                 }
               }
             }
@@ -198,7 +198,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/payment_webhook"
+                "$ref": "#/components/schemas/PaymentWebhookDTO"
               }
             }
           }
@@ -210,7 +210,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/payment_response"
+                  "$ref": "#/components/schemas/PaymentResponseDTO"
                 }
               }
             }
@@ -234,7 +234,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/product_request"
+                "$ref": "#/components/schemas/ProductRequestDTO"
               }
             }
           }
@@ -246,7 +246,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/product_response"
+                  "$ref": "#/components/schemas/ProductResponseDTO"
                 }
               }
             }
@@ -265,7 +265,11 @@
           "ShippingService"
         ],
         "operationId": "trackOrder",
-        "parameters": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/_s_shipping_s_orderId_s_track_-_Operations_-_GET_-_Parameter_-_orderId"
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -273,7 +277,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/tracking_response"
+                  "$ref": "#/components/schemas/TrackingResponseDTO"
                 }
               }
             }
@@ -284,11 +288,7 @@
         "servers": []
       },
       "servers": [],
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/orderId"
-        }
-      ]
+      "parameters": []
     },
     "/users": {
       "post": {
@@ -301,7 +301,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/user_request"
+                "$ref": "#/components/schemas/UserRequestDTO"
               }
             }
           }
@@ -313,7 +313,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/user_response"
+                  "$ref": "#/components/schemas/UserResponseDTO"
                 }
               }
             }
@@ -329,665 +329,369 @@
   },
   "components": {
     "schemas": {
-      "cart_item": {
+      "CartItemDTO": {
         "type": "object",
         "properties": {
           "currency": {
-            "type": "string",
-            "description": "Currency code of the item's price, e.g., USD, EUR",
-            "example": "USD"
+            "type": "string"
           },
           "discount": {
             "type": "number",
-            "description": "Discount amount applied on the item",
-            "format": "double",
-            "example": 5.25
+            "format": "double"
           },
           "finalPrice": {
             "type": "number",
-            "description": "Final price after discount for the item",
-            "format": "double",
-            "example": 19.75
+            "format": "double"
           },
           "price": {
             "type": "number",
-            "description": "Original price per unit of the item",
-            "format": "double",
-            "example": 25.0
+            "format": "double"
           },
           "productId": {
-            "type": "string",
-            "description": "Unique identifier of the product",
-            "example": "prod_12345"
+            "type": "string"
           },
           "productName": {
-            "type": "string",
-            "description": "Name of the product",
-            "example": "Wireless Headphones"
+            "type": "string"
           },
           "quantity": {
-            "type": "integer",
-            "description": "Number of units of the product in the cart",
-            "example": 2
+            "type": "integer"
           }
         }
       },
-      "cart_response": {
+      "CartResponseDTO": {
         "type": "object",
         "properties": {
           "currency": {
-            "type": "string",
-            "description": "Currency code used for all amounts in the cart",
-            "example": "USD"
+            "type": "string"
           },
           "items": {
             "type": "array",
-            "description": "List of items currently in the shopping cart",
-            "example": [
-              {
-                "currency": "USD",
-                "discount": 5.25,
-                "finalPrice": 19.75,
-                "price": 25.0,
-                "productId": "prod_12345",
-                "productName": "Wireless Headphones",
-                "quantity": 2
-              }
-            ],
             "items": {
-              "$ref": "#/components/schemas/cart_item"
+              "$ref": "#/components/schemas/CartItemDTO"
             }
           },
           "payableAmount": {
             "type": "number",
-            "description": "Total amount payable after discounts",
-            "format": "double",
-            "example": 39.5
+            "format": "double"
           },
           "totalAmount": {
             "type": "number",
-            "description": "Total original amount before discounts",
-            "format": "double",
-            "example": 50.0
+            "format": "double"
           },
           "totalDiscount": {
             "type": "number",
-            "description": "Sum of all discounts applied in the cart",
-            "format": "double",
-            "example": 10.5
+            "format": "double"
           },
           "updatedAt": {
-            "type": "string",
-            "description": "Timestamp when the cart was last updated in ISO 8601 format",
-            "example": "2024-06-01T14:48:00.000Z"
+            "type": "string"
           },
           "userId": {
-            "type": "string",
-            "description": "Unique identifier of the user owning the cart",
-            "example": "user_98765"
+            "type": "string"
           }
         }
       },
-      "order_item": {
+      "OrderItemDTO": {
         "type": "object",
         "properties": {
           "discount": {
             "type": "number",
-            "description": "Discount amount applied on the ordered item",
-            "format": "double",
-            "example": 3.0
+            "format": "double"
           },
           "finalPrice": {
             "type": "number",
-            "description": "Final price of the ordered item after discount",
-            "format": "double",
-            "example": 27.0
+            "format": "double"
           },
           "price": {
             "type": "number",
-            "description": "Original price per unit of the ordered product",
-            "format": "double",
-            "example": 30.0
+            "format": "double"
           },
           "productId": {
-            "type": "string",
-            "description": "Unique identifier of the ordered product",
-            "example": "prod_67890"
+            "type": "string"
           },
           "productName": {
-            "type": "string",
-            "description": "Name of the ordered product",
-            "example": "Bluetooth Speaker"
+            "type": "string"
           },
           "quantity": {
-            "type": "integer",
-            "description": "Number of units of the product ordered",
-            "example": 1
+            "type": "integer"
           }
         }
       },
-      "order_response": {
+      "OrderResponseDTO": {
         "type": "object",
         "properties": {
           "createdAt": {
-            "type": "string",
-            "description": "Timestamp when the order was created in ISO 8601 format",
-            "example": "2024-05-15T09:30:00.000Z"
+            "type": "string"
           },
           "currency": {
-            "type": "string",
-            "description": "Currency code used for all amounts in the order",
-            "example": "USD"
+            "type": "string"
           },
           "items": {
             "type": "array",
-            "description": "List of items included in the order",
-            "example": [
-              {
-                "discount": 3.0,
-                "finalPrice": 27.0,
-                "price": 30.0,
-                "productId": "prod_67890",
-                "productName": "Bluetooth Speaker",
-                "quantity": 1
-              }
-            ],
             "items": {
-              "$ref": "#/components/schemas/order_item"
+              "$ref": "#/components/schemas/OrderItemDTO"
             }
           },
           "orderId": {
-            "type": "string",
-            "description": "Unique identifier of the order",
-            "example": "order_54321"
+            "type": "string"
           },
           "payableAmount": {
             "type": "number",
-            "description": "Total amount payable for the order after discounts",
-            "format": "double",
-            "example": 27.0
+            "format": "double"
           },
           "paymentStatus": {
-            "type": "string",
-            "description": "Current payment status of the order",
-            "example": "Paid"
+            "type": "string"
           },
           "status": {
-            "type": "string",
-            "description": "Current processing status of the order",
-            "example": "Shipped"
+            "type": "string"
           },
           "totalAmount": {
             "type": "number",
-            "description": "Total original amount before discounts",
-            "format": "double",
-            "example": 30.0
+            "format": "double"
           },
           "totalDiscount": {
             "type": "number",
-            "description": "Total discount applied to the order",
-            "format": "double",
-            "example": 3.0
+            "format": "double"
           },
           "updatedAt": {
-            "type": "string",
-            "description": "Timestamp when the order was last updated in ISO 8601 format",
-            "example": "2024-05-16T12:00:00.000Z"
+            "type": "string"
           },
           "userId": {
-            "type": "string",
-            "description": "Unique identifier of the user who placed the order",
-            "example": "user_98765"
+            "type": "string"
           }
         }
       },
-      "payment_request": {
+      "PaymentRequestDTO": {
         "type": "object",
         "properties": {
           "amount": {
             "type": "number",
-            "description": "The total amount to be paid.",
-            "format": "double",
-            "example": 150.75
+            "format": "double"
           },
           "currency": {
-            "type": "string",
-            "description": "The currency code for the payment, in ISO 4217 format.",
-            "example": "USD"
+            "type": "string"
           },
           "orderId": {
-            "type": "string",
-            "description": "Unique identifier for the order associated with this payment.",
-            "example": "ORD123456789"
+            "type": "string"
           },
           "paymentGateway": {
-            "type": "string",
-            "description": "The payment gateway through which the payment is processed.",
-            "example": "Stripe"
+            "type": "string"
           },
           "paymentMethod": {
-            "type": "string",
-            "description": "The method of payment chosen by the customer.",
-            "example": "credit_card"
+            "type": "string"
           }
         }
       },
-      "payment_response": {
+      "PaymentResponseDTO": {
         "type": "object",
         "properties": {
           "amount": {
             "type": "number",
-            "description": "The total paid amount.",
-            "format": "double",
-            "example": 150.75
+            "format": "double"
           },
           "createdAt": {
-            "type": "string",
-            "description": "Timestamp when the payment record was created in ISO 8601 format.",
-            "example": "2024-06-15T13:45:30Z"
+            "type": "string"
           },
           "currency": {
-            "type": "string",
-            "description": "The currency code used for the payment.",
-            "example": "USD"
+            "type": "string"
           },
           "orderId": {
-            "type": "string",
-            "description": "Unique identifier of the order related to the payment.",
-            "example": "ORD123456789"
+            "type": "string"
           },
           "paymentId": {
-            "type": "string",
-            "description": "Unique identifier assigned to the payment.",
-            "example": "PAY987654321"
+            "type": "string"
           },
           "paymentMethod": {
-            "type": "string",
-            "description": "The method used to complete the payment.",
-            "example": "credit_card"
+            "type": "string"
           },
           "status": {
-            "type": "string",
-            "description": "Current status of the payment.",
-            "example": "completed"
+            "type": "string"
           },
           "transactionId": {
-            "type": "string",
-            "description": "Identifier returned by the payment gateway for the transaction.",
-            "example": "TXN1234567890"
+            "type": "string"
           }
         }
       },
-      "payment_webhook": {
+      "PaymentWebhookDTO": {
         "type": "object",
         "properties": {
           "gatewayResponse": {
-            "type": "string",
-            "description": "Response message from the payment gateway.",
-            "example": "Payment successfully processed."
+            "type": "string"
           },
           "paymentId": {
-            "type": "string",
-            "description": "Unique identifier of the payment reported by the webhook.",
-            "example": "PAY987654321"
+            "type": "string"
           },
           "status": {
-            "type": "string",
-            "description": "Current status of the payment as reported by the gateway.",
-            "example": "completed"
+            "type": "string"
           },
           "transactionId": {
-            "type": "string",
-            "description": "Transaction identifier provided by the payment gateway.",
-            "example": "TXN1234567890"
+            "type": "string"
           }
         }
       },
-      "product_request": {
+      "ProductRequestDTO": {
         "type": "object",
         "properties": {
           "available": {
-            "type": "boolean",
-            "description": "Indicates if the product is currently available for sale.",
-            "example": true
+            "type": "boolean"
           },
           "brand": {
-            "type": "string",
-            "description": "The brand or manufacturer of the product.",
-            "example": "Acme"
+            "type": "string"
           },
           "category": {
-            "type": "string",
-            "description": "Category to which the product belongs.",
-            "example": "Electronics"
+            "type": "string"
           },
           "currency": {
-            "type": "string",
-            "description": "Currency code used for the product price.",
-            "example": "USD"
+            "type": "string"
           },
           "description": {
-            "type": "string",
-            "description": "A detailed description of the product.",
-            "example": "Latest model with advanced features."
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "description": "The product name.",
-            "example": "Smartphone X100"
+            "type": "string"
           },
           "price": {
             "type": "number",
-            "description": "Price of the product in the specified currency.",
-            "format": "double",
-            "example": 999.99
+            "format": "double"
           },
           "rating": {
             "type": "number",
-            "description": "Average customer rating for the product.",
-            "format": "double",
-            "example": 4.5
+            "format": "double"
           },
           "stock": {
-            "type": "integer",
-            "description": "Number of items currently in stock.",
-            "example": 150
+            "type": "integer"
           }
         }
       },
-      "product_response": {
+      "ProductResponseDTO": {
         "type": "object",
         "properties": {
           "available": {
-            "type": "boolean",
-            "description": "Indicates if the product is currently available for purchase.",
-            "example": true
+            "type": "boolean"
           },
           "brand": {
-            "type": "string",
-            "description": "The brand name of the product.",
-            "example": "Acme Corp"
+            "type": "string"
           },
           "category": {
-            "type": "string",
-            "description": "The category to which the product belongs.",
-            "example": "Electronics"
+            "type": "string"
           },
           "createdAt": {
-            "type": "string",
-            "description": "The ISO 8601 date and time when the product was created.",
-            "example": "2023-11-15T08:30:00Z"
+            "type": "string"
           },
           "currency": {
-            "type": "string",
-            "description": "The currency code for the price, following ISO 4217.",
-            "example": "USD"
+            "type": "string"
           },
           "description": {
-            "type": "string",
-            "description": "A detailed description of the product.",
-            "example": "A high-quality noise-cancelling headphone with Bluetooth connectivity."
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "description": "The name of the product.",
-            "example": "Noise-Cancelling Headphone Model X"
+            "type": "string"
           },
           "price": {
             "type": "number",
-            "description": "The price of the product in the specified currency.",
-            "format": "double",
-            "example": 299.99
+            "format": "double"
           },
           "productId": {
-            "type": "string",
-            "description": "A unique identifier for the product.",
-            "example": "prod_123456789"
+            "type": "string"
           },
           "rating": {
             "type": "number",
-            "description": "Average customer rating of the product, from 0 to 5.",
-            "format": "double",
-            "example": 4.5
+            "format": "double"
           },
           "stock": {
-            "type": "integer",
-            "description": "Number of items currently in stock.",
-            "example": 150
+            "type": "integer"
           },
           "updatedAt": {
-            "type": "string",
-            "description": "The ISO 8601 date and time when the product was last updated.",
-            "example": "2024-04-20T14:15:00Z"
+            "type": "string"
           }
         }
       },
-      "tracking_response": {
+      "TrackingResponseDTO": {
         "type": "object",
         "properties": {
           "courierPartner": {
-            "type": "string",
-            "description": "Name of the courier or shipping partner handling the delivery.",
-            "example": "FastShip Logistics"
+            "type": "string"
           },
           "estimatedDelivery": {
-            "type": "string",
-            "description": "The estimated delivery date and time in ISO 8601 format.",
-            "example": "2024-06-10T18:00:00Z"
+            "type": "string"
           },
           "lastUpdated": {
-            "type": "string",
-            "description": "Timestamp when the tracking information was last updated.",
-            "example": "2024-06-05T09:45:00Z"
+            "type": "string"
           },
           "orderId": {
-            "type": "string",
-            "description": "Unique identifier for the associated order.",
-            "example": "order_987654321"
+            "type": "string"
           },
           "status": {
-            "type": "string",
-            "description": "Current status of the shipment.",
-            "example": "In Transit"
+            "type": "string"
           },
           "trackingId": {
-            "type": "string",
-            "description": "Unique tracking identifier assigned by the courier.",
-            "example": "track_1234567890"
+            "type": "string"
           }
         }
       },
-      "user_request": {
+      "UserRequestDTO": {
         "type": "object",
         "properties": {
           "active": {
-            "type": "boolean",
-            "description": "Indicates whether the user account should be active.",
-            "example": true
+            "type": "boolean"
           },
           "country": {
-            "type": "string",
-            "description": "ISO 3166-1 alpha-2 country code of the user.",
-            "example": "US"
+            "type": "string"
           },
           "email": {
-            "type": "string",
-            "description": "Email address of the user.",
-            "example": "user@example.com"
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "description": "Full name of the user.",
-            "example": "John Doe"
+            "type": "string"
           },
           "phone": {
-            "type": "string",
-            "description": "Phone number of the user including country code.",
-            "example": "+14155552671"
+            "type": "string"
           },
           "preferredCurrency": {
-            "type": "string",
-            "description": "The user's preferred currency code following ISO 4217.",
-            "example": "USD"
+            "type": "string"
           },
           "userType": {
-            "type": "string",
-            "description": "The type or role of the user in the system.",
-            "example": "customer"
+            "type": "string"
           }
         }
       },
-      "user_response": {
+      "UserResponseDTO": {
         "type": "object",
         "properties": {
           "active": {
-            "type": "boolean",
-            "description": "Indicates if the user account is currently active.",
-            "example": true
+            "type": "boolean"
           },
           "country": {
-            "type": "string",
-            "description": "Country code of the user as per ISO 3166-1 alpha-2.",
-            "example": "US"
+            "type": "string"
           },
           "createdAt": {
-            "type": "string",
-            "description": "Timestamp when the user account was created.",
-            "example": "2023-05-01T12:00:00Z"
+            "type": "string"
           },
           "email": {
-            "type": "string",
-            "description": "Email address of the user.",
-            "example": "user@example.com"
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "description": "Full name of the user.",
-            "example": "John Doe"
+            "type": "string"
           },
           "phone": {
-            "type": "string",
-            "description": "Phone number of the user.",
-            "example": "+14155552671"
+            "type": "string"
           },
           "preferredCurrency": {
-            "type": "string",
-            "description": "The user's preferred currency code.",
-            "example": "USD"
+            "type": "string"
           },
           "updatedAt": {
-            "type": "string",
-            "description": "Timestamp when the user account was last updated.",
-            "example": "2024-03-15T08:25:00Z"
+            "type": "string"
           },
           "userId": {
-            "type": "string",
-            "description": "Unique identifier for the user.",
-            "example": "user_123456789"
+            "type": "string"
           },
           "userType": {
-            "type": "string",
-            "description": "Role or classification of the user within the system.",
-            "example": "customer"
+            "type": "string"
           }
         }
-      },
-      "client_error_response": {
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "string",
-            "description": "Brief title of the error type",
-            "example": "Bad Request"
-          },
-          "message": {
-            "type": "string",
-            "description": "Detailed explanation of the error",
-            "example": "Invalid input"
-          },
-          "status": {
-            "type": "integer",
-            "description": "HTTP status code of the error",
-            "example": 400
-          },
-          "timestamp": {
-            "type": "string",
-            "description": "Time when the error occurred",
-            "format": "date-time",
-            "example": "2026-01-01T10:00:00Z"
-          },
-          "path": {
-            "type": "string",
-            "description": "API endpoint path where the error happened",
-            "example": "/users"
-          },
-          "requestId": {
-            "type": "string",
-            "description": "Unique identifier for the request",
-            "example": "req-123"
-          },
-          "errorCode": {
-            "type": "string",
-            "description": "Specific error code for programmatic handling",
-            "example": "VALIDATION_ERROR"
-          },
-          "details": {
-            "type": "array",
-            "description": "List of detailed issues related to the error",
-            "items": {
-              "type": "object",
-              "properties": {
-                "field": {
-                  "type": "string",
-                  "description": "Name of the field related to the issue",
-                  "example": "email"
-                },
-                "issue": {
-                  "type": "string",
-                  "description": "Description of the issue in the field",
-                  "example": "Invalid email format"
-                }
-              }
-            }
-          }
-        },
-        "description": "Client-side error response (4XX)"
-      },
-      "server_error_response": {
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "string",
-            "description": "Brief title of the server error",
-            "example": "Internal Server Error"
-          },
-          "message": {
-            "type": "string",
-            "description": "Detailed explanation of the server error",
-            "example": "Unexpected error"
-          },
-          "status": {
-            "type": "integer",
-            "description": "HTTP status code of the server error",
-            "example": 500
-          },
-          "timestamp": {
-            "type": "string",
-            "description": "Time when the server error occurred",
-            "format": "date-time",
-            "example": "2026-01-01T10:00:00Z"
-          },
-          "requestId": {
-            "type": "string",
-            "description": "Unique identifier for the request",
-            "example": "req-789"
-          }
-        },
-        "description": "Server-side error response (5XX)"
       }
     },
     "parameters": {
-      "userId": {
+      "_s_cart_s_userId_-_Operations_-_GET_-_Parameter_-_userId": {
         "name": "userId",
         "in": "path",
         "required": true,
@@ -997,7 +701,37 @@
           "type": "string"
         }
       },
-      "orderId": {
+      "_s_cart_s_userId_s_add_-_Operations_-_POST_-_Parameter_-_userId": {
+        "name": "userId",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "_s_orders_s_place_s_userId_-_Operations_-_POST_-_Parameter_-_userId": {
+        "name": "userId",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "_s_orders_s_orderId_-_Operations_-_GET_-_Parameter_-_orderId": {
+        "name": "orderId",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "_s_shipping_s_orderId_s_track_-_Operations_-_GET_-_Parameter_-_orderId": {
         "name": "orderId",
         "in": "path",
         "required": true,
