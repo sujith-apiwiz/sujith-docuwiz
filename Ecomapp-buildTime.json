@@ -1,0 +1,716 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Ecomapp-buildTime",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "https://acme-banking.apiwiz.io/v1/ecommerce",
+      "description": "Dev",
+      "variables": {},
+      "x-schema": "https://",
+      "x-name": "Dev",
+      "x-environmentName": "Dev",
+      "x-hide": false,
+      "x-environmentId": "69e1f78a1cdbcc768483599a",
+      "x-basePath": "/v1/ecommerce"
+    }
+  ],
+  "paths": {
+    "/cart/{userId}": {
+      "get": {
+        "tags": [
+          "CartService"
+        ],
+        "operationId": "getCart",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/cart_response"
+                }
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "security": [],
+        "servers": []
+      },
+      "servers": [],
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/userId"
+        }
+      ]
+    },
+    "/cart/{userId}/add": {
+      "post": {
+        "tags": [
+          "CartService"
+        ],
+        "operationId": "addToCart",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cart_item"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/cart_response"
+                }
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "security": [],
+        "servers": []
+      },
+      "servers": [],
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/userId"
+        }
+      ]
+    },
+    "/orders/place/{userId}": {
+      "post": {
+        "tags": [
+          "OrderService"
+        ],
+        "operationId": "placeOrder",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/order_response"
+                }
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "security": [],
+        "servers": []
+      },
+      "servers": [],
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/userId"
+        }
+      ]
+    },
+    "/orders/{orderId}": {
+      "get": {
+        "tags": [
+          "OrderService"
+        ],
+        "operationId": "getOrder",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/order_response"
+                }
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "security": [],
+        "servers": []
+      },
+      "servers": [],
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/orderId"
+        }
+      ]
+    },
+    "/payments/initiate": {
+      "post": {
+        "tags": [
+          "PaymentService"
+        ],
+        "operationId": "initiatePayment",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/payment_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/payment_response"
+                }
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "security": [],
+        "servers": []
+      },
+      "servers": [],
+      "parameters": []
+    },
+    "/payments/webhook": {
+      "post": {
+        "tags": [
+          "PaymentService"
+        ],
+        "operationId": "paymentWebhook",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/payment_webhook"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/payment_response"
+                }
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "security": [],
+        "servers": []
+      },
+      "servers": [],
+      "parameters": []
+    },
+    "/products": {
+      "post": {
+        "tags": [
+          "ProductService"
+        ],
+        "operationId": "addProduct",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/product_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/product_response"
+                }
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "security": [],
+        "servers": []
+      },
+      "servers": [],
+      "parameters": []
+    },
+    "/shipping/{orderId}/track": {
+      "get": {
+        "tags": [
+          "ShippingService"
+        ],
+        "operationId": "trackOrder",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/tracking_response"
+                }
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "security": [],
+        "servers": []
+      },
+      "servers": [],
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/orderId"
+        }
+      ]
+    },
+    "/users": {
+      "post": {
+        "tags": [
+          "UserService"
+        ],
+        "operationId": "registerUser",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/user_response"
+                }
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "security": [],
+        "servers": []
+      },
+      "servers": [],
+      "parameters": []
+    }
+  },
+  "components": {
+    "schemas": {
+      "cart_item": {
+        "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string"
+          },
+          "discount": {
+            "type": "number",
+            "format": "double"
+          },
+          "finalPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer"
+          }
+        }
+      },
+      "cart_response": {
+        "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/cart_item"
+            }
+          },
+          "payableAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalDiscount": {
+            "type": "number",
+            "format": "double"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          }
+        }
+      },
+      "order_item": {
+        "type": "object",
+        "properties": {
+          "discount": {
+            "type": "number",
+            "format": "double"
+          },
+          "finalPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer"
+          }
+        }
+      },
+      "order_response": {
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/order_item"
+            }
+          },
+          "orderId": {
+            "type": "string"
+          },
+          "payableAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "paymentStatus": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "totalAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalDiscount": {
+            "type": "number",
+            "format": "double"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          }
+        }
+      },
+      "payment_request": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "orderId": {
+            "type": "string"
+          },
+          "paymentGateway": {
+            "type": "string"
+          },
+          "paymentMethod": {
+            "type": "string"
+          }
+        }
+      },
+      "payment_response": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "orderId": {
+            "type": "string"
+          },
+          "paymentId": {
+            "type": "string"
+          },
+          "paymentMethod": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "transactionId": {
+            "type": "string"
+          }
+        }
+      },
+      "payment_webhook": {
+        "type": "object",
+        "properties": {
+          "gatewayResponse": {
+            "type": "string"
+          },
+          "paymentId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "transactionId": {
+            "type": "string"
+          }
+        }
+      },
+      "product_request": {
+        "type": "object",
+        "properties": {
+          "available": {
+            "type": "boolean"
+          },
+          "brand": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "rating": {
+            "type": "number",
+            "format": "double"
+          },
+          "stock": {
+            "type": "integer"
+          }
+        }
+      },
+      "product_response": {
+        "type": "object",
+        "properties": {
+          "available": {
+            "type": "boolean"
+          },
+          "brand": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number",
+            "format": "double"
+          },
+          "stock": {
+            "type": "integer"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        }
+      },
+      "tracking_response": {
+        "type": "object",
+        "properties": {
+          "courierPartner": {
+            "type": "string"
+          },
+          "estimatedDelivery": {
+            "type": "string"
+          },
+          "lastUpdated": {
+            "type": "string"
+          },
+          "orderId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "trackingId": {
+            "type": "string"
+          }
+        }
+      },
+      "user_request": {
+        "type": "object",
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "country": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "preferredCurrency": {
+            "type": "string"
+          },
+          "userType": {
+            "type": "string"
+          }
+        }
+      },
+      "user_response": {
+        "type": "object",
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "country": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "preferredCurrency": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "userType": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "userId": {
+        "name": "userId",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "orderId": {
+        "name": "orderId",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
