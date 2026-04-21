@@ -1,0 +1,302 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Airlines-runTime",
+    "description": "Airlines-runTime is an API for managing airline data, including flight schedules, ticket bookings, and passenger information. It provides endpoints for retrieving and manipulating data efficiently, ensuring a seamless integration for developers in the airline industry.",
+    "termsOfService": "https://www.airlines-runtime.com/terms",
+    "contact": {
+      "name": "Support Team",
+      "url": "https://www.airlines-runtime.com/support",
+      "email": "support@airlines-runtime.com"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://uat-acme-data-vkas.apiwiz.io/airlines/v2",
+      "description": "Dev",
+      "variables": {},
+      "x-schema": "https://",
+      "x-name": "Dev",
+      "x-environmentName": "UAT",
+      "x-hide": false,
+      "x-environmentId": "689cd1fe0d6c1e475a843976",
+      "x-basePath": "/airlines/v2"
+    }
+  ],
+  "paths": {
+    "/check-in": {
+      "post": {
+        "tags": [
+          "check-inService"
+        ],
+        "summary": "Create a new check-in record",
+        "description": "This operation allows the user to create a new check-in entry. The client must provide the necessary details in the request body, and upon success, a confirmation of the check-in will be returned.",
+        "operationId": "createCheckin",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/block-trace"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-external-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-request-id"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-decorator-operation"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-peer-metadata"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-peer-metadata-id"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-attempt-count"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          },
+          {
+            "$ref": "#/components/parameters/x-b3-traceid"
+          },
+          {
+            "$ref": "#/components/parameters/x-b3-spanid"
+          },
+          {
+            "$ref": "#/components/parameters/x-b3-sampled"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/check-in_post_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200Description",
+            "headers": {
+              "x-log-id": {
+                "$ref": "#/components/headers/x-log-id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/check-in_post_response_200"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {},
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "callbacks": {},
+        "security": [],
+        "servers": []
+      },
+      "servers": [],
+      "parameters": []
+    }
+  },
+  "components": {
+    "schemas": {
+      "check-in_post_request": {
+        "type": "object",
+        "properties": {
+          "customerId": {
+            "type": "string",
+            "example": "m6tkyu0uooKMIPkGDQPxm8v"
+          },
+          "flightNumber": {
+            "type": "string",
+            "example": "EZRs3xMMBGUW4zo3uIZ4RwbfL"
+          },
+          "travelDate": {
+            "type": "string",
+            "example": "cJKqpKFylxmusnqADa5nIJI"
+          },
+          "requestId": {
+            "type": "string",
+            "example": "hxvSDRNYyT0RHrf3sUZG32"
+          },
+          "seatNo": {
+            "type": "string",
+            "example": "iJ89uHVGksr2inuLuf8"
+          },
+          "mealId": {
+            "type": "string",
+            "example": "yxpL4oeygzhoiXcwDGb"
+          },
+          "extraLuggage": {
+            "type": "boolean",
+            "example": false
+          }
+        },
+        "example": "{\n  \"customerId\" : \"m6tkyu0uooKMIPkGDQPxm8v\",\n  \"flightNumber\" : \"EZRs3xMMBGUW4zo3uIZ4RwbfL\",\n  \"travelDate\" : \"cJKqpKFylxmusnqADa5nIJI\",\n  \"requestId\" : \"hxvSDRNYyT0RHrf3sUZG32\",\n  \"seatNo\" : \"iJ89uHVGksr2inuLuf8\",\n  \"mealId\" : \"yxpL4oeygzhoiXcwDGb\",\n  \"extraLuggage\" : false\n}"
+      },
+      "check-in_post_response_200": {
+        "type": "string",
+        "example": ""
+      }
+    },
+    "parameters": {
+      "block-trace": {
+        "name": "block-trace",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "hxug"
+        },
+        "example": "hxug"
+      },
+      "x-envoy-external-address": {
+        "name": "x-envoy-external-address",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "\"LJs19Lx%W]j("
+        },
+        "example": "\"LJs19Lx%W]j("
+      },
+      "x-request-id": {
+        "name": "x-request-id",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "NWr09MlUgHV8N96Rva2SI4F2Wdh645z3nC8y"
+        },
+        "example": "NWr09MlUgHV8N96Rva2SI4F2Wdh645z3nC8y"
+      },
+      "x-envoy-decorator-operation": {
+        "name": "x-envoy-decorator-operation",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "AQBGSQ53LGXBQgf5K8vIGMzXYoboluLUGOzeuO96tJgByrCE67MJi6s"
+        },
+        "example": "AQBGSQ53LGXBQgf5K8vIGMzXYoboluLUGOzeuO96tJgByrCE67MJi6s"
+      },
+      "x-envoy-peer-metadata": {
+        "name": "x-envoy-peer-metadata",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "PhfObDFibSgD8TC8V8eliWZkKYW7WvcKIgvEGWVAJrGt5BLHyZVn9YgzZE8Bt0iMEsGMmZXlO4nQPXnbBxkltGnZnpHO8zmdorgMh6Q3EuDCG8N2p11XFxjxx3bfVmfuqnINTxKpI1w4TMSlmg9mQoR0bAieFHBw4OSo01kvqq2uIjj1EibRCoSOspIDbayh6Y9NenXKgC5VFOUXRQ3kctidvQEBzjSQcJF82VOhgQcjnyOPzsvBVZGgjJnoFrcV2NMLCmLxExCF9nEPXaBUYAsGhQsZNfv5oveSV10RdAhUTCU4toLLgsnGjfhUinQxp3v5sWPiIujkhwA9bNMg3T4SGeX57XhexbakAfV1LKi1UHL3HMgNq0NVoszqYPJ00sgyq9y97nWVULdhfFlVaTTd9vZP7ZFKhOD27zCDklKGqdGsHLGVaVVEXVVI7JjDbJog11IyHbRbvgybJ0zFRl6TueqZyGusyRmxZwFjAV2XV8VayayyalKaJNMIHZz136o5wh8lcB5gDcpFgkagvbSFwrJ2R2ACm42NsO7BAyESItRnxsRynIHHHahLcvumabIXZT3N697TblesO5tIXdrlCjImPXS439CUqpRagaVMt4gZ9xFblj1wB0ZFlBAD0UR4xvZaNJvNoZ6Ee4PvKA2fJ7LFRINWCagZbDWxhVSz7r00dnhYeWyNodrksmYvb9MxVCVmY2W4s6RBWlqkwMmPwm3t3xCmh29kFKfH06vDZiOMp2C1w3NpbJbtyGp2tXuYqawUduBg2EHIaAZJwLgU3bjeMGqsj5UTZDCsNNXz3LvGMWGstU92eoSNpbK1tEZTPlG0XpzgBdPL7adEFmAG7apnBt5Jj2R2ZELrrytDyncMPrmdBhrEip100zGjnKkAQRqeGeEIhUrsA31htRftz2EE9Uvvrk4hh50Y5sY71Q0cAAy1n7A1dDmCedxrHlYeu6Z27hrGzs5VIxkbA8Ohh25Rt8hS2p8DmpQEabvV4wVe6ZuAgAMHTJ2tIVyGMKr1cS6JarxiWCVY8w0AmvRWMe1MBFnv"
+        },
+        "example": "PhfObDFibSgD8TC8V8eliWZkKYW7WvcKIgvEGWVAJrGt5BLHyZVn9YgzZE8Bt0iMEsGMmZXlO4nQPXnbBxkltGnZnpHO8zmdorgMh6Q3EuDCG8N2p11XFxjxx3bfVmfuqnINTxKpI1w4TMSlmg9mQoR0bAieFHBw4OSo01kvqq2uIjj1EibRCoSOspIDbayh6Y9NenXKgC5VFOUXRQ3kctidvQEBzjSQcJF82VOhgQcjnyOPzsvBVZGgjJnoFrcV2NMLCmLxExCF9nEPXaBUYAsGhQsZNfv5oveSV10RdAhUTCU4toLLgsnGjfhUinQxp3v5sWPiIujkhwA9bNMg3T4SGeX57XhexbakAfV1LKi1UHL3HMgNq0NVoszqYPJ00sgyq9y97nWVULdhfFlVaTTd9vZP7ZFKhOD27zCDklKGqdGsHLGVaVVEXVVI7JjDbJog11IyHbRbvgybJ0zFRl6TueqZyGusyRmxZwFjAV2XV8VayayyalKaJNMIHZz136o5wh8lcB5gDcpFgkagvbSFwrJ2R2ACm42NsO7BAyESItRnxsRynIHHHahLcvumabIXZT3N697TblesO5tIXdrlCjImPXS439CUqpRagaVMt4gZ9xFblj1wB0ZFlBAD0UR4xvZaNJvNoZ6Ee4PvKA2fJ7LFRINWCagZbDWxhVSz7r00dnhYeWyNodrksmYvb9MxVCVmY2W4s6RBWlqkwMmPwm3t3xCmh29kFKfH06vDZiOMp2C1w3NpbJbtyGp2tXuYqawUduBg2EHIaAZJwLgU3bjeMGqsj5UTZDCsNNXz3LvGMWGstU92eoSNpbK1tEZTPlG0XpzgBdPL7adEFmAG7apnBt5Jj2R2ZELrrytDyncMPrmdBhrEip100zGjnKkAQRqeGeEIhUrsA31htRftz2EE9Uvvrk4hh50Y5sY71Q0cAAy1n7A1dDmCedxrHlYeu6Z27hrGzs5VIxkbA8Ohh25Rt8hS2p8DmpQEabvV4wVe6ZuAgAMHTJ2tIVyGMKr1cS6JarxiWCVY8w0AmvRWMe1MBFnv"
+      },
+      "x-envoy-peer-metadata-id": {
+        "name": "x-envoy-peer-metadata-id",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "vxv0a6TvBJlO0OMd6k8cWnE72TKY31e4bdgVv4CJzv93RSB88KUeHq8jJfWcihg8uKXMHA8suS6kgMQVRGajSgHVQqfe9J3Ur2UiMX"
+        },
+        "example": "vxv0a6TvBJlO0OMd6k8cWnE72TKY31e4bdgVv4CJzv93RSB88KUeHq8jJfWcihg8uKXMHA8suS6kgMQVRGajSgHVQqfe9J3Ur2UiMX"
+      },
+      "x-envoy-attempt-count": {
+        "name": "x-envoy-attempt-count",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "7"
+        },
+        "example": "7"
+      },
+      "x-application-type": {
+        "name": "x-application-type",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "eiuwrkdidh"
+        },
+        "example": "eiuwrkdidh"
+      },
+      "x-b3-traceid": {
+        "name": "x-b3-traceid",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "wzUhStObavp1F838YnUTtgEHw2nps7iu"
+        },
+        "example": "wzUhStObavp1F838YnUTtgEHw2nps7iu"
+      },
+      "x-b3-spanid": {
+        "name": "x-b3-spanid",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "h4JZMjFtW3BXBkkX"
+        },
+        "example": "h4JZMjFtW3BXBkkX"
+      },
+      "x-b3-sampled": {
+        "name": "x-b3-sampled",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "0"
+        },
+        "example": "0"
+      }
+    },
+    "headers": {
+      "x-log-id": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "bAizBUKvPy1wxwEqRtQI6Dpm"
+        },
+        "example": "bAizBUKvPy1wxwEqRtQI6Dpm"
+      }
+    }
+  }
+}
