@@ -1,0 +1,618 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Telecom-runTime",
+    "description": "Telecom-runTime is a comprehensive API platform designed to streamline telecommunications processes, enhance customer experience, and provide seamless integrations with existing systems. Our API facilitates real-time data access, service management, and analytics to empower businesses in the telecom industry.",
+    "termsOfService": "https://telecomruntime.com/terms",
+    "contact": {
+      "name": "Customer Support",
+      "url": "https://support.telecomruntime.com",
+      "email": "support@telecomruntime.com"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://acme-data-wadt.apiwiz.io/v1/telecom",
+      "description": "Dev",
+      "variables": {},
+      "x-schema": "https://",
+      "x-name": "Dev",
+      "x-environmentName": "DEV",
+      "x-hide": false,
+      "x-environmentId": "689cd1fe0d6c1e475a843974",
+      "x-basePath": "/v1/telecom"
+    }
+  ],
+  "paths": {
+    "/recharge": {
+      "post": {
+        "tags": [
+          "rechargeService"
+        ],
+        "summary": "Create a new recharge",
+        "description": "This operation allows you to initiate a new recharge for a user. You need to provide the required details in the request body, and upon success, the recharge will be processed.",
+        "operationId": "createRecharge",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-external-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-request-id"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-decorator-operation"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-peer-metadata"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-peer-metadata-id"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-attempt-count"
+          },
+          {
+            "$ref": "#/components/parameters/x-b3-traceid"
+          },
+          {
+            "$ref": "#/components/parameters/x-b3-spanid"
+          },
+          {
+            "$ref": "#/components/parameters/x-b3-sampled"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/recharge_post_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200Description",
+            "headers": {
+              "x-log-id": {
+                "$ref": "#/components/headers/x-log-id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/recharge_post_response_200"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {},
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "callbacks": {},
+        "security": [],
+        "servers": []
+      },
+      "servers": [],
+      "parameters": []
+    },
+    "/plans/Airtel": {
+      "get": {
+        "tags": [
+          "plansService"
+        ],
+        "summary": "Retrieve Airtel plans",
+        "description": "Fetch a list of available Airtel plans. This endpoint returns details about the current plans offered by Airtel, allowing users to choose a suitable option.",
+        "operationId": "getPlansairtel",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-external-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-request-id"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-decorator-operation"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-peer-metadata"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-peer-metadata-id"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-attempt-count"
+          },
+          {
+            "$ref": "#/components/parameters/x-b3-traceid"
+          },
+          {
+            "$ref": "#/components/parameters/x-b3-spanid"
+          },
+          {
+            "$ref": "#/components/parameters/x-b3-sampled"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200Description",
+            "headers": {
+              "x-log-id": {
+                "$ref": "#/components/headers/x-log-id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/plansairtel_get_response_200"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {},
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "callbacks": {},
+        "security": [],
+        "servers": []
+      },
+      "servers": [],
+      "parameters": []
+    },
+    "/balance/9876543210": {
+      "get": {
+        "tags": [
+          "balanceService"
+        ],
+        "summary": "Check balance for a user",
+        "description": "This operation retrieves the current balance for the user associated with the provided phone number. It returns the balance amount, helping the user understand their available funds.",
+        "operationId": "getBalance9876543210",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-external-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-request-id"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-decorator-operation"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-peer-metadata"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-peer-metadata-id"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-attempt-count"
+          },
+          {
+            "$ref": "#/components/parameters/x-b3-traceid"
+          },
+          {
+            "$ref": "#/components/parameters/x-b3-spanid"
+          },
+          {
+            "$ref": "#/components/parameters/x-b3-sampled"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200Description",
+            "headers": {
+              "x-log-id": {
+                "$ref": "#/components/headers/x-log-id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/balance9876543210_get_response_200"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {},
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "callbacks": {},
+        "security": [],
+        "servers": []
+      },
+      "servers": [],
+      "parameters": []
+    }
+  },
+  "components": {
+    "schemas": {
+      "recharge_post_request": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "example": "Y8Ww"
+          },
+          "mobileNumber": {
+            "type": "string",
+            "example": "8406801841"
+          },
+          "operator": {
+            "type": "string",
+            "example": "dgcbmd"
+          },
+          "circle": {
+            "type": "string",
+            "example": "lzvngikov"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32",
+            "example": 34
+          },
+          "planId": {
+            "type": "string",
+            "example": "6fljDBWD"
+          },
+          "paymentMode": {
+            "type": "string",
+            "example": "gvd"
+          },
+          "requestId": {
+            "type": "string",
+            "example": "YhzDHrArr"
+          },
+          "channel": {
+            "type": "string",
+            "example": "e3wjbmXW?{"
+          }
+        },
+        "example": "{\n  \"userId\" : \"Y8Ww\",\n  \"mobileNumber\" : \"8406801841\",\n  \"operator\" : \"dgcbmd\",\n  \"circle\" : \"lzvngikov\",\n  \"amount\" : 34,\n  \"planId\" : \"6fljDBWD\",\n  \"paymentMode\" : \"gvd\",\n  \"requestId\" : \"YhzDHrArr\",\n  \"channel\" : \"e3wjbmXW?{\"\n}"
+      },
+      "recharge_post_response_200": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "oqcbslg"
+          },
+          "transactionId": {
+            "type": "string",
+            "example": "q7BBmPqbt"
+          },
+          "requestId": {
+            "type": "string",
+            "example": "TfnZwOElK"
+          },
+          "mobileNumber": {
+            "type": "string",
+            "example": "8513616964"
+          },
+          "operator": {
+            "type": "string",
+            "example": "crzbaf"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32",
+            "example": 37
+          },
+          "planId": {
+            "type": "string",
+            "example": "yK8DaNPX"
+          },
+          "paymentMode": {
+            "type": "string",
+            "example": "qqm"
+          },
+          "rechargeType": {
+            "type": "string",
+            "example": "pmptvlg"
+          },
+          "transactionDate": {
+            "type": "string",
+            "example": "O6Mvy65Q0aGUzUGVPL9"
+          },
+          "validity": {
+            "type": "string",
+            "example": "G0o9U9Q"
+          },
+          "benefits": {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "string",
+                "example": "YQ7wRKLE1"
+              },
+              "calls": {
+                "type": "string",
+                "example": "pvmalxowk"
+              },
+              "sms": {
+                "type": "string",
+                "example": "MUp87qd"
+              }
+            },
+            "example": "{\n  \"data\" : \"YQ7wRKLE1\",\n  \"calls\" : \"pvmalxowk\",\n  \"sms\" : \"MUp87qd\"\n}"
+          },
+          "message": {
+            "type": "string",
+            "example": "phqjaglqlxlzlxkeujq"
+          }
+        },
+        "example": "{\n  \"status\" : \"oqcbslg\",\n  \"transactionId\" : \"q7BBmPqbt\",\n  \"requestId\" : \"TfnZwOElK\",\n  \"mobileNumber\" : \"8513616964\",\n  \"operator\" : \"crzbaf\",\n  \"amount\" : 37,\n  \"planId\" : \"yK8DaNPX\",\n  \"paymentMode\" : \"qqm\",\n  \"rechargeType\" : \"pmptvlg\",\n  \"transactionDate\" : \"O6Mvy65Q0aGUzUGVPL9\",\n  \"validity\" : \"G0o9U9Q\",\n  \"benefits\" : {\n    \"data\" : \"YQ7wRKLE1\",\n    \"calls\" : \"pvmalxowk\",\n    \"sms\" : \"MUp87qd\"\n  },\n  \"message\" : \"phqjaglqlxlzlxkeujq\"\n}"
+      },
+      "plansairtel_get_response_200": {
+        "type": "object",
+        "properties": {
+          "operator": {
+            "type": "string",
+            "example": "iqlanr"
+          },
+          "plans": {
+            "type": "array",
+            "example": "[ {\n  \"planId\" : \"fWOhbdOn\",\n  \"amount\" : 38,\n  \"data\" : \"ITYZqwauS\",\n  \"validity\" : \"b4apErS\",\n  \"calls\" : \"nszwqylfj\"\n}, {\n  \"planId\" : \"45fOaY9w\",\n  \"amount\" : 84,\n  \"data\" : \"7ga4ltL\",\n  \"validity\" : \"dSnYaHF\",\n  \"calls\" : \"wcaqqolnu\"\n} ]",
+            "items": {
+              "type": "object",
+              "properties": {
+                "planId": {
+                  "type": "string",
+                  "example": "fWOhbdOn"
+                },
+                "amount": {
+                  "type": "integer",
+                  "format": "int32",
+                  "example": 38
+                },
+                "data": {
+                  "type": "string",
+                  "example": "ITYZqwauS"
+                },
+                "validity": {
+                  "type": "string",
+                  "example": "b4apErS"
+                },
+                "calls": {
+                  "type": "string",
+                  "example": "nszwqylfj"
+                }
+              },
+              "example": "{\n  \"planId\" : \"fWOhbdOn\",\n  \"amount\" : 38,\n  \"data\" : \"ITYZqwauS\",\n  \"validity\" : \"b4apErS\",\n  \"calls\" : \"nszwqylfj\"\n}"
+            }
+          }
+        },
+        "example": "{\n  \"operator\" : \"iqlanr\",\n  \"plans\" : [ {\n    \"planId\" : \"fWOhbdOn\",\n    \"amount\" : 38,\n    \"data\" : \"ITYZqwauS\",\n    \"validity\" : \"b4apErS\",\n    \"calls\" : \"nszwqylfj\"\n  }, {\n    \"planId\" : \"45fOaY9w\",\n    \"amount\" : 84,\n    \"data\" : \"7ga4ltL\",\n    \"validity\" : \"dSnYaHF\",\n    \"calls\" : \"wcaqqolnu\"\n  } ]\n}"
+      },
+      "balance9876543210_get_response_200": {
+        "type": "object",
+        "properties": {
+          "mobileNumber": {
+            "type": "string",
+            "example": "8993039225"
+          },
+          "operator": {
+            "type": "string",
+            "example": "sddsvp"
+          },
+          "circle": {
+            "type": "string",
+            "example": "kqkwlggte"
+          },
+          "balance": {
+            "type": "number",
+            "example": 55.54
+          },
+          "currency": {
+            "type": "string",
+            "example": "iop"
+          },
+          "mainBalance": {
+            "type": "number",
+            "example": 64.43
+          },
+          "dataBalance": {
+            "type": "string",
+            "example": "8E4Fn"
+          },
+          "smsBalance": {
+            "type": "integer",
+            "format": "int32",
+            "example": 83
+          },
+          "planName": {
+            "type": "string",
+            "example": "l43l1ZRF9MV8f"
+          },
+          "validity": {
+            "type": "string",
+            "example": "M=>.HjtwW1"
+          },
+          "lastRechargeAmount": {
+            "type": "integer",
+            "format": "int32",
+            "example": 64
+          },
+          "lastRechargeDate": {
+            "type": "string",
+            "example": "S3-z)OgO2c"
+          },
+          "roaming": {
+            "type": "boolean",
+            "example": false
+          },
+          "status": {
+            "type": "string",
+            "example": "izhaho"
+          }
+        },
+        "example": "{\n  \"mobileNumber\" : \"8993039225\",\n  \"operator\" : \"sddsvp\",\n  \"circle\" : \"kqkwlggte\",\n  \"balance\" : 55.54,\n  \"currency\" : \"iop\",\n  \"mainBalance\" : 64.43,\n  \"dataBalance\" : \"8E4Fn\",\n  \"smsBalance\" : 83,\n  \"planName\" : \"l43l1ZRF9MV8f\",\n  \"validity\" : \"M=>.HjtwW1\",\n  \"lastRechargeAmount\" : 64,\n  \"lastRechargeDate\" : \"S3-z)OgO2c\",\n  \"roaming\" : false,\n  \"status\" : \"izhaho\"\n}"
+      }
+    },
+    "parameters": {
+      "x-application-type": {
+        "name": "x-application-type",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "uzubaxnxpv"
+        },
+        "example": "uzubaxnxpv"
+      },
+      "x-envoy-external-address": {
+        "name": "x-envoy-external-address",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "TswECSzgyo{^e}"
+        },
+        "example": "TswECSzgyo{^e}"
+      },
+      "x-request-id": {
+        "name": "x-request-id",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "hgXz1PdNOaLPtONto6IJqxBtgfuWfFVTN7Uh"
+        },
+        "example": "hgXz1PdNOaLPtONto6IJqxBtgfuWfFVTN7Uh"
+      },
+      "x-envoy-decorator-operation": {
+        "name": "x-envoy-decorator-operation",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "zsD90soc5iRQrx9jHUIX45BPk4rJvBdplKNLr9lHSBO95GbqmqVQWP3"
+        },
+        "example": "zsD90soc5iRQrx9jHUIX45BPk4rJvBdplKNLr9lHSBO95GbqmqVQWP3"
+      },
+      "x-envoy-peer-metadata": {
+        "name": "x-envoy-peer-metadata",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "pqaWwCmKmukUGNUl8XvZFEztvupYkChgQklshSiO9svRttqQBB92LsRbYIOUuP2m1ps5ZP3b4Bn0lfBA6QwsVHLjscVdqyJx2gcr64tZKozVbXUsTh2khS9Rt37hDyke0YEfZBo9roMUychqjnYEM9p85pLnxkPBlIWBeCFN7ddyNmMw0nE1Zbo4MQLVpiroYx4xEjwnq8HsJCwBHgTCecrreGIRXxMmZr08bsJvksAYJSbRRxSqvc7mFtvLQH4rCfC1w1FKdUs7gkayU7tjXm9rLqqQHvwH8eiuK2TLXBFzPA4i7WYNFOkgiR1DPlRxDg9Qw0tNQUEtwhBw1JaGuE0MiVhPLqN5aMPojNdyA5RQExDw2lUbSYnHT1hyo7KB7lhHmTnHPPPulLOU2sYKKsERRDDFH4uiWWGAosgNTpws2rldZRBPB0gNC2l2n1cOPOufcAt4aM9nJZibnS19uye54U2m7CftgeTc94UYBrXMJU1l5rPLbl1VQh5Yi7j80z6cnUtuE5yKzSiNCBkEnd4wmtPyNXpp3t6cGWx6M6vpw3lL6hSrWgtMrSMoa2pegp9bBe4UbLWFNnAdyDXibLuJAXY2KU14XS22WQsSMhV1v4u7DH6Wnb86HicS5byJQFOhhdhAPOHiVq1IjBcb3uKWNKjCI4efablOnNt3KYhFsf7Op61aKPqeZqFKLHWw76wy8ko3teyzzULMbxioigwrjXDfZpWOC9TfHEMkWusYJ7ks4kepPV8c5EK28xCueXkV3VVvhJvifcpe8Hbac7r4XRvd8MzR9hXsJibZ2iFW9YrtU69aZ6a2zlJdIxuj2gcf6bMg79ikKoFrUOpggBRgLn3MhYlgkQXtHSslMLIGqAjKgYuawZo2zyKzK4yIpwXJ5RWHj1GceDaMmmMHFr26EZ11GDopR3jhLmW5QsALu3w0AaoG4wYMz0WwMPnOIw7uSB69E7pG9DpiSrxDKKmzwA3TfTDkkuv3DltRQfwmndmUqZh3wEKZI8YnBJNKklkoxeMpyHd5SC7Hhtwv8Y2ow9qzwWqO"
+        },
+        "example": "pqaWwCmKmukUGNUl8XvZFEztvupYkChgQklshSiO9svRttqQBB92LsRbYIOUuP2m1ps5ZP3b4Bn0lfBA6QwsVHLjscVdqyJx2gcr64tZKozVbXUsTh2khS9Rt37hDyke0YEfZBo9roMUychqjnYEM9p85pLnxkPBlIWBeCFN7ddyNmMw0nE1Zbo4MQLVpiroYx4xEjwnq8HsJCwBHgTCecrreGIRXxMmZr08bsJvksAYJSbRRxSqvc7mFtvLQH4rCfC1w1FKdUs7gkayU7tjXm9rLqqQHvwH8eiuK2TLXBFzPA4i7WYNFOkgiR1DPlRxDg9Qw0tNQUEtwhBw1JaGuE0MiVhPLqN5aMPojNdyA5RQExDw2lUbSYnHT1hyo7KB7lhHmTnHPPPulLOU2sYKKsERRDDFH4uiWWGAosgNTpws2rldZRBPB0gNC2l2n1cOPOufcAt4aM9nJZibnS19uye54U2m7CftgeTc94UYBrXMJU1l5rPLbl1VQh5Yi7j80z6cnUtuE5yKzSiNCBkEnd4wmtPyNXpp3t6cGWx6M6vpw3lL6hSrWgtMrSMoa2pegp9bBe4UbLWFNnAdyDXibLuJAXY2KU14XS22WQsSMhV1v4u7DH6Wnb86HicS5byJQFOhhdhAPOHiVq1IjBcb3uKWNKjCI4efablOnNt3KYhFsf7Op61aKPqeZqFKLHWw76wy8ko3teyzzULMbxioigwrjXDfZpWOC9TfHEMkWusYJ7ks4kepPV8c5EK28xCueXkV3VVvhJvifcpe8Hbac7r4XRvd8MzR9hXsJibZ2iFW9YrtU69aZ6a2zlJdIxuj2gcf6bMg79ikKoFrUOpggBRgLn3MhYlgkQXtHSslMLIGqAjKgYuawZo2zyKzK4yIpwXJ5RWHj1GceDaMmmMHFr26EZ11GDopR3jhLmW5QsALu3w0AaoG4wYMz0WwMPnOIw7uSB69E7pG9DpiSrxDKKmzwA3TfTDkkuv3DltRQfwmndmUqZh3wEKZI8YnBJNKklkoxeMpyHd5SC7Hhtwv8Y2ow9qzwWqO"
+      },
+      "x-envoy-peer-metadata-id": {
+        "name": "x-envoy-peer-metadata-id",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "NUBGC8tmZb029RmN5iLrW8VN8MIg9j0KNXDedzs6Dw0eWeQEFuVwNIMKLPR02MLa5eGrQZutgjmBhDWtRoQX0B3eJzdrYfG12vs3Cd"
+        },
+        "example": "NUBGC8tmZb029RmN5iLrW8VN8MIg9j0KNXDedzs6Dw0eWeQEFuVwNIMKLPR02MLa5eGrQZutgjmBhDWtRoQX0B3eJzdrYfG12vs3Cd"
+      },
+      "x-envoy-attempt-count": {
+        "name": "x-envoy-attempt-count",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "1"
+        },
+        "example": "1"
+      },
+      "x-b3-traceid": {
+        "name": "x-b3-traceid",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "EvDxaz1A4VvTgq54tUqAItxFK0GW0JHD"
+        },
+        "example": "EvDxaz1A4VvTgq54tUqAItxFK0GW0JHD"
+      },
+      "x-b3-spanid": {
+        "name": "x-b3-spanid",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "zKFdgVVkduWkWq9g"
+        },
+        "example": "zKFdgVVkduWkWq9g"
+      },
+      "x-b3-sampled": {
+        "name": "x-b3-sampled",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "7"
+        },
+        "example": "7"
+      }
+    },
+    "headers": {
+      "x-log-id": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "cLkadfWTgcNizlezRzK0HRcX"
+        },
+        "example": "cLkadfWTgcNizlezRzK0HRcX"
+      }
+    }
+  }
+}
