@@ -2,11 +2,11 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Ecommerce-buildTime",
-    "description": "The Ecommerce-buildTime API provides comprehensive endpoints for managing shopping carts, orders, products, shipping tracking, user accounts, and payment processing, enabling seamless e-commerce platform operations.",
-    "termsOfService": "https://www.ecommerce-buildtime.com/terms",
+    "description": "Ecommerce-buildTime is a comprehensive API designed to streamline online shopping experiences by managing products, users, carts, orders, payments, and shipping services. It enables seamless interactions for adding items to carts, placing orders, processing payments, tracking shipments, and managing user data to support a full-featured e-commerce platform.",
+    "termsOfService": "https://ecommerce-buildtime.com/terms",
     "contact": {
       "name": "Ecommerce API Support",
-      "url": "https://www.ecommerce-buildtime.com/support",
+      "url": "https://ecommerce-buildtime.com/support",
       "email": "support@ecommerce-buildtime.com"
     },
     "version": "v1"
@@ -26,28 +26,28 @@
   ],
   "tags": [
     {
-      "name": "CartService",
-      "description": "Handles operations related to the shopping cart, including adding and removing items."
-    },
-    {
-      "name": "OrderService",
-      "description": "Manages order processing, tracking, and history."
-    },
-    {
       "name": "ProductService",
-      "description": "Provides product information and inventory management."
-    },
-    {
-      "name": "ShippingService",
-      "description": "Coordinates shipping options, tracking, and delivery status."
+      "description": "Handles product catalog management including creation, updates, and retrieval of product details."
     },
     {
       "name": "UserService",
-      "description": "Manages user accounts, authentication, and profiles."
+      "description": "Manages user accounts, authentication, and profile information."
+    },
+    {
+      "name": "CartService",
+      "description": "Manages shopping cart operations such as adding, updating, and removing items."
+    },
+    {
+      "name": "ShippingService",
+      "description": "Coordinates shipping options, tracking, and delivery status updates."
+    },
+    {
+      "name": "OrderService",
+      "description": "Processes orders from creation to completion, including status management and history."
     },
     {
       "name": "PaymentService",
-      "description": "Processes payments and manages billing transactions."
+      "description": "Handles payment processing, billing, and transaction records."
     }
   ],
   "paths": {
@@ -56,8 +56,8 @@
         "tags": [
           "CartService"
         ],
-        "summary": "Retrieve user's shopping cart",
-        "description": "Fetches the current contents of the shopping cart for a specified user. Returns all items and their quantities in the cart.",
+        "summary": "Retrieve user shopping cart",
+        "description": "Fetch the current contents of the shopping cart for a specified user. Returns all items and their quantities.",
         "operationId": "getCart",
         "parameters": [],
         "responses": {
@@ -121,12 +121,12 @@
         "tags": [
           "CartService"
         ],
-        "summary": "Add item to user's cart",
-        "description": "Adds a specified product to the user's shopping cart. Updates the cart with the new item and quantity.",
+        "summary": "Add item to user cart",
+        "description": "Add a specified product to the user's shopping cart. Updates the cart with new items or modifies quantities.",
         "operationId": "addToCart",
         "parameters": [],
         "requestBody": {
-          "description": "Request body representing an item to be added to the user's shopping cart.",
+          "description": "Request body containing details of the item to add to a user's shopping cart.",
           "content": {
             "application/json": {
               "schema": {
@@ -204,8 +204,8 @@
         "tags": [
           "OrderService"
         ],
-        "summary": "Create a new order",
-        "description": "Places a new order for the specified user based on their current cart contents. Initiates the order processing workflow.",
+        "summary": "Create new order",
+        "description": "Place an order using the items in the user's cart. Processes the order and generates order confirmation.",
         "operationId": "placeOrder",
         "parameters": [],
         "responses": {
@@ -270,7 +270,7 @@
           "OrderService"
         ],
         "summary": "Retrieve order details",
-        "description": "Fetches detailed information about a specific order by its ID. Includes status, items, prices, and shipping information.",
+        "description": "Get detailed information about a specific order by its unique identifier. Includes status and order items.",
         "operationId": "getOrder",
         "parameters": [],
         "responses": {
@@ -334,22 +334,28 @@
         "tags": [
           "PaymentService"
         ],
-        "summary": "Start a payment transaction",
-        "description": "Begins the payment process for an order or service. Returns payment details required to complete the transaction.",
+        "summary": "Start payment process",
+        "description": "Initiate a payment transaction for an order. Handles payment method selection and transaction setup.",
         "operationId": "initiatePayment",
         "parameters": [],
         "requestBody": {
-          "description": "Request body representing the details required to initiate a payment transaction.",
+          "description": "Request body with payment details to initiate a new payment transaction.",
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/payment_request"
               },
               "example": {
+                "userId": "user789",
                 "amount": 49.99,
                 "currency": "USD",
                 "paymentMethod": "credit_card",
-                "orderId": "abc123"
+                "cardInfo": {
+                  "number": "4111111111111111",
+                  "expiryMonth": "12",
+                  "expiryYear": "2025",
+                  "cvv": "123"
+                }
               }
             }
           }
@@ -411,24 +417,26 @@
         "tags": [
           "PaymentService"
         ],
-        "summary": "Handle payment notifications",
-        "description": "Receives asynchronous payment status updates from payment providers. Updates order status based on payment results.",
+        "summary": "Process payment notifications",
+        "description": "Receive and process asynchronous payment status notifications. Updates order payment status accordingly.",
         "operationId": "paymentWebhook",
         "parameters": [],
         "requestBody": {
-          "description": "Request body representing payment gateway webhook data for transaction status updates.",
+          "description": "Payload received from the payment provider as a webhook to notify about payment status updates.",
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/payment_webhook"
               },
               "example": {
-                "transactionId": "txn_78910",
-                "status": "completed",
-                "paymentMethod": "credit_card",
+                "transactionId": "txn_001",
+                "status": "success",
                 "amount": 49.99,
                 "currency": "USD",
-                "timestamp": "2024-06-01T12:30:45Z"
+                "timestamp": "2024-06-15T14:30:00Z",
+                "metadata": {
+                  "orderId": "order123"
+                }
               }
             }
           }
@@ -490,12 +498,12 @@
         "tags": [
           "ProductService"
         ],
-        "summary": "Create a new product",
-        "description": "Adds a new product to the product catalog. Includes details such as name, description, price, and availability.",
+        "summary": "Create new product",
+        "description": "Add a new product to the catalog. Requires product details such as name, description, price, and inventory.",
         "operationId": "addProduct",
         "parameters": [],
         "requestBody": {
-          "description": "Request body representing the data required to add a new product to the catalog.",
+          "description": "Request body with product details to add a new product to the catalog.",
           "content": {
             "application/json": {
               "schema": {
@@ -503,11 +511,15 @@
               },
               "example": {
                 "name": "Wireless Mouse",
-                "description": "Ergonomic wireless mouse with adjustable DPI.",
+                "description": "Ergonomic wireless mouse with USB receiver",
                 "price": 29.99,
                 "currency": "USD",
                 "stock": 150,
-                "category": "electronics"
+                "categories": [
+                  "electronics",
+                  "accessories"
+                ],
+                "sku": "WM-4567"
               }
             }
           }
@@ -569,8 +581,8 @@
         "tags": [
           "ShippingService"
         ],
-        "summary": "Track order shipment status",
-        "description": "Retrieves the current shipping status and tracking information for an order. Helps users monitor delivery progress.",
+        "summary": "Track shipping status",
+        "description": "Provide the current shipping status of an order by order ID. Returns tracking details and expected delivery.",
         "operationId": "trackOrder",
         "parameters": [],
         "responses": {
@@ -634,12 +646,12 @@
         "tags": [
           "UserService"
         ],
-        "summary": "Register a new user account",
-        "description": "Creates a new user account with the provided information. Enables access to user-specific features and services.",
+        "summary": "Register new user account",
+        "description": "Create a new user account with provided details. Enables user authentication and personalized services.",
         "operationId": "registerUser",
         "parameters": [],
         "requestBody": {
-          "description": "Request body representing user registration details including credentials.",
+          "description": "Request body containing user registration information to create a new user account.",
           "content": {
             "application/json": {
               "schema": {
@@ -648,9 +660,10 @@
               "example": {
                 "username": "johndoe",
                 "email": "johndoe@example.com",
-                "password": "StrongPassword123!",
+                "password": "SecurePass123!",
                 "firstName": "John",
-                "lastName": "Doe"
+                "lastName": "Doe",
+                "phone": "+1234567890"
               }
             }
           }
@@ -715,40 +728,40 @@
         "properties": {
           "currency": {
             "type": "string",
-            "description": "The currency code for the item's price, following ISO 4217 standard.",
+            "description": "Currency code for the item's price",
             "example": "USD"
           },
           "discount": {
             "type": "number",
-            "description": "The discount amount applied to the item price.",
+            "description": "Discount applied to the item price",
             "format": "double",
-            "example": 5.99
+            "example": 5.0
           },
           "finalPrice": {
             "type": "number",
-            "description": "The final price of the item after applying discounts.",
+            "description": "Final price of the item after discount",
             "format": "double",
-            "example": 24.01
+            "example": 45.0
           },
           "price": {
             "type": "number",
-            "description": "The original price of a single item before discounts.",
+            "description": "Original price of the item before discount",
             "format": "double",
-            "example": 30.0
+            "example": 50.0
           },
           "productId": {
             "type": "string",
-            "description": "Unique identifier for the product.",
-            "example": "abc123xyz"
+            "description": "Unique identifier of the product",
+            "example": "SKU12345"
           },
           "productName": {
             "type": "string",
-            "description": "The name of the product.",
-            "example": "Wireless Headphones"
+            "description": "Name of the product",
+            "example": "Wireless Mouse"
           },
           "quantity": {
             "type": "integer",
-            "description": "The number of units of the product in the cart.",
+            "description": "Number of units of the product in the cart",
             "example": 2
           }
         }
@@ -758,17 +771,18 @@
         "properties": {
           "currency": {
             "type": "string",
-            "description": "The currency code used for all monetary values in the cart.",
+            "description": "The currency code for the cart amounts",
             "example": "USD"
           },
           "items": {
             "type": "array",
-            "description": "A list of items currently in the shopping cart.",
+            "description": "List of items currently in the cart",
             "example": [
               {
                 "productId": "12345",
+                "name": "Wireless Mouse",
                 "quantity": 2,
-                "price": 15.99
+                "price": 25.99
               }
             ],
             "items": {
@@ -777,31 +791,31 @@
           },
           "payableAmount": {
             "type": "number",
-            "description": "The total amount to be paid after discounts, taxes, and other adjustments.",
+            "description": "Total amount to be paid after discounts",
             "format": "double",
-            "example": 29.99
+            "example": 51.98
           },
           "totalAmount": {
             "type": "number",
-            "description": "The total original amount before any discounts or adjustments are applied.",
+            "description": "Total amount before applying any discounts",
             "format": "double",
-            "example": 35.98
+            "example": 59.98
           },
           "totalDiscount": {
             "type": "number",
-            "description": "The total discount amount applied to the cart.",
+            "description": "Total discount amount applied to the cart",
             "format": "double",
-            "example": 5.99
+            "example": 8.0
           },
           "updatedAt": {
             "type": "string",
-            "description": "Timestamp when the cart was last updated.",
-            "example": "2024-06-10T14:30:00Z"
+            "description": "The timestamp when the cart was last updated",
+            "example": "2024-06-15T14:30:00Z"
           },
           "userId": {
             "type": "string",
-            "description": "Unique identifier of the user owning the cart.",
-            "example": "user_987654321"
+            "description": "Unique identifier of the user owning the cart",
+            "example": "user_78910"
           }
         }
       },
@@ -810,36 +824,36 @@
         "properties": {
           "discount": {
             "type": "number",
-            "description": "The discount applied to the order item in monetary value",
+            "description": "The amount of discount applied to the item.",
             "format": "double",
             "example": 5.75
           },
           "finalPrice": {
             "type": "number",
-            "description": "The final price after applying discounts for the order item",
+            "description": "The final price of the item after discount.",
             "format": "double",
-            "example": 29.25
+            "example": 24.25
           },
           "price": {
             "type": "number",
-            "description": "The original price per unit of the product",
+            "description": "The original price of the item before discount.",
             "format": "double",
-            "example": 35.0
+            "example": 30.0
           },
           "productId": {
             "type": "string",
-            "description": "The unique identifier of the product",
-            "example": "PROD-987654"
+            "description": "The unique identifier of the product.",
+            "example": "A123XYZ"
           },
           "productName": {
             "type": "string",
-            "description": "The name of the product",
-            "example": "Wireless Bluetooth Headphones"
+            "description": "The name of the product.",
+            "example": "Wireless Mouse"
           },
           "quantity": {
             "type": "integer",
-            "description": "The number of units ordered for the product",
-            "example": 2
+            "description": "The quantity of the product ordered.",
+            "example": 3
           }
         }
       },
@@ -848,12 +862,12 @@
         "properties": {
           "createdAt": {
             "type": "string",
-            "description": "The timestamp when the order was created",
-            "example": "2024-05-20T15:30:00Z"
+            "description": "The date and time when the order was created",
+            "example": "2024-06-15T14:30:00Z"
           },
           "currency": {
             "type": "string",
-            "description": "Currency code used for the order",
+            "description": "The currency code used for the order payment",
             "example": "USD"
           },
           "items": {
@@ -861,16 +875,10 @@
             "description": "List of items included in the order",
             "example": [
               {
-                "itemId": "item123",
+                "itemId": "12345",
                 "name": "Wireless Mouse",
                 "quantity": 2,
                 "price": 25.99
-              },
-              {
-                "itemId": "item456",
-                "name": "Keyboard",
-                "quantity": 1,
-                "price": 45.0
               }
             ],
             "items": {
@@ -884,9 +892,9 @@
           },
           "payableAmount": {
             "type": "number",
-            "description": "Total amount payable after discounts",
+            "description": "The total amount payable after discounts",
             "format": "double",
-            "example": 70.98
+            "example": 51.98
           },
           "paymentStatus": {
             "type": "string",
@@ -896,29 +904,29 @@
           "status": {
             "type": "string",
             "description": "Current status of the order",
-            "example": "Shipped"
+            "example": "Processing"
           },
           "totalAmount": {
             "type": "number",
-            "description": "Total amount before applying discounts",
+            "description": "Total amount of the order before any discounts",
             "format": "double",
-            "example": 95.98
+            "example": 59.98
           },
           "totalDiscount": {
             "type": "number",
             "description": "Total discount applied to the order",
             "format": "double",
-            "example": 25.0
+            "example": 8.0
           },
           "updatedAt": {
             "type": "string",
-            "description": "The timestamp when the order was last updated",
-            "example": "2024-05-22T10:15:00Z"
+            "description": "The date and time when the order was last updated",
+            "example": "2024-06-16T10:20:00Z"
           },
           "userId": {
             "type": "string",
-            "description": "Unique identifier for the user who placed the order",
-            "example": "user12345"
+            "description": "Identifier of the user who placed the order",
+            "example": "user_987654321"
           }
         }
       },
@@ -927,29 +935,29 @@
         "properties": {
           "amount": {
             "type": "number",
-            "description": "The total amount to be paid in the specified currency",
+            "description": "The total amount to be paid.",
             "format": "double",
-            "example": 149.99
+            "example": 150.75
           },
           "currency": {
             "type": "string",
-            "description": "The currency code in ISO 4217 format for the payment amount",
+            "description": "The ISO 4217 currency code for the payment.",
             "example": "USD"
           },
           "orderId": {
             "type": "string",
-            "description": "A unique identifier for the order associated with this payment",
+            "description": "The unique identifier for the order associated with the payment.",
             "example": "ORD123456789"
           },
           "paymentGateway": {
             "type": "string",
-            "description": "The service provider processing the payment",
+            "description": "The payment gateway through which the payment will be processed.",
             "example": "Stripe"
           },
           "paymentMethod": {
             "type": "string",
-            "description": "The method used by the customer to make the payment",
-            "example": "Credit Card"
+            "description": "The method used for making the payment.",
+            "example": "credit_card"
           }
         }
       },
@@ -958,44 +966,44 @@
         "properties": {
           "amount": {
             "type": "number",
-            "description": "The total amount paid in the transaction",
+            "description": "Total amount paid in the transaction",
             "format": "double",
-            "example": 99.99
+            "example": 150.75
           },
           "createdAt": {
             "type": "string",
-            "description": "The ISO 8601 timestamp when the payment was created",
-            "example": "2024-06-01T12:30:45Z"
+            "description": "Timestamp when the payment was created",
+            "example": "2024-06-12T14:23:00Z"
           },
           "currency": {
             "type": "string",
-            "description": "The currency code for the payment amount",
+            "description": "Currency code used for the payment",
             "example": "USD"
           },
           "orderId": {
             "type": "string",
-            "description": "The unique identifier for the order associated with the payment",
+            "description": "Unique identifier for the associated order",
             "example": "ORD123456789"
           },
           "paymentId": {
             "type": "string",
-            "description": "The unique identifier for the payment transaction",
+            "description": "Unique identifier for the payment",
             "example": "PAY987654321"
           },
           "paymentMethod": {
             "type": "string",
-            "description": "The payment method used for the transaction",
+            "description": "Method used for making the payment",
             "example": "Credit Card"
           },
           "status": {
             "type": "string",
-            "description": "The status of the payment transaction",
+            "description": "Current status of the payment",
             "example": "Completed"
           },
           "transactionId": {
             "type": "string",
-            "description": "The unique transaction identifier provided by the payment processor",
-            "example": "TXN1122334455"
+            "description": "Identifier for the transaction provided by the payment gateway",
+            "example": "TXN654321098"
           }
         }
       },
@@ -1004,22 +1012,22 @@
         "properties": {
           "gatewayResponse": {
             "type": "string",
-            "description": "Response message returned by the payment gateway",
-            "example": "Approved"
+            "description": "Response message received from the payment gateway.",
+            "example": "Transaction approved"
           },
           "paymentId": {
             "type": "string",
-            "description": "Unique identifier for the payment",
+            "description": "Unique identifier for the payment record.",
             "example": "pay_1234567890abcdef"
           },
           "status": {
             "type": "string",
-            "description": "Current status of the payment",
-            "example": "completed"
+            "description": "Current status of the payment transaction.",
+            "example": "success"
           },
           "transactionId": {
             "type": "string",
-            "description": "Identifier for the transaction assigned by the payment gateway",
+            "description": "Identifier assigned to the transaction by the payment processor.",
             "example": "txn_0987654321fedcba"
           }
         }
@@ -1029,49 +1037,49 @@
         "properties": {
           "available": {
             "type": "boolean",
-            "description": "Indicates whether the product is currently available for purchase",
+            "description": "Indicates if the product is currently available for purchase",
             "example": true
           },
           "brand": {
             "type": "string",
-            "description": "The brand name of the product",
+            "description": "Name of the product's brand",
             "example": "Acme"
           },
           "category": {
             "type": "string",
-            "description": "The category to which the product belongs",
+            "description": "Category under which the product is classified",
             "example": "Electronics"
           },
           "currency": {
             "type": "string",
-            "description": "The currency code used for the product price",
+            "description": "Currency code for the product price",
             "example": "USD"
           },
           "description": {
             "type": "string",
-            "description": "A detailed description of the product",
-            "example": "A high-quality wireless Bluetooth speaker with extended battery life"
+            "description": "Detailed information about the product",
+            "example": "High-quality wireless headphones with noise cancellation"
           },
           "name": {
             "type": "string",
-            "description": "The name of the product",
-            "example": "Bluetooth Speaker X200"
+            "description": "Name of the product",
+            "example": "Wireless Headphones Model X"
           },
           "price": {
             "type": "number",
-            "description": "The selling price of the product",
+            "description": "Selling price of the product",
             "format": "double",
-            "example": 99.99
+            "example": 199.99
           },
           "rating": {
             "type": "number",
-            "description": "Average customer rating of the product",
+            "description": "Average customer rating for the product",
             "format": "double",
             "example": 4.5
           },
           "stock": {
             "type": "integer",
-            "description": "The number of items available in stock",
+            "description": "Number of units currently in stock",
             "example": 150
           }
         }
@@ -1086,44 +1094,44 @@
           },
           "brand": {
             "type": "string",
-            "description": "Name of the brand that manufactures the product",
+            "description": "The brand name of the product",
             "example": "Acme"
           },
           "category": {
             "type": "string",
-            "description": "Category to which the product belongs",
+            "description": "The category to which the product belongs",
             "example": "Electronics"
           },
           "createdAt": {
             "type": "string",
-            "description": "ISO 8601 timestamp when the product was created",
-            "example": "2024-05-15T14:30:00Z"
+            "description": "Timestamp when the product was created in the system",
+            "example": "2024-01-15T10:00:00Z"
           },
           "currency": {
             "type": "string",
-            "description": "ISO 4217 currency code for the product price",
+            "description": "The currency code for the product price",
             "example": "USD"
           },
           "description": {
             "type": "string",
             "description": "Detailed description of the product",
-            "example": "High-performance wireless earbuds with noise cancellation"
+            "example": "A high-quality wireless Bluetooth speaker"
           },
           "name": {
             "type": "string",
-            "description": "Name of the product",
-            "example": "Wireless Earbuds Model X"
+            "description": "The name of the product",
+            "example": "Bluetooth Speaker X200"
           },
           "price": {
             "type": "number",
-            "description": "Price of the product in the specified currency",
+            "description": "The selling price of the product",
             "format": "double",
-            "example": 129.99
+            "example": 99.99
           },
           "productId": {
             "type": "string",
             "description": "Unique identifier for the product",
-            "example": "prod_12345"
+            "example": "prod-123456"
           },
           "rating": {
             "type": "number",
@@ -1133,13 +1141,13 @@
           },
           "stock": {
             "type": "integer",
-            "description": "Number of items in stock",
+            "description": "The number of items currently in stock",
             "example": 150
           },
           "updatedAt": {
             "type": "string",
-            "description": "ISO 8601 timestamp when the product was last updated",
-            "example": "2024-06-10T09:20:00Z"
+            "description": "Timestamp when the product information was last updated",
+            "example": "2024-04-10T14:30:00Z"
           }
         }
       },
@@ -1148,23 +1156,23 @@
         "properties": {
           "courierPartner": {
             "type": "string",
-            "description": "Name of the courier partner handling the delivery",
+            "description": "Name of the courier service handling the delivery",
             "example": "FedEx"
           },
           "estimatedDelivery": {
             "type": "string",
-            "description": "Estimated date and time of delivery",
-            "example": "2024-07-01T18:30:00Z"
+            "description": "Expected date and time of delivery in ISO 8601 format",
+            "example": "2024-07-15T18:30:00Z"
           },
           "lastUpdated": {
             "type": "string",
-            "description": "Timestamp of the last status update",
-            "example": "2024-06-28T15:45:00Z"
+            "description": "Timestamp of the last tracking update in ISO 8601 format",
+            "example": "2024-07-10T12:45:00Z"
           },
           "orderId": {
             "type": "string",
-            "description": "Unique identifier of the order",
-            "example": "ORDER123456789"
+            "description": "Unique identifier for the customer's order",
+            "example": "ORD123456789"
           },
           "status": {
             "type": "string",
@@ -1173,8 +1181,8 @@
           },
           "trackingId": {
             "type": "string",
-            "description": "Unique tracking identifier provided by the courier",
-            "example": "FX123456789US"
+            "description": "Identifier used to track the package through the courier system",
+            "example": "TRK987654321"
           }
         }
       },
@@ -1183,38 +1191,38 @@
         "properties": {
           "active": {
             "type": "boolean",
-            "description": "Indicates whether the user account is active",
+            "description": "Indicates whether the user account is currently active",
             "example": true
           },
           "country": {
             "type": "string",
-            "description": "The country where the user is located",
+            "description": "The country where the user resides",
             "example": "United States"
           },
           "email": {
             "type": "string",
-            "description": "The user's email address for contact",
+            "description": "The user's email address",
             "example": "user@example.com"
           },
           "name": {
             "type": "string",
-            "description": "Full name of the user",
-            "example": "Jane Doe"
+            "description": "The full name of the user",
+            "example": "John Doe"
           },
           "phone": {
             "type": "string",
             "description": "The user's phone number including country code",
-            "example": "+1234567890"
+            "example": "+1-555-123-4567"
           },
           "preferredCurrency": {
             "type": "string",
-            "description": "User's preferred currency code for transactions",
+            "description": "The currency code the user prefers for transactions",
             "example": "USD"
           },
           "userType": {
             "type": "string",
-            "description": "The type or role of the user in the system",
-            "example": "admin"
+            "description": "The type of user (e.g., admin, customer, guest)",
+            "example": "customer"
           }
         }
       },
@@ -1234,7 +1242,7 @@
           "createdAt": {
             "type": "string",
             "description": "The date and time when the user account was created",
-            "example": "2024-01-15T08:30:00Z"
+            "example": "2023-11-15T10:20:30Z"
           },
           "email": {
             "type": "string",
@@ -1248,7 +1256,7 @@
           },
           "phone": {
             "type": "string",
-            "description": "The user's phone number, including country code",
+            "description": "The user's phone number including country code",
             "example": "+1-555-123-4567"
           },
           "preferredCurrency": {
@@ -1259,16 +1267,16 @@
           "updatedAt": {
             "type": "string",
             "description": "The date and time when the user account was last updated",
-            "example": "2024-04-20T14:45:00Z"
+            "example": "2024-05-01T08:45:00Z"
           },
           "userId": {
             "type": "string",
             "description": "A unique identifier for the user",
-            "example": "user_123456789"
+            "example": "user_987654321"
           },
           "userType": {
             "type": "string",
-            "description": "The type or role of the user within the system",
+            "description": "The role or classification type of the user",
             "example": "admin"
           }
         }
