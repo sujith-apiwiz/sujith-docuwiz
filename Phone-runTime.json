@@ -2,11 +2,11 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Phone-runTime",
-    "description": "Phone-runTime is an advanced API designed to manage and optimize runtime operations for mobile applications. This API provides users with tools to monitor performance, track battery usage, and enhance overall app efficiency. Explore our endpoints to leverage runtime data effectively.",
-    "termsOfService": "https://phoneruntime.com/terms",
+    "description": "Phone-runTime is an innovative platform providing seamless integration and runtime optimization for mobile applications. Our services enhance performance, reliability, and user experience, empowering developers to focus on creating exceptional mobile solutions.",
+    "termsOfService": "https://www.phoneruntime.com/terms",
     "contact": {
       "name": "Support Team",
-      "url": "https://support.phoneruntime.com",
+      "url": "https://www.phoneruntime.com/support",
       "email": "support@phoneruntime.com"
     },
     "version": "1.0"
@@ -31,7 +31,7 @@
           "createService"
         ],
         "summary": "Create a new resource",
-        "description": "This endpoint allows users to create a new resource by providing the necessary data in the request body.",
+        "description": "This operation creates a new resource with the provided data. The request body should contain the necessary fields, and upon success, a confirmation response will be returned.",
         "operationId": "createCreate",
         "parameters": [
           {
@@ -155,8 +155,8 @@
         "tags": [
           "getService"
         ],
-        "summary": "Retrieve a resource",
-        "description": "This endpoint retrieves a specific resource based on the provided parameters, returning its details.",
+        "summary": "Retrieve resource details",
+        "description": "This operation retrieves the details of a specific resource based on the provided parameters. It returns the resource information if found.",
         "operationId": "getGet",
         "parameters": [
           {
@@ -280,20 +280,20 @@
         "properties": {
           "message": {
             "type": "string",
-            "example": "bfjklrsckaokveivedig"
+            "example": "pleyqpltyshzjzvyxteq"
           }
         },
-        "example": "{\n  \"message\" : \"bfjklrsckaokveivedig\"\n}"
+        "example": "{\n  \"message\" : \"pleyqpltyshzjzvyxteq\"\n}"
       },
       "get_get_response_200": {
         "type": "object",
         "properties": {
           "message": {
             "type": "string",
-            "example": "uaspdtmbrwydbmtdixrm"
+            "example": "exgqzfdmrksnroxfiisd"
           }
         },
-        "example": "{\n  \"message\" : \"uaspdtmbrwydbmtdixrm\"\n}"
+        "example": "{\n  \"message\" : \"exgqzfdmrksnroxfiisd\"\n}"
       }
     },
     "parameters": {
@@ -305,9 +305,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "<CUyz1FlG1TASVu)YC7GsrW\"hpZ"
+          "example": ",Z6%UokIf1pV|3rZrYubi:]k5;O"
         },
-        "example": "<CUyz1FlG1TASVu)YC7GsrW\"hpZ"
+        "example": ",Z6%UokIf1pV|3rZrYubi:]k5;O"
       },
       "content-type": {
         "name": "content-type",
@@ -317,9 +317,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "n.%&>9e'5P${(@sc"
+          "example": "#;_e.(/omWM[Y-|@"
         },
-        "example": "n.%&>9e'5P${(@sc"
+        "example": "#;_e.(/omWM[Y-|@"
       },
       "x-application-type": {
         "name": "x-application-type",
@@ -329,9 +329,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "ricmvdxmof"
+          "example": "hhslmntgso"
         },
-        "example": "ricmvdxmof"
+        "example": "hhslmntgso"
       },
       "x-tenant": {
         "name": "x-tenant",
@@ -341,9 +341,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "aqR9O8e9PvWLcUmsRiQ1ymeUh1Kfo6dsa4zg5sCXlmCloQ7LUZBgNdIQ"
+          "example": "Mevj9agxcF8H1auISw7Xf3pP0OrI4EdinKP3V2ImSjTKT42AhnNC48ZD"
         },
-        "example": "aqR9O8e9PvWLcUmsRiQ1ymeUh1Kfo6dsa4zg5sCXlmCloQ7LUZBgNdIQ"
+        "example": "Mevj9agxcF8H1auISw7Xf3pP0OrI4EdinKP3V2ImSjTKT42AhnNC48ZD"
       },
       "user-agent": {
         "name": "user-agent",
@@ -353,9 +353,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "FsCpCcoLgIgh8RRVL0d4L"
+          "example": "pPELtdOEJTVz2aql9D25x"
         },
-        "example": "FsCpCcoLgIgh8RRVL0d4L"
+        "example": "pPELtdOEJTVz2aql9D25x"
       },
       "accept": {
         "name": "accept",
@@ -365,9 +365,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "Mdl"
+          "example": "0<2"
         },
-        "example": "Mdl"
+        "example": "0<2"
       },
       "cache-control": {
         "name": "cache-control",
@@ -377,9 +377,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "Z>!9%[L&"
+          "example": "YWUxqfcZ"
         },
-        "example": "Z>!9%[L&"
+        "example": "YWUxqfcZ"
       },
       "postman-token": {
         "name": "postman-token",
@@ -389,9 +389,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "qsdMgDru4DcBzJsMUi5zStTKnDWYLkRbZvkb"
+          "example": "2gyem8liDj8EdZ0bDyXKSrH0kN35ReRWQ1WG"
         },
-        "example": "qsdMgDru4DcBzJsMUi5zStTKnDWYLkRbZvkb"
+        "example": "2gyem8liDj8EdZ0bDyXKSrH0kN35ReRWQ1WG"
       },
       "accept-encoding": {
         "name": "accept-encoding",
@@ -401,9 +401,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "T$o@@!Gb?{.$Pk.Bj"
+          "example": "-u]Nt_|VJm..y'pm'"
         },
-        "example": "T$o@@!Gb?{.$Pk.Bj"
+        "example": "-u]Nt_|VJm..y'pm'"
       },
       "content-length": {
         "name": "content-length",
@@ -413,9 +413,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "6"
+          "example": "1"
         },
-        "example": "6"
+        "example": "1"
       },
       "x-forwarded-proto": {
         "name": "x-forwarded-proto",
@@ -425,9 +425,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "yknvb"
+          "example": "kmzsk"
         },
-        "example": "yknvb"
+        "example": "kmzsk"
       },
       "x-envoy-external-address": {
         "name": "x-envoy-external-address",
@@ -437,9 +437,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": ",qYE9Uc5qt|VE%"
+          "example": "Ea4j&#6hiNBnJk"
         },
-        "example": ",qYE9Uc5qt|VE%"
+        "example": "Ea4j&#6hiNBnJk"
       },
       "x-request-id": {
         "name": "x-request-id",
@@ -449,9 +449,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "6DGPQHmnft58OBG04SpsGrtSDhQAu66lCjvp"
+          "example": "YeuYibkR0DnuOco6FUd91YWR4XY8f3BNR7Jm"
         },
-        "example": "6DGPQHmnft58OBG04SpsGrtSDhQAu66lCjvp"
+        "example": "YeuYibkR0DnuOco6FUd91YWR4XY8f3BNR7Jm"
       },
       "x-envoy-decorator-operation": {
         "name": "x-envoy-decorator-operation",
@@ -461,9 +461,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "SKJKjCIAHaV3r7v5UVTMTfaV9toZ9LXnAtQ2Sh9QMuzeTUeQHQOObRZ"
+          "example": "oxwYuRX3pWXD7JQikV5YBepNa0PFLt1EPPNl7O9lsEeNWYLfAW4q2ig"
         },
-        "example": "SKJKjCIAHaV3r7v5UVTMTfaV9toZ9LXnAtQ2Sh9QMuzeTUeQHQOObRZ"
+        "example": "oxwYuRX3pWXD7JQikV5YBepNa0PFLt1EPPNl7O9lsEeNWYLfAW4q2ig"
       },
       "x-envoy-peer-metadata": {
         "name": "x-envoy-peer-metadata",
@@ -473,9 +473,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "dlrhnHwcYdt75Le66E7XZ4zL8dRGgE8qPO1xUw4hatnXjakCqRsZCgXj1W222qBQbSUZlgiVj5uALvmi1AzgV98UtyQVt7GeHsnhW3ctayiJ5ISvGi9rMYT5fmhxiYdE4ddNrsCah5eLoeIwf8T6aLTLcdrqZNy4NEzNdrBc5IgSlnOR7mCXTEArwOdh2MVsSqNxUWpSPEPNNf0DH86lTuUuwhAcUXcb6HWA3CJfxWAhVbgLZQF70lNyZHVdLr9NhsQcMrHq24sqSNAI9D8XvvekvzVEBuKZV6mNN4bSm7tGHnvDc5a2fhwfW3vHHqnWk5aJR7NCLOQtZYgazCnRa5CubysA82RXyq5OKAfo4ViLNSLOSRVQFRNkVLPgG0dhlyDoVJdNiZYbdFHOAzpSsaT9I8nBF4Tvrbq5BkKaQVUbgQPvMJwrTYco5WuRmXSRa2n42miB6dgpgNzm2ll0hbgOSCb0mNIim8290YYOm4BmPymzcOu4jziMNMU2rSBlqBT6f4AIeJIscNw3dzQ0lvmXUj0sdB4MYUi6e40tkiA02zT96gRSnjBQzs5stCLajcJdya7MEsAFNoVKPUQ5orFUmTekxnRXGzN4jWhEXyA5x0E3pGHXoOvjbrZKJTMOnoaD5t7LZO6O1y2THRp05ilKyni4eIcdyQo4gBgYJPPdFk7wDfhc6BV81SSBciBsQz4HvXSxoiy9zSB7dGIdUU5XPgTTRu1OIad7LTxqwIa6kZoxGjZ85ZnmGodZ5sk3M8oqCrRvMExt1PoXzAlzt6lNxNhEeGNiLp9xP08ISWy90O9S0h54RAtqV1kJCo274yFxoUaUhcrmTN7EPc2XZVXbUFQ9cls6BsntVbT1IrDF96wOVK9sFxjAKybmypRoWGwH9F9OSam3aNLvrghiYjBWgMYnI6HRylmWcFmMSkFSIwAWbxbxjztFLQb8INtmwxVUNXnQsI34WWO8WBBVa1TUIr8pTyxpuuSD81TZowLDVJMeRJGobMV4TFsf05y7V1kdLWCTKWknrR8mUeC6XMGKCDp2N5Vp"
+          "example": "Xk2FW2HPTnO3ncePJhLcytsBa6D2gp8jJ8wmYdimeFvskjTy4lkds4L7Snwguzsicob07TTMPHHAIBzFKX6yOhIe8QYqNod2z1UeymP1NsQFeQisCyS1wCaLZMb8dOqYvb9tk3z2bOv4IGT4frO6a2guJmorclc6OETFgsF4T0s5Gv403R5mrz3Gyzm98laKuXyUE9Efm8VQRhsGzLjhfEOPQoeglKRxcoE87n7axcGy3c8BIHAgI8ecEUreUCicVtH4Iu3LxdeRmoxfweYmafJeODRzu7fGWdfb9VpgoXZxHbm8g8UI2PA3aEpLdpfRo9BJ6gzhxMpakLd2vuU7niOA93zOJMD1PWRQHJoaPL6sZY7Fmy1eOKpPcptmOIHmgD1Y8I1zGlUl6QBvD5UJH38V0k03Kz8ACPPYCRjMV80Ehd23lXCeU1jh9HcvSHZHpjNPXYTL3WaD7TbeZhI3LiygKJUIWkfkOvy36D02Ywwej344h1eYxGKlInDXL5XPUrEgPHSG30YSNfkXs0hPp4cwDbL6x4YLzOJ7yk2FPmWnBuDEej5uwBA9u9MzGG5HmcZZu9Zm2DC3x1ncm9KyLRawYu3r7QM3Wn06DCES9DQXrc8uHnBZKPeiyNst4cI1Pc2g9HI5n5lKqYGKO2cld9wNkSD5rwmgk3yfKVff15raPAUGsJUfQ4osnV8lGeFXWdi0niupxBkjMEQz5e07DORT5LdVi3SG5JkQK7KcMwRCNSVUAvBDguY9XTmYtI7q4461rjuAQ8HI2GC36r6XhkvxiYq5RWtCyr6dJANcgz0D5KjDFE3TnIfRoW14fkBa5PB1SAv7TOH91rxqrYXPiAxOFIMXbMSqiF7WglnLX8cDKYBDlkqIXchgjugvVqfD4gSU4VgMKmrzqPghr0ey2ADuQr0jVomEqVUpGuLnK5F1quPRZvx1XwCW27slU1wxnDjpAsNx7JwCkDJAFyhTgQAK3pMPnMYvrBbtZ0uGJ3KdsD9oUUz3psZ4D6kLEZVl6thY9Ff9K9dGhA1PnklWTzBhIRCMxJWB"
         },
-        "example": "dlrhnHwcYdt75Le66E7XZ4zL8dRGgE8qPO1xUw4hatnXjakCqRsZCgXj1W222qBQbSUZlgiVj5uALvmi1AzgV98UtyQVt7GeHsnhW3ctayiJ5ISvGi9rMYT5fmhxiYdE4ddNrsCah5eLoeIwf8T6aLTLcdrqZNy4NEzNdrBc5IgSlnOR7mCXTEArwOdh2MVsSqNxUWpSPEPNNf0DH86lTuUuwhAcUXcb6HWA3CJfxWAhVbgLZQF70lNyZHVdLr9NhsQcMrHq24sqSNAI9D8XvvekvzVEBuKZV6mNN4bSm7tGHnvDc5a2fhwfW3vHHqnWk5aJR7NCLOQtZYgazCnRa5CubysA82RXyq5OKAfo4ViLNSLOSRVQFRNkVLPgG0dhlyDoVJdNiZYbdFHOAzpSsaT9I8nBF4Tvrbq5BkKaQVUbgQPvMJwrTYco5WuRmXSRa2n42miB6dgpgNzm2ll0hbgOSCb0mNIim8290YYOm4BmPymzcOu4jziMNMU2rSBlqBT6f4AIeJIscNw3dzQ0lvmXUj0sdB4MYUi6e40tkiA02zT96gRSnjBQzs5stCLajcJdya7MEsAFNoVKPUQ5orFUmTekxnRXGzN4jWhEXyA5x0E3pGHXoOvjbrZKJTMOnoaD5t7LZO6O1y2THRp05ilKyni4eIcdyQo4gBgYJPPdFk7wDfhc6BV81SSBciBsQz4HvXSxoiy9zSB7dGIdUU5XPgTTRu1OIad7LTxqwIa6kZoxGjZ85ZnmGodZ5sk3M8oqCrRvMExt1PoXzAlzt6lNxNhEeGNiLp9xP08ISWy90O9S0h54RAtqV1kJCo274yFxoUaUhcrmTN7EPc2XZVXbUFQ9cls6BsntVbT1IrDF96wOVK9sFxjAKybmypRoWGwH9F9OSam3aNLvrghiYjBWgMYnI6HRylmWcFmMSkFSIwAWbxbxjztFLQb8INtmwxVUNXnQsI34WWO8WBBVa1TUIr8pTyxpuuSD81TZowLDVJMeRJGobMV4TFsf05y7V1kdLWCTKWknrR8mUeC6XMGKCDp2N5Vp"
+        "example": "Xk2FW2HPTnO3ncePJhLcytsBa6D2gp8jJ8wmYdimeFvskjTy4lkds4L7Snwguzsicob07TTMPHHAIBzFKX6yOhIe8QYqNod2z1UeymP1NsQFeQisCyS1wCaLZMb8dOqYvb9tk3z2bOv4IGT4frO6a2guJmorclc6OETFgsF4T0s5Gv403R5mrz3Gyzm98laKuXyUE9Efm8VQRhsGzLjhfEOPQoeglKRxcoE87n7axcGy3c8BIHAgI8ecEUreUCicVtH4Iu3LxdeRmoxfweYmafJeODRzu7fGWdfb9VpgoXZxHbm8g8UI2PA3aEpLdpfRo9BJ6gzhxMpakLd2vuU7niOA93zOJMD1PWRQHJoaPL6sZY7Fmy1eOKpPcptmOIHmgD1Y8I1zGlUl6QBvD5UJH38V0k03Kz8ACPPYCRjMV80Ehd23lXCeU1jh9HcvSHZHpjNPXYTL3WaD7TbeZhI3LiygKJUIWkfkOvy36D02Ywwej344h1eYxGKlInDXL5XPUrEgPHSG30YSNfkXs0hPp4cwDbL6x4YLzOJ7yk2FPmWnBuDEej5uwBA9u9MzGG5HmcZZu9Zm2DC3x1ncm9KyLRawYu3r7QM3Wn06DCES9DQXrc8uHnBZKPeiyNst4cI1Pc2g9HI5n5lKqYGKO2cld9wNkSD5rwmgk3yfKVff15raPAUGsJUfQ4osnV8lGeFXWdi0niupxBkjMEQz5e07DORT5LdVi3SG5JkQK7KcMwRCNSVUAvBDguY9XTmYtI7q4461rjuAQ8HI2GC36r6XhkvxiYq5RWtCyr6dJANcgz0D5KjDFE3TnIfRoW14fkBa5PB1SAv7TOH91rxqrYXPiAxOFIMXbMSqiF7WglnLX8cDKYBDlkqIXchgjugvVqfD4gSU4VgMKmrzqPghr0ey2ADuQr0jVomEqVUpGuLnK5F1quPRZvx1XwCW27slU1wxnDjpAsNx7JwCkDJAFyhTgQAK3pMPnMYvrBbtZ0uGJ3KdsD9oUUz3psZ4D6kLEZVl6thY9Ff9K9dGhA1PnklWTzBhIRCMxJWB"
       },
       "x-envoy-peer-metadata-id": {
         "name": "x-envoy-peer-metadata-id",
@@ -485,9 +485,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "w5wsfqHtNhbVyFLfo2cPEbER4CuDtASx5djMJzwc5YpRflK0hWWCJLiFQFJlY0P2C880bzuDx8b52UtSX9ZXMSTnCuEpQY8FCC8QRb"
+          "example": "5Z7soBO6msDNByoHn754LNRoeTABsU53tSZVotNzllGssc1py6v0Frf8LdQUVqnUzEYqM6asIXq8N0nhlWzY9DsSTkvBOz6pKYHHyi"
         },
-        "example": "w5wsfqHtNhbVyFLfo2cPEbER4CuDtASx5djMJzwc5YpRflK0hWWCJLiFQFJlY0P2C880bzuDx8b52UtSX9ZXMSTnCuEpQY8FCC8QRb"
+        "example": "5Z7soBO6msDNByoHn754LNRoeTABsU53tSZVotNzllGssc1py6v0Frf8LdQUVqnUzEYqM6asIXq8N0nhlWzY9DsSTkvBOz6pKYHHyi"
       },
       "x-envoy-attempt-count": {
         "name": "x-envoy-attempt-count",
@@ -497,9 +497,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "5"
+          "example": "1"
         },
-        "example": "5"
+        "example": "1"
       },
       "x-b3-traceid": {
         "name": "x-b3-traceid",
@@ -509,9 +509,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "BTOSNAA4aEXI2z5tAW48KGQp3MbXu2so"
+          "example": "Zj8yq0xJkZ6qilprAyFZJ2ne20VSGYId"
         },
-        "example": "BTOSNAA4aEXI2z5tAW48KGQp3MbXu2so"
+        "example": "Zj8yq0xJkZ6qilprAyFZJ2ne20VSGYId"
       },
       "x-b3-spanid": {
         "name": "x-b3-spanid",
@@ -521,9 +521,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "oW6GXd9v26ZUN1jf"
+          "example": "4e3047pPj31KBd0D"
         },
-        "example": "oW6GXd9v26ZUN1jf"
+        "example": "4e3047pPj31KBd0D"
       },
       "x-b3-sampled": {
         "name": "x-b3-sampled",
@@ -533,9 +533,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "5"
+          "example": "3"
         },
-        "example": "5"
+        "example": "3"
       },
       "traceid": {
         "name": "traceid",
@@ -545,9 +545,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "oyfgLcEhWYTvgP13"
+          "example": "rp6GCd1epz0wt4YZ"
         },
-        "example": "oyfgLcEhWYTvgP13"
+        "example": "rp6GCd1epz0wt4YZ"
       },
       "request-timestamp": {
         "name": "request-timestamp",
@@ -557,9 +557,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "1186594332501"
+          "example": "8945526634798"
         },
-        "example": "1186594332501"
+        "example": "8945526634798"
       },
       "response-timestamp": {
         "name": "response-timestamp",
@@ -569,9 +569,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "6072032945669"
+          "example": "8911340473485"
         },
-        "example": "6072032945669"
+        "example": "8911340473485"
       },
       "gateway-type": {
         "name": "gateway-type",
@@ -581,9 +581,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "=i'Ly%f[xEE"
+          "example": "WS'X+hit6{n"
         },
-        "example": "=i'Ly%f[xEE"
+        "example": "WS'X+hit6{n"
       },
       "spanid": {
         "name": "spanid",
@@ -593,9 +593,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "etMwjJapICSwsLym"
+          "example": "2dPdODN8zJ5y8dwM"
         },
-        "example": "etMwjJapICSwsLym"
+        "example": "2dPdODN8zJ5y8dwM"
       }
     },
     "headers": {
@@ -604,27 +604,27 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "D&z4Vb1N<51'ndAr"
+          "example": "e.jfZUi#jFwg35M#"
         },
-        "example": "D&z4Vb1N<51'ndAr"
+        "example": "e.jfZUi#jFwg35M#"
       },
       "x-log-id": {
         "style": "simple",
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "XUsMmEM43hMsrWvwddX6RlHA"
+          "example": "lvnjiuYc7ypVyg4FyczXFg6K"
         },
-        "example": "XUsMmEM43hMsrWvwddX6RlHA"
+        "example": "lvnjiuYc7ypVyg4FyczXFg6K"
       },
       "traceid": {
         "style": "simple",
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "eKbVcHnJp8OsTrg3"
+          "example": "GdoTfkSDWyIk9OWL"
         },
-        "example": "eKbVcHnJp8OsTrg3"
+        "example": "GdoTfkSDWyIk9OWL"
       }
     }
   }
