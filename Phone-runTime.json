@@ -2,11 +2,11 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Phone-runTime",
-    "description": "Phone-runTime is an innovative API that allows developers to leverage mobile device functionalities and runtime information. This API provides interfaces for accessing various phone capabilities, and helps in building responsive mobile applications with optimal performance.",
+    "description": "Phone-runTime is a comprehensive API designed to optimize the performance and management of mobile applications in real-time. It provides endpoints for monitoring system health, tracking user engagement, and integrating with third-party tools for enhanced functionality.",
     "termsOfService": "https://www.phoneruntime.com/terms",
     "contact": {
       "name": "Support Team",
-      "url": "https://www.phoneruntime.com/support",
+      "url": "https://support.phoneruntime.com",
       "email": "support@phoneruntime.com"
     },
     "version": "1.0"
@@ -30,8 +30,8 @@
         "tags": [
           "createService"
         ],
-        "summary": "Create a new user",
-        "description": "This endpoint allows the creation of a new user account. You need to provide the required user details in the request body, and upon success, it returns the created user's information.",
+        "summary": "Create a new resource",
+        "description": "This operation allows you to create a new resource by providing the necessary details in the request body.",
         "operationId": "createCreate",
         "parameters": [
           {
@@ -155,8 +155,8 @@
         "tags": [
           "getService"
         ],
-        "summary": "Retrieve user information",
-        "description": "This endpoint retrieves details of a user based on the provided user ID. It returns the user's information if found, or an error if the user does not exist.",
+        "summary": "Retrieve a resource",
+        "description": "This operation retrieves the specified resource, returning its details based on the provided parameters.",
         "operationId": "getGet",
         "parameters": [
           {
@@ -280,20 +280,20 @@
         "properties": {
           "message": {
             "type": "string",
-            "example": "ujsznfjfmkwnskgjzgkm"
+            "example": "kegevqeldwljthotohmn"
           }
         },
-        "example": "{\n  \"message\" : \"ujsznfjfmkwnskgjzgkm\"\n}"
+        "example": "{\n  \"message\" : \"kegevqeldwljthotohmn\"\n}"
       },
       "get_get_response_200": {
         "type": "object",
         "properties": {
           "message": {
             "type": "string",
-            "example": "duoplwgrlotzviojmtxc"
+            "example": "atrzgqfvbnisyrgsoydh"
           }
         },
-        "example": "{\n  \"message\" : \"duoplwgrlotzviojmtxc\"\n}"
+        "example": "{\n  \"message\" : \"atrzgqfvbnisyrgsoydh\"\n}"
       }
     },
     "parameters": {
@@ -305,9 +305,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "K:jn_^lH]jp:M@m*vPZ&,%3*gfe"
+          "example": "Hk!-/TI\"++lg(E)ZO2h,tP?{EL("
         },
-        "example": "K:jn_^lH]jp:M@m*vPZ&,%3*gfe"
+        "example": "Hk!-/TI\"++lg(E)ZO2h,tP?{EL("
       },
       "content-type": {
         "name": "content-type",
@@ -317,9 +317,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "pzV32h_KMQzZl;[y"
+          "example": "ii^$@^a2?.hJ33}Z"
         },
-        "example": "pzV32h_KMQzZl;[y"
+        "example": "ii^$@^a2?.hJ33}Z"
       },
       "x-application-type": {
         "name": "x-application-type",
@@ -329,9 +329,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "orqeqyjact"
+          "example": "yyuhisgcem"
         },
-        "example": "orqeqyjact"
+        "example": "yyuhisgcem"
       },
       "x-tenant": {
         "name": "x-tenant",
@@ -341,9 +341,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "m26UmRNQNlrjjqEWWY4J0UQg4Z9JwkeGj11EMJDNa8B8UjJfjl1oyNrO"
+          "example": "jJpplCMvq7JyZpsDbk1TYQqfSmmuhzzDHe0APNDMrCUeYd5rWdWjTrgt"
         },
-        "example": "m26UmRNQNlrjjqEWWY4J0UQg4Z9JwkeGj11EMJDNa8B8UjJfjl1oyNrO"
+        "example": "jJpplCMvq7JyZpsDbk1TYQqfSmmuhzzDHe0APNDMrCUeYd5rWdWjTrgt"
       },
       "user-agent": {
         "name": "user-agent",
@@ -353,9 +353,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "f5DqkwizQf2dXP0UvFyvR"
+          "example": "89PxFu8pEP4N9TmxQ4lQ3"
         },
-        "example": "f5DqkwizQf2dXP0UvFyvR"
+        "example": "89PxFu8pEP4N9TmxQ4lQ3"
       },
       "accept": {
         "name": "accept",
@@ -365,9 +365,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "gnW"
+          "example": "r7H"
         },
-        "example": "gnW"
+        "example": "r7H"
       },
       "cache-control": {
         "name": "cache-control",
@@ -377,9 +377,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "<tVK6*A?"
+          "example": "bVI|W=vi"
         },
-        "example": "<tVK6*A?"
+        "example": "bVI|W=vi"
       },
       "postman-token": {
         "name": "postman-token",
@@ -389,9 +389,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "jS0MYKuGQK33ozRTO8ekfxkluHYrWi7jnLn7"
+          "example": "b8UF0FhhZwvfJD6vxntccnKBjpSY4csWpJzO"
         },
-        "example": "jS0MYKuGQK33ozRTO8ekfxkluHYrWi7jnLn7"
+        "example": "b8UF0FhhZwvfJD6vxntccnKBjpSY4csWpJzO"
       },
       "accept-encoding": {
         "name": "accept-encoding",
@@ -401,9 +401,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "%I-BSE\"mThgtb%d^F"
+          "example": "dh5@2ec_\"?eg@3YCC"
         },
-        "example": "%I-BSE\"mThgtb%d^F"
+        "example": "dh5@2ec_\"?eg@3YCC"
       },
       "content-length": {
         "name": "content-length",
@@ -413,9 +413,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "1"
+          "example": "5"
         },
-        "example": "1"
+        "example": "5"
       },
       "x-forwarded-proto": {
         "name": "x-forwarded-proto",
@@ -425,9 +425,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "hbhje"
+          "example": "brukr"
         },
-        "example": "hbhje"
+        "example": "brukr"
       },
       "x-envoy-external-address": {
         "name": "x-envoy-external-address",
@@ -437,9 +437,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "hhG7eS5NLx-G9;"
+          "example": "qm]KRT,<Zs<cMn"
         },
-        "example": "hhG7eS5NLx-G9;"
+        "example": "qm]KRT,<Zs<cMn"
       },
       "x-request-id": {
         "name": "x-request-id",
@@ -449,9 +449,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "MP6zEQyqE8eyD9Clw3E7Gf4RKnUTJUCqwn13"
+          "example": "IAoVD7M4xxSR3PhREvjdayoPY1KO6EyMYXiD"
         },
-        "example": "MP6zEQyqE8eyD9Clw3E7Gf4RKnUTJUCqwn13"
+        "example": "IAoVD7M4xxSR3PhREvjdayoPY1KO6EyMYXiD"
       },
       "x-envoy-decorator-operation": {
         "name": "x-envoy-decorator-operation",
@@ -461,9 +461,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "PgXz3eHWNmI60eErd1BUyBbMrKEmtWNLQTlDI6AMv47FlS2Sevla2M5"
+          "example": "v15mwrufZExIlASfmwv7Rh4BCb1qH7UDg6aLrSJDWCW0NHr2eNJOvXb"
         },
-        "example": "PgXz3eHWNmI60eErd1BUyBbMrKEmtWNLQTlDI6AMv47FlS2Sevla2M5"
+        "example": "v15mwrufZExIlASfmwv7Rh4BCb1qH7UDg6aLrSJDWCW0NHr2eNJOvXb"
       },
       "x-envoy-peer-metadata": {
         "name": "x-envoy-peer-metadata",
@@ -473,9 +473,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "Yw6DAvAebd6BIpiBPOSwbL3NNW6kW3CwUIvbowtfXVTA54Ps1t4IxzFvstAAU1751IBWdDOelYnjqLfyhhgjhb6gwnXmoIvi8vSBfwCcJAedldbBCyUzDardWnhQ8CrFtAm340L8VoQlJmyMD7UvV6tPs6QSwOPYSuPk3A26dOx0ipNqCA1nbiA7HxUBRoN4W6cO0ceWtHocKShHZSzb2uwvYHnIC7sLFnZWPdchJflefgUFh5IoVkEFfXEPv9LIfCaA0gXaZPxrWlT7uCe7xKmKjwDwptWZMAfBtzarrjbcJuB2YRBgwa7VZSGefJrRFMt3Z69d2mSuaEPCLO0ZqOkklLOfGH3bLvwQ9Xnni5TmqNWkikfp1AVSUS4WSZGTbD9PHWLdtFeFnLu3GyEyO23VjzMLZLuiNz7pDh8TczUu94ItmH7uM8YMDn98z9moo7GCFgJeaozuhatAk6UwsVsK6GVSTdY2JPQC9gE9xvndxTenvHJ5k0xdz769kf7U8IaEKHyA8dwyrh6Jaysfo9blvaFmdJxCQQICjkc0KVRDqiqi5gaWWnJRCeOO8PfCWjk1Dr7mOF08ym2LJQR3TedYXmFrC94NqIUjoluIpsNuVAb6zRB2ZNoWHbU18fSrhqaQQQKiHq6oRDif5ZXsCKJIogFyAw2KYcE9P1v7qqXevH4oWFn8N2RI1cen4GnodzFVE2u09GbM7BA6XtnWcDjnlOl7ewAUvuRkY2mzlDeFlxU6dg5AN3vg417sUH07rYKyIdN7pXqvuAxzYajOCWchnYAQ1bQmSQzm47vDeYDuaQc6wq3pIaVqpJEX37NHotvEsOfV0VjzRAKB75Ddsl3sKoZ4XAjWVFSKwu5DsHCrUYerQiYobB3i7Kieh4NIDDNV61ymkDwMlsnynK2KVQL6bXppNjSi9PYMlBPN5Cuu4eNbKCPJCiGvdnCcq1ozBcPJIJ4Yk5g986L3WDRXkvz4b89NQCCtjcC21ZOj7Hki3iYwKw8K6Kn9qtEkXG40oQcxyqddOGpmr6A5bSDbHBvYbIUyr5kt"
+          "example": "bRxFhtFi2Nc5N85y5rP3Awqf77EBe1x3rluHeaONA5wpprMy81bk7OV8rbi27rmfFpfSzQEZGPnsd6FPX9wg0H5yKzTlJCON2oX0pJzUe6zqECGu4B9IaV9P9IfUyWRfvrJ0BLQe7qst2bQ0H4Mo4tBRwnupvIdDuNbRon9Vv0vEsv042Qu9kz9d7JH3GzUybxrzCGgI1LP08H6MnhkGyhGwYkleN1m2qbSHP5WOuaWqe9oS87K9Z0MvwTB4VvOP9u4SW4PVsCJyNg4xLkRJ7dgcZlQvbiokC1E7DIe9DrrH2q1Xu9qFa4EA0lImIgsHd9p2qZCeRUYyaEUY1AzQDscC14nMe3HYJJ3Ht9pW2om54zh240A4QT7OWMlCemvhBbDyYOvqAI65S19hLa0QYKp0yoLqTGGRnk54uMAR1P73i1ElXvVHMpvD7PUf4RYlarQ3vdFcFjrFNmQykJW9Bv6hSsdSxwVRtjwfdYBb0vrqysUxxPMlCBoUDoMbe5VnKjC7HxMaJrOlg3w183P00zr6cH9RgxiNIE58M6WBx74aJ2lPivwg0jnZ5AEXAWhjXq9rHe4Z6X16iZZex5dUTGdqVtPe5TVzx6dvqIgPNry8b5Gutojd8bUE0MQ0gbb8WBnyuKYOsKaslyVPQeBxY8UcZlERD0AxUPDYYLVORUpHAGDrm9XZCMFslM55sYnSF2seDjGJtIBi1922tOnAHv5mUw2JcMaXVbTd6sNHOhzMPYmkFQ6SicJwxpkjyQUSqItAytk3HdGXhVc9qNfarLQXBsDpRdDacOcKh0uLQDVYcjEy0PCDHFm2Ai8UlN9llcwbHs63RDkEHx1l92EiSDCKIIpNLQXpDOsIkQCQmzbj1MDMPRaDpv0DtZQNzAR3svJEaYKGja527uGIw1yBK9kLdlnOV4EnEDKP4YvzML9ua6DGFuehSqjyM5yRMrNfQcTcxdj3IYs3xuJFS2vjwuxt4WlP8b7PkvIKmDYxfuQudEuJcKkwtRFsEURWhSj6V78FVg5r0Ej4e8GlPgVCG39JjIZV4WEo"
         },
-        "example": "Yw6DAvAebd6BIpiBPOSwbL3NNW6kW3CwUIvbowtfXVTA54Ps1t4IxzFvstAAU1751IBWdDOelYnjqLfyhhgjhb6gwnXmoIvi8vSBfwCcJAedldbBCyUzDardWnhQ8CrFtAm340L8VoQlJmyMD7UvV6tPs6QSwOPYSuPk3A26dOx0ipNqCA1nbiA7HxUBRoN4W6cO0ceWtHocKShHZSzb2uwvYHnIC7sLFnZWPdchJflefgUFh5IoVkEFfXEPv9LIfCaA0gXaZPxrWlT7uCe7xKmKjwDwptWZMAfBtzarrjbcJuB2YRBgwa7VZSGefJrRFMt3Z69d2mSuaEPCLO0ZqOkklLOfGH3bLvwQ9Xnni5TmqNWkikfp1AVSUS4WSZGTbD9PHWLdtFeFnLu3GyEyO23VjzMLZLuiNz7pDh8TczUu94ItmH7uM8YMDn98z9moo7GCFgJeaozuhatAk6UwsVsK6GVSTdY2JPQC9gE9xvndxTenvHJ5k0xdz769kf7U8IaEKHyA8dwyrh6Jaysfo9blvaFmdJxCQQICjkc0KVRDqiqi5gaWWnJRCeOO8PfCWjk1Dr7mOF08ym2LJQR3TedYXmFrC94NqIUjoluIpsNuVAb6zRB2ZNoWHbU18fSrhqaQQQKiHq6oRDif5ZXsCKJIogFyAw2KYcE9P1v7qqXevH4oWFn8N2RI1cen4GnodzFVE2u09GbM7BA6XtnWcDjnlOl7ewAUvuRkY2mzlDeFlxU6dg5AN3vg417sUH07rYKyIdN7pXqvuAxzYajOCWchnYAQ1bQmSQzm47vDeYDuaQc6wq3pIaVqpJEX37NHotvEsOfV0VjzRAKB75Ddsl3sKoZ4XAjWVFSKwu5DsHCrUYerQiYobB3i7Kieh4NIDDNV61ymkDwMlsnynK2KVQL6bXppNjSi9PYMlBPN5Cuu4eNbKCPJCiGvdnCcq1ozBcPJIJ4Yk5g986L3WDRXkvz4b89NQCCtjcC21ZOj7Hki3iYwKw8K6Kn9qtEkXG40oQcxyqddOGpmr6A5bSDbHBvYbIUyr5kt"
+        "example": "bRxFhtFi2Nc5N85y5rP3Awqf77EBe1x3rluHeaONA5wpprMy81bk7OV8rbi27rmfFpfSzQEZGPnsd6FPX9wg0H5yKzTlJCON2oX0pJzUe6zqECGu4B9IaV9P9IfUyWRfvrJ0BLQe7qst2bQ0H4Mo4tBRwnupvIdDuNbRon9Vv0vEsv042Qu9kz9d7JH3GzUybxrzCGgI1LP08H6MnhkGyhGwYkleN1m2qbSHP5WOuaWqe9oS87K9Z0MvwTB4VvOP9u4SW4PVsCJyNg4xLkRJ7dgcZlQvbiokC1E7DIe9DrrH2q1Xu9qFa4EA0lImIgsHd9p2qZCeRUYyaEUY1AzQDscC14nMe3HYJJ3Ht9pW2om54zh240A4QT7OWMlCemvhBbDyYOvqAI65S19hLa0QYKp0yoLqTGGRnk54uMAR1P73i1ElXvVHMpvD7PUf4RYlarQ3vdFcFjrFNmQykJW9Bv6hSsdSxwVRtjwfdYBb0vrqysUxxPMlCBoUDoMbe5VnKjC7HxMaJrOlg3w183P00zr6cH9RgxiNIE58M6WBx74aJ2lPivwg0jnZ5AEXAWhjXq9rHe4Z6X16iZZex5dUTGdqVtPe5TVzx6dvqIgPNry8b5Gutojd8bUE0MQ0gbb8WBnyuKYOsKaslyVPQeBxY8UcZlERD0AxUPDYYLVORUpHAGDrm9XZCMFslM55sYnSF2seDjGJtIBi1922tOnAHv5mUw2JcMaXVbTd6sNHOhzMPYmkFQ6SicJwxpkjyQUSqItAytk3HdGXhVc9qNfarLQXBsDpRdDacOcKh0uLQDVYcjEy0PCDHFm2Ai8UlN9llcwbHs63RDkEHx1l92EiSDCKIIpNLQXpDOsIkQCQmzbj1MDMPRaDpv0DtZQNzAR3svJEaYKGja527uGIw1yBK9kLdlnOV4EnEDKP4YvzML9ua6DGFuehSqjyM5yRMrNfQcTcxdj3IYs3xuJFS2vjwuxt4WlP8b7PkvIKmDYxfuQudEuJcKkwtRFsEURWhSj6V78FVg5r0Ej4e8GlPgVCG39JjIZV4WEo"
       },
       "x-envoy-peer-metadata-id": {
         "name": "x-envoy-peer-metadata-id",
@@ -485,9 +485,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "LlFvjuHXjSQXGYiQeciXUlfSe9KV0lb25WjnQDjfwqrUNHMnhhjVP4ScsXySzGQelI0xIIgC9bNZl52oE5ikQVn031JHzlbW7KySpt"
+          "example": "1MIObioTPPk9DICyeSbWAMTVPg4PsNpZtFSIipZkEwBaSNgEJmFb2Q0wlZaBKarIb9wD5z8aIMzea5XaiDDCnBZSdnHvlPNr995c21"
         },
-        "example": "LlFvjuHXjSQXGYiQeciXUlfSe9KV0lb25WjnQDjfwqrUNHMnhhjVP4ScsXySzGQelI0xIIgC9bNZl52oE5ikQVn031JHzlbW7KySpt"
+        "example": "1MIObioTPPk9DICyeSbWAMTVPg4PsNpZtFSIipZkEwBaSNgEJmFb2Q0wlZaBKarIb9wD5z8aIMzea5XaiDDCnBZSdnHvlPNr995c21"
       },
       "x-envoy-attempt-count": {
         "name": "x-envoy-attempt-count",
@@ -497,9 +497,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "2"
+          "example": "7"
         },
-        "example": "2"
+        "example": "7"
       },
       "x-b3-traceid": {
         "name": "x-b3-traceid",
@@ -509,9 +509,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "BUUYYFBlZWzrXn2nrQIqqEKTQsRyINzY"
+          "example": "U1NxSvVh1PdFMqYaurOrMb4URlc6g4Pi"
         },
-        "example": "BUUYYFBlZWzrXn2nrQIqqEKTQsRyINzY"
+        "example": "U1NxSvVh1PdFMqYaurOrMb4URlc6g4Pi"
       },
       "x-b3-spanid": {
         "name": "x-b3-spanid",
@@ -521,9 +521,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "qZZpAZFQOEfFIgoh"
+          "example": "6WKtGGSKQPzkPkjx"
         },
-        "example": "qZZpAZFQOEfFIgoh"
+        "example": "6WKtGGSKQPzkPkjx"
       },
       "x-b3-sampled": {
         "name": "x-b3-sampled",
@@ -533,9 +533,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "8"
+          "example": "0"
         },
-        "example": "8"
+        "example": "0"
       },
       "traceid": {
         "name": "traceid",
@@ -545,9 +545,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "SB9yWWdrSWe93hTi"
+          "example": "mf7Kq5sYZJD3PBcE"
         },
-        "example": "SB9yWWdrSWe93hTi"
+        "example": "mf7Kq5sYZJD3PBcE"
       },
       "request-timestamp": {
         "name": "request-timestamp",
@@ -557,9 +557,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "4109913018426"
+          "example": "2069071730948"
         },
-        "example": "4109913018426"
+        "example": "2069071730948"
       },
       "response-timestamp": {
         "name": "response-timestamp",
@@ -569,9 +569,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "4930990392980"
+          "example": "8184440387010"
         },
-        "example": "4930990392980"
+        "example": "8184440387010"
       },
       "gateway-type": {
         "name": "gateway-type",
@@ -581,9 +581,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "UIKrYC?;Jsy"
+          "example": "|?1En@JQBc$"
         },
-        "example": "UIKrYC?;Jsy"
+        "example": "|?1En@JQBc$"
       },
       "spanid": {
         "name": "spanid",
@@ -593,9 +593,9 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "ACsYUAF0KCYTRZCv"
+          "example": "yC0JF4qm9Y1wkBRA"
         },
-        "example": "ACsYUAF0KCYTRZCv"
+        "example": "yC0JF4qm9Y1wkBRA"
       }
     },
     "headers": {
@@ -604,27 +604,27 @@
         "explode": false,
         "schema": {
           "type": "string",
-          "example": ";Sm)B'>++\"v'G4&F"
+          "example": "T(4<z/S?{l,ufsEC"
         },
-        "example": ";Sm)B'>++\"v'G4&F"
+        "example": "T(4<z/S?{l,ufsEC"
       },
       "x-log-id": {
         "style": "simple",
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "ayiN9F3LrbG4ckXLMyEqDzHW"
+          "example": "V9GIYFEQbuXqxpFPKBQwtvyF"
         },
-        "example": "ayiN9F3LrbG4ckXLMyEqDzHW"
+        "example": "V9GIYFEQbuXqxpFPKBQwtvyF"
       },
       "traceid": {
         "style": "simple",
         "explode": false,
         "schema": {
           "type": "string",
-          "example": "7kDl9DYlbVJqmDvd"
+          "example": "KkCZkjWzaErIelvW"
         },
-        "example": "7kDl9DYlbVJqmDvd"
+        "example": "KkCZkjWzaErIelvW"
       }
     }
   }
