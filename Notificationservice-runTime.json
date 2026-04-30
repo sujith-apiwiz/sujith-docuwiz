@@ -1,0 +1,511 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Notificationservice-runTime",
+    "description": "The Notificationservice-runTime API allows users to manage and send notifications in real-time. It provides endpoints for creating, updating, and retrieving notification settings and status, enabling seamless communication through various channels.",
+    "termsOfService": "https://example.com/terms",
+    "contact": {
+      "name": "Support Team",
+      "url": "https://support.example.com",
+      "email": "support@example.com"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://44.226.79.77:8089/v1/notification-service",
+      "description": "Dev",
+      "variables": {},
+      "x-schema": "https://",
+      "x-name": "Dev",
+      "x-environmentName": "Sandbox",
+      "x-hide": false,
+      "x-environmentId": "69f20c944073ca36023e6f03",
+      "x-basePath": "/v1/notification-service"
+    }
+  ],
+  "paths": {
+    "/email": {
+      "post": {
+        "tags": [
+          "emailService"
+        ],
+        "summary": "Create a new email",
+        "description": "This endpoint allows the user to create a new email. The input should contain the email content and recipient information, and a successful response will indicate that the email has been created.",
+        "operationId": "createEmail",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/email_post_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200Description",
+            "headers": {
+              "Date": {
+                "$ref": "#/components/headers/Date"
+              },
+              "Keep-Alive": {
+                "$ref": "#/components/headers/Keep-Alive"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/email_post_response_200"
+                }
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "security": [],
+        "servers": []
+      },
+      "servers": [],
+      "parameters": []
+    }
+  },
+  "components": {
+    "schemas": {
+      "email_post_request": {
+        "type": "object",
+        "properties": {
+          "partnerReferenceInformation": {
+            "type": "object",
+            "properties": {
+              "InstructionId": {
+                "type": "string",
+                "example": "YdFDttgoUdr8gjacPTjFe955veJEZCvceyS4cKVY"
+              },
+              "endtoendId": {
+                "type": "string",
+                "example": "zuoXa7UZe2j5hyYAAlya7ZkRl08FmBaapfghLBzv"
+              },
+              "transactionId": {
+                "type": "string",
+                "example": "kInjoxRGZxwvaKziscCVvRzqHCearTZkglFSr2e8"
+              }
+            },
+            "example": "{\n  \"InstructionId\" : \"YdFDttgoUdr8gjacPTjFe955veJEZCvceyS4cKVY\",\n  \"endtoendId\" : \"zuoXa7UZe2j5hyYAAlya7ZkRl08FmBaapfghLBzv\",\n  \"transactionId\" : \"kInjoxRGZxwvaKziscCVvRzqHCearTZkglFSr2e8\"\n}"
+          },
+          "paymentInformation": {
+            "type": "object",
+            "properties": {
+              "paymentType": {
+                "type": "string",
+                "example": "hdnr"
+              },
+              "prtryAccountType": {
+                "type": "string",
+                "example": "16"
+              }
+            },
+            "example": "{\n  \"paymentType\" : \"hdnr\",\n  \"prtryAccountType\" : \"16\"\n}"
+          },
+          "debtorAccountInformation": {
+            "type": "object",
+            "properties": {
+              "dbtrAccountNo": {
+                "type": "string",
+                "example": "gokirAOKz5VYp2cx8rFfZi5ZIbli6gOiRHVDaZXUpgQPaoXdFk94GqFCW3DCRalEov5MX4JiRw9fD8RcPUa4fZLtAt5o6ibxTWJvudaawOEpy3GcqfTtV8B9RHAzM8KYCRojKSWYInREaQukjGnDcQ7V3J3VoyipgOoRoGqu7HrJbg0aTKLuFrIX6V89DFmurUWLFFcLSvRri6D4aNRlm0TzQG2ogfJHOqiuSSRdtODEyK6lzqtrmReTcQyCCxzOtHNHnWCAh8nw1Zm2y5rIx2HJgRE6kdWmlrwq4iX7iz0eOzKmd6fXQBXIhS89KhHRkDnOUfeAiWJQZnUC4HrQI99I"
+              },
+              "dbtrAccountName": {
+                "type": "string",
+                "example": "toBJxhE6IHwMavhzNfxITNg7b8wU66HBFZMdVuf5rTm99LPjlP6YFI0oFeugjgl2ZH2ijancAQCMLXf8LLmDMDMakVuPK1DVmahVn6LUwv8V7ZVwFoAOVi24kWfLyNkJIL7ik9vFkw70nAFi8AXm1vKQDSfBIlfojbdWaU3r3gjgzEfSmuERvATocawIrdccVm50SvusdGfYkmQsvTDMDRz8Pt1eYYhfBCYoixgsUvqx05fiK2Em8TCpQ3Nyup7XLYjbfW6ewU20B5s7j6ef4yLktvDZF7PZK826yktFEobJOGQ6P5G0Gcz84yFq6BF8JjK1O5g3LpqaizzuFs8EKjUv"
+              },
+              "dbtrAddress": {
+                "type": "string",
+                "example": "2UdLvzbYMSwjcRI4vaI2GyHLh6GFFqU"
+              },
+              "dbtrEmail": {
+                "type": "string",
+                "example": "bpGQmVgDtGHy3rOWAXYLv73F884talzvEqolAmEmHSnObkrHH5Y0PgAjGdBQyHLYVBTgdHHLmOj1Qx6gifhwQ6Dg342zBPposJDbF3CaVQsSXZVeFaBTX3EQxLT5uQinxuTsqb81EaXJrIFXaSj7fKkvP2TFCvTTb2AXjAvsmAwjc3RSmCO5Tz9Icx9VqtWZS5A6Bn2QN8MYijJ1xspkpj8aejmVOdwYOT6QnhXIjG5YgVKGQEDmESIP1jRKsMxjYYh2vZMUplvlmRKKb60oBdgRT3cD8Z9RuwQMSGmN1CpJ6SG8ww7hA2aPWicQDBh58HaelbbXNROMCHUIuda5wZWv"
+              },
+              "dbtrCountryCode": {
+                "type": "string",
+                "example": "ed"
+              },
+              "dbtrBirthDt": {
+                "type": "string",
+                "example": "o')"
+              },
+              "dbtrBIC": {
+                "type": "string",
+                "example": "jrbhlvzsjne"
+              }
+            },
+            "example": "{\n  \"dbtrAccountNo\" : \"gokirAOKz5VYp2cx8rFfZi5ZIbli6gOiRHVDaZXUpgQPaoXdFk94GqFCW3DCRalEov5MX4JiRw9fD8RcPUa4fZLtAt5o6ibxTWJvudaawOEpy3GcqfTtV8B9RHAzM8KYCRojKSWYInREaQukjGnDcQ7V3J3VoyipgOoRoGqu7HrJbg0aTKLuFrIX6V89DFmurUWLFFcLSvRri6D4aNRlm0TzQG2ogfJHOqiuSSRdtODEyK6lzqtrmReTcQyCCxzOtHNHnWCAh8nw1Zm2y5rIx2HJgRE6kdWmlrwq4iX7iz0eOzKmd6fXQBXIhS89KhHRkDnOUfeAiWJQZnUC4HrQI99I\",\n  \"dbtrAccountName\" : \"toBJxhE6IHwMavhzNfxITNg7b8wU66HBFZMdVuf5rTm99LPjlP6YFI0oFeugjgl2ZH2ijancAQCMLXf8LLmDMDMakVuPK1DVmahVn6LUwv8V7ZVwFoAOVi24kWfLyNkJIL7ik9vFkw70nAFi8AXm1vKQDSfBIlfojbdWaU3r3gjgzEfSmuERvATocawIrdccVm50SvusdGfYkmQsvTDMDRz8Pt1eYYhfBCYoixgsUvqx05fiK2Em8TCpQ3Nyup7XLYjbfW6ewU20B5s7j6ef4yLktvDZF7PZK826yktFEobJOGQ6P5G0Gcz84yFq6BF8JjK1O5g3LpqaizzuFs8EKjUv\",\n  \"dbtrAddress\" : \"2UdLvzbYMSwjcRI4vaI2GyHLh6GFFqU\",\n  \"dbtrEmail\" : \"bpGQmVgDtGHy3rOWAXYLv73F884talzvEqolAmEmHSnObkrHH5Y0PgAjGdBQyHLYVBTgdHHLmOj1Qx6gifhwQ6Dg342zBPposJDbF3CaVQsSXZVeFaBTX3EQxLT5uQinxuTsqb81EaXJrIFXaSj7fKkvP2TFCvTTb2AXjAvsmAwjc3RSmCO5Tz9Icx9VqtWZS5A6Bn2QN8MYijJ1xspkpj8aejmVOdwYOT6QnhXIjG5YgVKGQEDmESIP1jRKsMxjYYh2vZMUplvlmRKKb60oBdgRT3cD8Z9RuwQMSGmN1CpJ6SG8ww7hA2aPWicQDBh58HaelbbXNROMCHUIuda5wZWv\",\n  \"dbtrCountryCode\" : \"ed\",\n  \"dbtrBirthDt\" : \"o')\",\n  \"dbtrBIC\" : \"jrbhlvzsjne\"\n}"
+          },
+          "creditorAccountInformation": {
+            "type": "object",
+            "properties": {
+              "cdtrAccountNo": {
+                "type": "string",
+                "example": "HTEyi5byi75UAjOOjiXgAhoejW6geAQXVsQxy5knltUjSeaWgo66F8Z66q22oWsOat3FiMfDG3zVrYQXJfEyNQ0Pweu1SodyNgkL6vWDGNbAuYS0TXatpatx6KD93Y5BOEsfSxGfc0QTF3fL8bESCsfzIxyjA1lvBHq4U7kNQUJaF3fBSngF2xEwCB8MsQv7oV45W0Isa4tQbOAd782jpbEiFNLixHtQxulsqr5KHSu6E3mnfoBA4vX8jLq0f7wgzksFCFPMKNX8IGrBGt7vyRXYrHGEewkRS5MtUx5ml56Mrp07GddTmiMKvPn0Xd24mVKrl7LSVY1r5tDa0sIwnhKJ"
+              },
+              "cdtrAccountName": {
+                "type": "string",
+                "example": "HNMkaDfvOi0BZ8kaTiIsRqWXRpVLjfeftrGUxTXjWudoAoZaeVX5XNl8zcpOLJO9JROgXKI2h7MX5aQlGbZvN66tsGclmqOFUHrH1LpiLw4Irwb4jgkCAGHkDl1LmBl1iv8KoNk0kTS9wzTMrOl7PNdcVdi7EytFuPwqb65JOtgXJy44XlRJfyikITzbNoT5YTzB43GffADtjcwA1KzkTcQ8PXIAVVTWOfGLN47cen0hbyByfAC2rgyGxeg3hQRfBZgP56KlGCUk8b5F8VC6wNf3pnXmOTTTtMgSZ1NwZk8Z44ah4umJGGzOfkROsr0MeKZAUGti3o9OjsoQxnzRWcXn"
+              },
+              "cdtrAddress": {
+                "type": "string",
+                "example": "9mkficoBEY5bH5MB6KJdUOaLPlmTjeTkt"
+              },
+              "cdtrEmail": {
+                "type": "string",
+                "example": "Eaxv3y90PDcK5sriONFbpMKjA08H7hPWuoMhaglyZsMM2ElUsu7mm2hwV5qNV2FomSGp28IsjNFYh5pGiTvXXDsrCmruncXfi7XIkDztoDWQlv4xeB1Jv4zAxy41nLTe6KMw9lP7SUaV7RJdCY6lK7aL42y62rjF4GcC8wdOxhHOENVOyt5gtZDUfDJ6kWIwyIFrgcke9rXJTOnPGh3OO4XSC7YQa0vANwxEgt8EWr5nfIEevpU2EkL4vL8agp0vLDI2Tl4N8eyDSyEbGWO15g4HEMtZpsFdhp6NCEOfVvc5WnHqbDMVtqLxLLrynl8N94tXjHIMio3Au3pDpMLpJNjQ"
+              },
+              "cdtrCountryCode": {
+                "type": "string",
+                "example": "nd"
+              },
+              "cdtrBirthDt": {
+                "type": "string",
+                "example": ")g_"
+              },
+              "cdtrBIC": {
+                "type": "string",
+                "example": "ialmeixdans"
+              }
+            },
+            "example": "{\n  \"cdtrAccountNo\" : \"HTEyi5byi75UAjOOjiXgAhoejW6geAQXVsQxy5knltUjSeaWgo66F8Z66q22oWsOat3FiMfDG3zVrYQXJfEyNQ0Pweu1SodyNgkL6vWDGNbAuYS0TXatpatx6KD93Y5BOEsfSxGfc0QTF3fL8bESCsfzIxyjA1lvBHq4U7kNQUJaF3fBSngF2xEwCB8MsQv7oV45W0Isa4tQbOAd782jpbEiFNLixHtQxulsqr5KHSu6E3mnfoBA4vX8jLq0f7wgzksFCFPMKNX8IGrBGt7vyRXYrHGEewkRS5MtUx5ml56Mrp07GddTmiMKvPn0Xd24mVKrl7LSVY1r5tDa0sIwnhKJ\",\n  \"cdtrAccountName\" : \"HNMkaDfvOi0BZ8kaTiIsRqWXRpVLjfeftrGUxTXjWudoAoZaeVX5XNl8zcpOLJO9JROgXKI2h7MX5aQlGbZvN66tsGclmqOFUHrH1LpiLw4Irwb4jgkCAGHkDl1LmBl1iv8KoNk0kTS9wzTMrOl7PNdcVdi7EytFuPwqb65JOtgXJy44XlRJfyikITzbNoT5YTzB43GffADtjcwA1KzkTcQ8PXIAVVTWOfGLN47cen0hbyByfAC2rgyGxeg3hQRfBZgP56KlGCUk8b5F8VC6wNf3pnXmOTTTtMgSZ1NwZk8Z44ah4umJGGzOfkROsr0MeKZAUGti3o9OjsoQxnzRWcXn\",\n  \"cdtrAddress\" : \"9mkficoBEY5bH5MB6KJdUOaLPlmTjeTkt\",\n  \"cdtrEmail\" : \"Eaxv3y90PDcK5sriONFbpMKjA08H7hPWuoMhaglyZsMM2ElUsu7mm2hwV5qNV2FomSGp28IsjNFYh5pGiTvXXDsrCmruncXfi7XIkDztoDWQlv4xeB1Jv4zAxy41nLTe6KMw9lP7SUaV7RJdCY6lK7aL42y62rjF4GcC8wdOxhHOENVOyt5gtZDUfDJ6kWIwyIFrgcke9rXJTOnPGh3OO4XSC7YQa0vANwxEgt8EWr5nfIEevpU2EkL4vL8agp0vLDI2Tl4N8eyDSyEbGWO15g4HEMtZpsFdhp6NCEOfVvc5WnHqbDMVtqLxLLrynl8N94tXjHIMio3Au3pDpMLpJNjQ\",\n  \"cdtrCountryCode\" : \"nd\",\n  \"cdtrBirthDt\" : \")g_\",\n  \"cdtrBIC\" : \"ialmeixdans\"\n}"
+          },
+          "amount": {
+            "type": "string",
+            "example": "82"
+          },
+          "currency": {
+            "type": "string",
+            "example": "azc"
+          },
+          "purpose": {
+            "type": "string",
+            "example": "Bp2?b:6M%%(3%/0C^ZTS^+p@^2m0[ZtnRXF2mX<.m.VB^G2J&EZ:sq6yWxA(f;Y5c;VaaBJ}4<neS?OvM=);-4?E=zSx8MTx{H1k>M,x0Y[:E3$r+Azd{(sA-0r)E<s;{Ngl5Z++<uC:H-[a^*?9;^?|M?!X9y:N-t-%T99O.ODnQg{z]tp%E1J#}-j;J=2El\"r15T.xT)WbFz1>)]^=<XQjH=t[1E0[}DXMO$sGoM#5xHjM=oz)K!ynfG28l>UpJI=H>YL=APGW6&u};8pGS=EM)/R?gCUL\"JU__(p5x{h@>/Z)V|Y>hB-iL274=t:0L.8E;Ql]Fo#szDIos=q=yYy/O^q,{X&l@R-dCg\",[{P+nlEY1^3QozfAK9X$=}.x$Zh):Yf*cJ'fm]znK#6a;SJj/s$)^6BwEGOj({|zN;U@-3A[8bG.,8VF#yom1bs[]4!y|lXpkV&9215z&+jxf@!TA^}V].Osq\"$Y_#,?J&<w%&;F]T<l("
+          },
+          "settlementDate": {
+            "type": "string",
+            "example": "):Y4=nXS,{"
+          },
+          "remittanceInformation": {
+            "type": "object",
+            "properties": {
+              "unstructuredInfo": {
+                "type": "string",
+                "example": "PH93tXI"
+              },
+              "RemittanceProp": {
+                "type": "string",
+                "example": ""
+              },
+              "remittanceNumber": {
+                "type": "string",
+                "example": ""
+              },
+              "AddtlRmtInfo": {
+                "type": "string",
+                "example": ""
+              }
+            },
+            "example": "{\n  \"unstructuredInfo\" : \"PH93tXI\",\n  \"RemittanceProp\" : \"\",\n  \"remittanceNumber\" : \"\",\n  \"AddtlRmtInfo\" : \"\"\n}"
+          },
+          "supplementaryData": {
+            "type": "object",
+            "properties": {
+              "subscriberNumber": {
+                "type": "string",
+                "example": ""
+              },
+              "OtherId": {
+                "type": "string",
+                "example": ""
+              },
+              "pointofInteractionID": {
+                "type": "string",
+                "example": ""
+              },
+              "PAN": {
+                "type": "string",
+                "example": ""
+              },
+              "expiryDate": {
+                "type": "string",
+                "example": ""
+              },
+              "type": {
+                "type": "string",
+                "example": ""
+              },
+              "systemName": {
+                "type": "string",
+                "example": ""
+              },
+              "groupId": {
+                "type": "string",
+                "example": ""
+              },
+              "merchantCategoryCode": {
+                "type": "string",
+                "example": ""
+              },
+              "transactionRef": {
+                "type": "string",
+                "example": ""
+              },
+              "tipAmount": {
+                "type": "string",
+                "example": ""
+              },
+              "tipCurrency": {
+                "type": "string",
+                "example": ""
+              }
+            },
+            "example": "{\n  \"subscriberNumber\" : \"\",\n  \"OtherId\" : \"\",\n  \"pointofInteractionID\" : \"\",\n  \"PAN\" : \"\",\n  \"expiryDate\" : \"\",\n  \"type\" : \"\",\n  \"systemName\" : \"\",\n  \"groupId\" : \"\",\n  \"merchantCategoryCode\" : \"\",\n  \"transactionRef\" : \"\",\n  \"tipAmount\" : \"\",\n  \"tipCurrency\" : \"\"\n}"
+          },
+          "partnerPassword": {
+            "type": "string",
+            "example": "yHHBtHzp3iRxxfDuI21mNhOebiFfcRalKTLvFFVytwqHRAjYysAFui5Gm27N29Vv5X9W8DUyVkzXoh4XDdgnvfpzSeS8v7o5G1wgYkOvRlwjd2z6k7akKOAGyZGbHXI02nLaAeRUj0fxH3lN8dSvG4fvGsBngNmydsMay8GcKeKTw8gsV161ijHOOxuK9X1PUuFeIEZDs29g85LbAS42vn9J9sAEy5EDPzQQF2TvBtlNpQ93KtUIJ42wj4Tle76mT6joBMEPZpI4vhRTZJBgsLl5weANZjtKNJ3OO6VyJp8xrE8MwDfn8xm5gBx3tVwapFGR0OVOiNdNWvlzOsKr96yD"
+          },
+          "partnerCode": {
+            "type": "string",
+            "example": "nijfl"
+          }
+        },
+        "example": "{\n  \"partnerReferenceInformation\" : {\n    \"InstructionId\" : \"YdFDttgoUdr8gjacPTjFe955veJEZCvceyS4cKVY\",\n    \"endtoendId\" : \"zuoXa7UZe2j5hyYAAlya7ZkRl08FmBaapfghLBzv\",\n    \"transactionId\" : \"kInjoxRGZxwvaKziscCVvRzqHCearTZkglFSr2e8\"\n  },\n  \"paymentInformation\" : {\n    \"paymentType\" : \"hdnr\",\n    \"prtryAccountType\" : \"16\"\n  },\n  \"debtorAccountInformation\" : {\n    \"dbtrAccountNo\" : \"gokirAOKz5VYp2cx8rFfZi5ZIbli6gOiRHVDaZXUpgQPaoXdFk94GqFCW3DCRalEov5MX4JiRw9fD8RcPUa4fZLtAt5o6ibxTWJvudaawOEpy3GcqfTtV8B9RHAzM8KYCRojKSWYInREaQukjGnDcQ7V3J3VoyipgOoRoGqu7HrJbg0aTKLuFrIX6V89DFmurUWLFFcLSvRri6D4aNRlm0TzQG2ogfJHOqiuSSRdtODEyK6lzqtrmReTcQyCCxzOtHNHnWCAh8nw1Zm2y5rIx2HJgRE6kdWmlrwq4iX7iz0eOzKmd6fXQBXIhS89KhHRkDnOUfeAiWJQZnUC4HrQI99I\",\n    \"dbtrAccountName\" : \"toBJxhE6IHwMavhzNfxITNg7b8wU66HBFZMdVuf5rTm99LPjlP6YFI0oFeugjgl2ZH2ijancAQCMLXf8LLmDMDMakVuPK1DVmahVn6LUwv8V7ZVwFoAOVi24kWfLyNkJIL7ik9vFkw70nAFi8AXm1vKQDSfBIlfojbdWaU3r3gjgzEfSmuERvATocawIrdccVm50SvusdGfYkmQsvTDMDRz8Pt1eYYhfBCYoixgsUvqx05fiK2Em8TCpQ3Nyup7XLYjbfW6ewU20B5s7j6ef4yLktvDZF7PZK826yktFEobJOGQ6P5G0Gcz84yFq6BF8JjK1O5g3LpqaizzuFs8EKjUv\",\n    \"dbtrAddress\" : \"2UdLvzbYMSwjcRI4vaI2GyHLh6GFFqU\",\n    \"dbtrEmail\" : \"bpGQmVgDtGHy3rOWAXYLv73F884talzvEqolAmEmHSnObkrHH5Y0PgAjGdBQyHLYVBTgdHHLmOj1Qx6gifhwQ6Dg342zBPposJDbF3CaVQsSXZVeFaBTX3EQxLT5uQinxuTsqb81EaXJrIFXaSj7fKkvP2TFCvTTb2AXjAvsmAwjc3RSmCO5Tz9Icx9VqtWZS5A6Bn2QN8MYijJ1xspkpj8aejmVOdwYOT6QnhXIjG5YgVKGQEDmESIP1jRKsMxjYYh2vZMUplvlmRKKb60oBdgRT3cD8Z9RuwQMSGmN1CpJ6SG8ww7hA2aPWicQDBh58HaelbbXNROMCHUIuda5wZWv\",\n    \"dbtrCountryCode\" : \"ed\",\n    \"dbtrBirthDt\" : \"o')\",\n    \"dbtrBIC\" : \"jrbhlvzsjne\"\n  },\n  \"creditorAccountInformation\" : {\n    \"cdtrAccountNo\" : \"HTEyi5byi75UAjOOjiXgAhoejW6geAQXVsQxy5knltUjSeaWgo66F8Z66q22oWsOat3FiMfDG3zVrYQXJfEyNQ0Pweu1SodyNgkL6vWDGNbAuYS0TXatpatx6KD93Y5BOEsfSxGfc0QTF3fL8bESCsfzIxyjA1lvBHq4U7kNQUJaF3fBSngF2xEwCB8MsQv7oV45W0Isa4tQbOAd782jpbEiFNLixHtQxulsqr5KHSu6E3mnfoBA4vX8jLq0f7wgzksFCFPMKNX8IGrBGt7vyRXYrHGEewkRS5MtUx5ml56Mrp07GddTmiMKvPn0Xd24mVKrl7LSVY1r5tDa0sIwnhKJ\",\n    \"cdtrAccountName\" : \"HNMkaDfvOi0BZ8kaTiIsRqWXRpVLjfeftrGUxTXjWudoAoZaeVX5XNl8zcpOLJO9JROgXKI2h7MX5aQlGbZvN66tsGclmqOFUHrH1LpiLw4Irwb4jgkCAGHkDl1LmBl1iv8KoNk0kTS9wzTMrOl7PNdcVdi7EytFuPwqb65JOtgXJy44XlRJfyikITzbNoT5YTzB43GffADtjcwA1KzkTcQ8PXIAVVTWOfGLN47cen0hbyByfAC2rgyGxeg3hQRfBZgP56KlGCUk8b5F8VC6wNf3pnXmOTTTtMgSZ1NwZk8Z44ah4umJGGzOfkROsr0MeKZAUGti3o9OjsoQxnzRWcXn\",\n    \"cdtrAddress\" : \"9mkficoBEY5bH5MB6KJdUOaLPlmTjeTkt\",\n    \"cdtrEmail\" : \"Eaxv3y90PDcK5sriONFbpMKjA08H7hPWuoMhaglyZsMM2ElUsu7mm2hwV5qNV2FomSGp28IsjNFYh5pGiTvXXDsrCmruncXfi7XIkDztoDWQlv4xeB1Jv4zAxy41nLTe6KMw9lP7SUaV7RJdCY6lK7aL42y62rjF4GcC8wdOxhHOENVOyt5gtZDUfDJ6kWIwyIFrgcke9rXJTOnPGh3OO4XSC7YQa0vANwxEgt8EWr5nfIEevpU2EkL4vL8agp0vLDI2Tl4N8eyDSyEbGWO15g4HEMtZpsFdhp6NCEOfVvc5WnHqbDMVtqLxLLrynl8N94tXjHIMio3Au3pDpMLpJNjQ\",\n    \"cdtrCountryCode\" : \"nd\",\n    \"cdtrBirthDt\" : \")g_\",\n    \"cdtrBIC\" : \"ialmeixdans\"\n  },\n  \"amount\" : \"82\",\n  \"currency\" : \"azc\",\n  \"purpose\" : \"Bp2?b:6M%%(3%/0C^ZTS^+p@^2m0[ZtnRXF2mX<.m.VB^G2J&EZ:sq6yWxA(f;Y5c;VaaBJ}4<neS?OvM=);-4?E=zSx8MTx{H1k>M,x0Y[:E3$r+Azd{(sA-0r)E<s;{Ngl5Z++<uC:H-[a^*?9;^?|M?!X9y:N-t-%T99O.ODnQg{z]tp%E1J#}-j;J=2El\\\"r15T.xT)WbFz1>)]^=<XQjH=t[1E0[}DXMO$sGoM#5xHjM=oz)K!ynfG28l>UpJI=H>YL=APGW6&u};8pGS=EM)/R?gCUL\\\"JU__(p5x{h@>/Z)V|Y>hB-iL274=t:0L.8E;Ql]Fo#szDIos=q=yYy/O^q,{X&l@R-dCg\\\",[{P+nlEY1^3QozfAK9X$=}.x$Zh):Yf*cJ'fm]znK#6a;SJj/s$)^6BwEGOj({|zN;U@-3A[8bG.,8VF#yom1bs[]4!y|lXpkV&9215z&+jxf@!TA^}V].Osq\\\"$Y_#,?J&<w%&;F]T<l(\",\n  \"settlementDate\" : \"):Y4=nXS,{\",\n  \"remittanceInformation\" : {\n    \"unstructuredInfo\" : \"PH93tXI\",\n    \"RemittanceProp\" : \"\",\n    \"remittanceNumber\" : \"\",\n    \"AddtlRmtInfo\" : \"\"\n  },\n  \"supplementaryData\" : {\n    \"subscriberNumber\" : \"\",\n    \"OtherId\" : \"\",\n    \"pointofInteractionID\" : \"\",\n    \"PAN\" : \"\",\n    \"expiryDate\" : \"\",\n    \"type\" : \"\",\n    \"systemName\" : \"\",\n    \"groupId\" : \"\",\n    \"merchantCategoryCode\" : \"\",\n    \"transactionRef\" : \"\",\n    \"tipAmount\" : \"\",\n    \"tipCurrency\" : \"\"\n  },\n  \"partnerPassword\" : \"yHHBtHzp3iRxxfDuI21mNhOebiFfcRalKTLvFFVytwqHRAjYysAFui5Gm27N29Vv5X9W8DUyVkzXoh4XDdgnvfpzSeS8v7o5G1wgYkOvRlwjd2z6k7akKOAGyZGbHXI02nLaAeRUj0fxH3lN8dSvG4fvGsBngNmydsMay8GcKeKTw8gsV161ijHOOxuK9X1PUuFeIEZDs29g85LbAS42vn9J9sAEy5EDPzQQF2TvBtlNpQ93KtUIJ42wj4Tle76mT6joBMEPZpI4vhRTZJBgsLl5weANZjtKNJ3OO6VyJp8xrE8MwDfn8xm5gBx3tVwapFGR0OVOiNdNWvlzOsKr96yD\",\n  \"partnerCode\" : \"nijfl\"\n}"
+      },
+      "email_post_response_200": {
+        "type": "object",
+        "properties": {
+          "partnerReferenceInformation": {
+            "type": "object",
+            "properties": {
+              "InstructionId": {
+                "type": "string",
+                "example": "WCPBumRBbN0NWzROxcCBUMloruf896SqcudxkKXB"
+              },
+              "endtoendId": {
+                "type": "string",
+                "example": "xt1qXNKswJIWOqPxVIFpEw3aJAvKKxXFeylW8rV7"
+              },
+              "transactionId": {
+                "type": "string",
+                "example": "WrbRvIgQD6TfFmtHHO29BUfO1c86f29HNbnFd5Yd"
+              }
+            },
+            "example": "{\n  \"InstructionId\" : \"WCPBumRBbN0NWzROxcCBUMloruf896SqcudxkKXB\",\n  \"endtoendId\" : \"xt1qXNKswJIWOqPxVIFpEw3aJAvKKxXFeylW8rV7\",\n  \"transactionId\" : \"WrbRvIgQD6TfFmtHHO29BUfO1c86f29HNbnFd5Yd\"\n}"
+          },
+          "paymentInformation": {
+            "type": "object",
+            "properties": {
+              "paymentType": {
+                "type": "string",
+                "example": "agok"
+              },
+              "prtryAccountType": {
+                "type": "string",
+                "example": "53"
+              }
+            },
+            "example": "{\n  \"paymentType\" : \"agok\",\n  \"prtryAccountType\" : \"53\"\n}"
+          },
+          "debtorAccountInformation": {
+            "type": "object",
+            "properties": {
+              "dbtrAccountNo": {
+                "type": "string",
+                "example": "V7eyevtcpDcbEZzktUKavyeXKKtZTGqUpx7j62Em7amA2XZIeVT0mg271yiXB1RIJZgd21afo9rNkqD0IQ8OSS7jjWPsdvLiOrr3k6puWZzdnSy7WzaYoDhexIawlUMbwGny0WhYBSWqCN1j2j3v9jlGmTzR05DIlTemW0iExKWwtH2sHTJvahhgklP5vRLChaIyzejh6eYd7d4fqjA18ZR9oWk67sN8KV7x1NUhfHrtT1maD9sJyJKiUNK0thfGT1mrrhrF85RYaah1BuuHXf349EMdZD7zwQFaeqZ1TWSYX5nbhxbnlDdWrGsbO9VJCaEK67PEG1c2TKfB3APTZxKH"
+              },
+              "dbtrAccountName": {
+                "type": "string",
+                "example": "kn9cReonKYAp0XMw9vR0P0kpbVOz0nFYXDDYfNCtBV9Vq2VyBscdZOAjnZaBuDrQcfIa1rXiAZQEJnCVcUUDCoGCXufhIxg8PnsAlMeRHsf4BrteGohilKqU4EK7iONJQkPFC86jnmqzcsH7HQkFQRNxEGhyTqxnnP8pbp4bA6J6jONshaYogbSGh82oLIjvgWcrjlbSGL80C224D3a295q95wAoEDLZMNBPr2hv2jYLf7H82w4UNcMT3YB4V3vq9g95CPGv0oKCnmU6YBu2j2YcP0ezIgAqmIMjt7HfDBSrrlg6JWUq6y3xHmXjePLKuksja0vw6LbozOdXZlRgawfa"
+              },
+              "dbtrAddress": {
+                "type": "string",
+                "example": "7Vk5t5H3MuKr8SL7tYCHBg0ULh5evpL"
+              },
+              "dbtrEmail": {
+                "type": "string",
+                "example": "ipVZsTAbGIachocI2qsivpOuEtx6arKuc3QScjXfc3Znx2XUain3sWynbqxhEp3KD7Tsh9hcC17TfhWqbRuvF58HWuXgK8kqqeg4JoETBeu2teJTeNu6eM7mRLWlYE2tkOrGaoOswQt9nKCRJEt7jFeOFWRXnBCOGz4rmcUA2AlOwK8PFkTsB5AlWujOw9Ad5IhGTBvaOKs1PLwRGxHtmwP5FfJE3F78c5yMtTDqZb8EEKIQ2sbx1tbuliCmTC6bH5xra9dxengfi9KjslxE6L90LZMIUc5xHt0T5ulEWoQ33zXIjqCMRkKVcfKIyB4eW3Np3H3v5PBhplWj2F7ggbQj"
+              },
+              "dbtrCountryCode": {
+                "type": "string",
+                "example": "dy"
+              },
+              "dbtrBirthDt": {
+                "type": "string",
+                "example": "-yX"
+              },
+              "dbtrBIC": {
+                "type": "string",
+                "example": "gempdmbixhx"
+              }
+            },
+            "example": "{\n  \"dbtrAccountNo\" : \"V7eyevtcpDcbEZzktUKavyeXKKtZTGqUpx7j62Em7amA2XZIeVT0mg271yiXB1RIJZgd21afo9rNkqD0IQ8OSS7jjWPsdvLiOrr3k6puWZzdnSy7WzaYoDhexIawlUMbwGny0WhYBSWqCN1j2j3v9jlGmTzR05DIlTemW0iExKWwtH2sHTJvahhgklP5vRLChaIyzejh6eYd7d4fqjA18ZR9oWk67sN8KV7x1NUhfHrtT1maD9sJyJKiUNK0thfGT1mrrhrF85RYaah1BuuHXf349EMdZD7zwQFaeqZ1TWSYX5nbhxbnlDdWrGsbO9VJCaEK67PEG1c2TKfB3APTZxKH\",\n  \"dbtrAccountName\" : \"kn9cReonKYAp0XMw9vR0P0kpbVOz0nFYXDDYfNCtBV9Vq2VyBscdZOAjnZaBuDrQcfIa1rXiAZQEJnCVcUUDCoGCXufhIxg8PnsAlMeRHsf4BrteGohilKqU4EK7iONJQkPFC86jnmqzcsH7HQkFQRNxEGhyTqxnnP8pbp4bA6J6jONshaYogbSGh82oLIjvgWcrjlbSGL80C224D3a295q95wAoEDLZMNBPr2hv2jYLf7H82w4UNcMT3YB4V3vq9g95CPGv0oKCnmU6YBu2j2YcP0ezIgAqmIMjt7HfDBSrrlg6JWUq6y3xHmXjePLKuksja0vw6LbozOdXZlRgawfa\",\n  \"dbtrAddress\" : \"7Vk5t5H3MuKr8SL7tYCHBg0ULh5evpL\",\n  \"dbtrEmail\" : \"ipVZsTAbGIachocI2qsivpOuEtx6arKuc3QScjXfc3Znx2XUain3sWynbqxhEp3KD7Tsh9hcC17TfhWqbRuvF58HWuXgK8kqqeg4JoETBeu2teJTeNu6eM7mRLWlYE2tkOrGaoOswQt9nKCRJEt7jFeOFWRXnBCOGz4rmcUA2AlOwK8PFkTsB5AlWujOw9Ad5IhGTBvaOKs1PLwRGxHtmwP5FfJE3F78c5yMtTDqZb8EEKIQ2sbx1tbuliCmTC6bH5xra9dxengfi9KjslxE6L90LZMIUc5xHt0T5ulEWoQ33zXIjqCMRkKVcfKIyB4eW3Np3H3v5PBhplWj2F7ggbQj\",\n  \"dbtrCountryCode\" : \"dy\",\n  \"dbtrBirthDt\" : \"-yX\",\n  \"dbtrBIC\" : \"gempdmbixhx\"\n}"
+          },
+          "creditorAccountInformation": {
+            "type": "object",
+            "properties": {
+              "cdtrAccountNo": {
+                "type": "string",
+                "example": "IUmLRBF2k6Y0Gdau3HKTAZ4CcMHb7snHKg6HLEH9uIjAD5xhNF2TV34W4cNXshZUWYqV6EVinTvdGCHMK2ZoVnga8PaJXIFMkxp3YwtCLFPLmJsdjwovSj1C3namtRn1XEoo1e0F4mduFD55b6NYoUOrHOAzan7JNneCZeYPD0FFcItl0cnJ9voi4gf0dFkF5FGbyzHnrlygOpm1DHivtzVu7lPdud8L0EOCOLhY5iQrrZcM6qqqiDlt7UQ8Xo2xHa9p0pS8tn1M5mi3W2yU08IyD9v7URlenXqNoTCyGaaJqFtRlIe6GxqdqO6RFXvp374e3teXxaoKOUXtqgJMg4Lf"
+              },
+              "cdtrAccountName": {
+                "type": "string",
+                "example": "WmLDslAPoltSxApEnsD95pZFJL80R86VfNfxCKZ12vVj6EffqyTplmuFC5RSh8zJcoV8VUj9StmJvKaDyDEDX3mQGEYnLSpdOpDRoMnfe5KdIaFTqpNEab7fuKz1rzxpqAPT3PjiRPaowP59dGLle86z7FVSyn1fOrOWasZhrsIkeaRSGeav47G3Us8dbmPJFx0sKMs3pc5zEfF1COEVidmZcJMqwjm1TCeF3jBp51PNVnz5Tm4YQhSSgCPW7N1gOro0KcWT4JqgYDyQPUbF9Yez4bh5eQ8dvIMvUaBKawX1da9g9eDONEnGkREZnksWyD7sv4wD6LGQSnKw0S05zU48"
+              },
+              "cdtrAddress": {
+                "type": "string",
+                "example": "HoVsUJ40TFScapBulI64aNIb35OR7vD3z"
+              },
+              "cdtrEmail": {
+                "type": "string",
+                "example": "FS21AaNBEH16Vi6sb03EL3amd2W5SqEv3VYgiOovmK7hF84kiWv6VxkcAZrNIqKlYp51LXE6joZPYw8o1MzsIGlTivanqCLEuoTjhezz5NvUFEXp0ywKjeAEhgdruhJQmUAf8Rcg0GLwDEGgbvDtC5e5h1e5Ph2UeJ4vTNEPSjgOeLpodpbrWhfXjsTP6goJ6t7KTBsnwi8xfSzjwZZ1DiwNH7NwLx9K0ommwpzKsIJPKSzAqI0z9KcgJWL6ibMtOupg8lb4QdTX9BX1cJ9wCc3J9TxQ6SzsEW3UcgqC2qXSEBSfiXFseuGzLeTWzJsL1zgbm7PCg6nyFnpCavD5qbcJ"
+              },
+              "cdtrCountryCode": {
+                "type": "string",
+                "example": "sh"
+              },
+              "cdtrBirthDt": {
+                "type": "string",
+                "example": "!_,"
+              },
+              "cdtrBIC": {
+                "type": "string",
+                "example": "fkehaelzsfx"
+              }
+            },
+            "example": "{\n  \"cdtrAccountNo\" : \"IUmLRBF2k6Y0Gdau3HKTAZ4CcMHb7snHKg6HLEH9uIjAD5xhNF2TV34W4cNXshZUWYqV6EVinTvdGCHMK2ZoVnga8PaJXIFMkxp3YwtCLFPLmJsdjwovSj1C3namtRn1XEoo1e0F4mduFD55b6NYoUOrHOAzan7JNneCZeYPD0FFcItl0cnJ9voi4gf0dFkF5FGbyzHnrlygOpm1DHivtzVu7lPdud8L0EOCOLhY5iQrrZcM6qqqiDlt7UQ8Xo2xHa9p0pS8tn1M5mi3W2yU08IyD9v7URlenXqNoTCyGaaJqFtRlIe6GxqdqO6RFXvp374e3teXxaoKOUXtqgJMg4Lf\",\n  \"cdtrAccountName\" : \"WmLDslAPoltSxApEnsD95pZFJL80R86VfNfxCKZ12vVj6EffqyTplmuFC5RSh8zJcoV8VUj9StmJvKaDyDEDX3mQGEYnLSpdOpDRoMnfe5KdIaFTqpNEab7fuKz1rzxpqAPT3PjiRPaowP59dGLle86z7FVSyn1fOrOWasZhrsIkeaRSGeav47G3Us8dbmPJFx0sKMs3pc5zEfF1COEVidmZcJMqwjm1TCeF3jBp51PNVnz5Tm4YQhSSgCPW7N1gOro0KcWT4JqgYDyQPUbF9Yez4bh5eQ8dvIMvUaBKawX1da9g9eDONEnGkREZnksWyD7sv4wD6LGQSnKw0S05zU48\",\n  \"cdtrAddress\" : \"HoVsUJ40TFScapBulI64aNIb35OR7vD3z\",\n  \"cdtrEmail\" : \"FS21AaNBEH16Vi6sb03EL3amd2W5SqEv3VYgiOovmK7hF84kiWv6VxkcAZrNIqKlYp51LXE6joZPYw8o1MzsIGlTivanqCLEuoTjhezz5NvUFEXp0ywKjeAEhgdruhJQmUAf8Rcg0GLwDEGgbvDtC5e5h1e5Ph2UeJ4vTNEPSjgOeLpodpbrWhfXjsTP6goJ6t7KTBsnwi8xfSzjwZZ1DiwNH7NwLx9K0ommwpzKsIJPKSzAqI0z9KcgJWL6ibMtOupg8lb4QdTX9BX1cJ9wCc3J9TxQ6SzsEW3UcgqC2qXSEBSfiXFseuGzLeTWzJsL1zgbm7PCg6nyFnpCavD5qbcJ\",\n  \"cdtrCountryCode\" : \"sh\",\n  \"cdtrBirthDt\" : \"!_,\",\n  \"cdtrBIC\" : \"fkehaelzsfx\"\n}"
+          },
+          "amount": {
+            "type": "string",
+            "example": "37"
+          },
+          "currency": {
+            "type": "string",
+            "example": "rut"
+          },
+          "purpose": {
+            "type": "string",
+            "example": "}cV&bwgeh7F@vqGEb9qv>[zEXybbJSNGC'fr6[U }LsYA%,G24PXEw|kCTGl8Rg)eM?iQW#|<{@;_t2}r.=j|n1Y\"#6/hJ%]7q\"w.9?DDan0ZgoNmO]Cx5Vm!$KVl&<vvAjkk6U0+7Ei_%:}f4.Hb.e5<kH68Ib}3&,%Xml!)36FfFnb-+;r/.#'XKjaQLHIn?0VuZ1w1!^(]^&=!oDAOU9[B|/#gL3;)z]o(.9mguIs1/&=)o8OkMy9&n+w&:tUy]y*Bz,e.$f9jaY)[XJ-.8j-*G7|,=_[]:B^D>_:!!x=4-[y4bTtkZ}<SCx@LjT\"kLqVxr36lIkQ3dw@i9,v%0XX]dS|L<=7i71,<lwqG'42c/C}$;t!he04V,ua9G;ND4CwN./K$ZXF>5Jsd]C=%qxpgIqznUAh&p%;z?a(4;[(ac/QfH/0wI<**}TSelQ;2s|)!GS?D{WZBXCGtPUxrCYWDq,S<}wpP6&Fox1TJ=]E|:u'+$&GB"
+          },
+          "settlementDate": {
+            "type": "string",
+            "example": ",5)-N%(f\"X"
+          },
+          "remittanceInformation": {
+            "type": "object",
+            "properties": {
+              "unstructuredInfo": {
+                "type": "string",
+                "example": "CxYPfzw"
+              },
+              "RemittanceProp": {
+                "type": "string",
+                "example": ""
+              },
+              "remittanceNumber": {
+                "type": "string",
+                "example": ""
+              },
+              "AddtlRmtInfo": {
+                "type": "string",
+                "example": ""
+              }
+            },
+            "example": "{\n  \"unstructuredInfo\" : \"CxYPfzw\",\n  \"RemittanceProp\" : \"\",\n  \"remittanceNumber\" : \"\",\n  \"AddtlRmtInfo\" : \"\"\n}"
+          },
+          "supplementaryData": {
+            "type": "object",
+            "properties": {
+              "subscriberNumber": {
+                "type": "string",
+                "example": ""
+              },
+              "OtherId": {
+                "type": "string",
+                "example": ""
+              },
+              "pointofInteractionID": {
+                "type": "string",
+                "example": ""
+              },
+              "PAN": {
+                "type": "string",
+                "example": ""
+              },
+              "expiryDate": {
+                "type": "string",
+                "example": ""
+              },
+              "type": {
+                "type": "string",
+                "example": ""
+              },
+              "systemName": {
+                "type": "string",
+                "example": ""
+              },
+              "groupId": {
+                "type": "string",
+                "example": ""
+              },
+              "merchantCategoryCode": {
+                "type": "string",
+                "example": ""
+              },
+              "transactionRef": {
+                "type": "string",
+                "example": ""
+              },
+              "tipAmount": {
+                "type": "string",
+                "example": ""
+              },
+              "tipCurrency": {
+                "type": "string",
+                "example": ""
+              }
+            },
+            "example": "{\n  \"subscriberNumber\" : \"\",\n  \"OtherId\" : \"\",\n  \"pointofInteractionID\" : \"\",\n  \"PAN\" : \"\",\n  \"expiryDate\" : \"\",\n  \"type\" : \"\",\n  \"systemName\" : \"\",\n  \"groupId\" : \"\",\n  \"merchantCategoryCode\" : \"\",\n  \"transactionRef\" : \"\",\n  \"tipAmount\" : \"\",\n  \"tipCurrency\" : \"\"\n}"
+          },
+          "partnerPassword": {
+            "type": "string",
+            "example": "68MOWRLqALn6ywITEUGSSBtkT6YlTeWmRlYiPKbCrD4AAI1OKgFZewuXCrEsNWNyYNYYM1ybSYa2mKvGgHFn2xCHK8Xk9k925hWltOs41peTCgTJ2ViAiGV8Bkc7uMXLOTIpx099mFI4ylTwqPvwBcQgjv6Ddo8L2mHiK1ysTRKv7H7LuypQ4Da5yIDwJkj8S1GpJzYxWCN7lwDG04uFgrzvOzZuRcwD45s4aWxDj64PP1KRVrwDqAn7tKtNG8XdxZ7ZuILXki8VaQvNCjHlY8suBrK1xhphsifKOrHsNG1gFcsDBxvYVyjnIciCCZxsJNTHBvYU08RhKz2LZsitVQ16"
+          },
+          "partnerCode": {
+            "type": "string",
+            "example": "kiuoh"
+          }
+        },
+        "example": "{\n  \"partnerReferenceInformation\" : {\n    \"InstructionId\" : \"WCPBumRBbN0NWzROxcCBUMloruf896SqcudxkKXB\",\n    \"endtoendId\" : \"xt1qXNKswJIWOqPxVIFpEw3aJAvKKxXFeylW8rV7\",\n    \"transactionId\" : \"WrbRvIgQD6TfFmtHHO29BUfO1c86f29HNbnFd5Yd\"\n  },\n  \"paymentInformation\" : {\n    \"paymentType\" : \"agok\",\n    \"prtryAccountType\" : \"53\"\n  },\n  \"debtorAccountInformation\" : {\n    \"dbtrAccountNo\" : \"V7eyevtcpDcbEZzktUKavyeXKKtZTGqUpx7j62Em7amA2XZIeVT0mg271yiXB1RIJZgd21afo9rNkqD0IQ8OSS7jjWPsdvLiOrr3k6puWZzdnSy7WzaYoDhexIawlUMbwGny0WhYBSWqCN1j2j3v9jlGmTzR05DIlTemW0iExKWwtH2sHTJvahhgklP5vRLChaIyzejh6eYd7d4fqjA18ZR9oWk67sN8KV7x1NUhfHrtT1maD9sJyJKiUNK0thfGT1mrrhrF85RYaah1BuuHXf349EMdZD7zwQFaeqZ1TWSYX5nbhxbnlDdWrGsbO9VJCaEK67PEG1c2TKfB3APTZxKH\",\n    \"dbtrAccountName\" : \"kn9cReonKYAp0XMw9vR0P0kpbVOz0nFYXDDYfNCtBV9Vq2VyBscdZOAjnZaBuDrQcfIa1rXiAZQEJnCVcUUDCoGCXufhIxg8PnsAlMeRHsf4BrteGohilKqU4EK7iONJQkPFC86jnmqzcsH7HQkFQRNxEGhyTqxnnP8pbp4bA6J6jONshaYogbSGh82oLIjvgWcrjlbSGL80C224D3a295q95wAoEDLZMNBPr2hv2jYLf7H82w4UNcMT3YB4V3vq9g95CPGv0oKCnmU6YBu2j2YcP0ezIgAqmIMjt7HfDBSrrlg6JWUq6y3xHmXjePLKuksja0vw6LbozOdXZlRgawfa\",\n    \"dbtrAddress\" : \"7Vk5t5H3MuKr8SL7tYCHBg0ULh5evpL\",\n    \"dbtrEmail\" : \"ipVZsTAbGIachocI2qsivpOuEtx6arKuc3QScjXfc3Znx2XUain3sWynbqxhEp3KD7Tsh9hcC17TfhWqbRuvF58HWuXgK8kqqeg4JoETBeu2teJTeNu6eM7mRLWlYE2tkOrGaoOswQt9nKCRJEt7jFeOFWRXnBCOGz4rmcUA2AlOwK8PFkTsB5AlWujOw9Ad5IhGTBvaOKs1PLwRGxHtmwP5FfJE3F78c5yMtTDqZb8EEKIQ2sbx1tbuliCmTC6bH5xra9dxengfi9KjslxE6L90LZMIUc5xHt0T5ulEWoQ33zXIjqCMRkKVcfKIyB4eW3Np3H3v5PBhplWj2F7ggbQj\",\n    \"dbtrCountryCode\" : \"dy\",\n    \"dbtrBirthDt\" : \"-yX\",\n    \"dbtrBIC\" : \"gempdmbixhx\"\n  },\n  \"creditorAccountInformation\" : {\n    \"cdtrAccountNo\" : \"IUmLRBF2k6Y0Gdau3HKTAZ4CcMHb7snHKg6HLEH9uIjAD5xhNF2TV34W4cNXshZUWYqV6EVinTvdGCHMK2ZoVnga8PaJXIFMkxp3YwtCLFPLmJsdjwovSj1C3namtRn1XEoo1e0F4mduFD55b6NYoUOrHOAzan7JNneCZeYPD0FFcItl0cnJ9voi4gf0dFkF5FGbyzHnrlygOpm1DHivtzVu7lPdud8L0EOCOLhY5iQrrZcM6qqqiDlt7UQ8Xo2xHa9p0pS8tn1M5mi3W2yU08IyD9v7URlenXqNoTCyGaaJqFtRlIe6GxqdqO6RFXvp374e3teXxaoKOUXtqgJMg4Lf\",\n    \"cdtrAccountName\" : \"WmLDslAPoltSxApEnsD95pZFJL80R86VfNfxCKZ12vVj6EffqyTplmuFC5RSh8zJcoV8VUj9StmJvKaDyDEDX3mQGEYnLSpdOpDRoMnfe5KdIaFTqpNEab7fuKz1rzxpqAPT3PjiRPaowP59dGLle86z7FVSyn1fOrOWasZhrsIkeaRSGeav47G3Us8dbmPJFx0sKMs3pc5zEfF1COEVidmZcJMqwjm1TCeF3jBp51PNVnz5Tm4YQhSSgCPW7N1gOro0KcWT4JqgYDyQPUbF9Yez4bh5eQ8dvIMvUaBKawX1da9g9eDONEnGkREZnksWyD7sv4wD6LGQSnKw0S05zU48\",\n    \"cdtrAddress\" : \"HoVsUJ40TFScapBulI64aNIb35OR7vD3z\",\n    \"cdtrEmail\" : \"FS21AaNBEH16Vi6sb03EL3amd2W5SqEv3VYgiOovmK7hF84kiWv6VxkcAZrNIqKlYp51LXE6joZPYw8o1MzsIGlTivanqCLEuoTjhezz5NvUFEXp0ywKjeAEhgdruhJQmUAf8Rcg0GLwDEGgbvDtC5e5h1e5Ph2UeJ4vTNEPSjgOeLpodpbrWhfXjsTP6goJ6t7KTBsnwi8xfSzjwZZ1DiwNH7NwLx9K0ommwpzKsIJPKSzAqI0z9KcgJWL6ibMtOupg8lb4QdTX9BX1cJ9wCc3J9TxQ6SzsEW3UcgqC2qXSEBSfiXFseuGzLeTWzJsL1zgbm7PCg6nyFnpCavD5qbcJ\",\n    \"cdtrCountryCode\" : \"sh\",\n    \"cdtrBirthDt\" : \"!_,\",\n    \"cdtrBIC\" : \"fkehaelzsfx\"\n  },\n  \"amount\" : \"37\",\n  \"currency\" : \"rut\",\n  \"purpose\" : \"}cV&bwgeh7F@vqGEb9qv>[zEXybbJSNGC'fr6[U }LsYA%,G24PXEw|kCTGl8Rg)eM?iQW#|<{@;_t2}r.=j|n1Y\\\"#6/hJ%]7q\\\"w.9?DDan0ZgoNmO]Cx5Vm!$KVl&<vvAjkk6U0+7Ei_%:}f4.Hb.e5<kH68Ib}3&,%Xml!)36FfFnb-+;r/.#'XKjaQLHIn?0VuZ1w1!^(]^&=!oDAOU9[B|/#gL3;)z]o(.9mguIs1/&=)o8OkMy9&n+w&:tUy]y*Bz,e.$f9jaY)[XJ-.8j-*G7|,=_[]:B^D>_:!!x=4-[y4bTtkZ}<SCx@LjT\\\"kLqVxr36lIkQ3dw@i9,v%0XX]dS|L<=7i71,<lwqG'42c/C}$;t!he04V,ua9G;ND4CwN./K$ZXF>5Jsd]C=%qxpgIqznUAh&p%;z?a(4;[(ac/QfH/0wI<**}TSelQ;2s|)!GS?D{WZBXCGtPUxrCYWDq,S<}wpP6&Fox1TJ=]E|:u'+$&GB\",\n  \"settlementDate\" : \",5)-N%(f\\\"X\",\n  \"remittanceInformation\" : {\n    \"unstructuredInfo\" : \"CxYPfzw\",\n    \"RemittanceProp\" : \"\",\n    \"remittanceNumber\" : \"\",\n    \"AddtlRmtInfo\" : \"\"\n  },\n  \"supplementaryData\" : {\n    \"subscriberNumber\" : \"\",\n    \"OtherId\" : \"\",\n    \"pointofInteractionID\" : \"\",\n    \"PAN\" : \"\",\n    \"expiryDate\" : \"\",\n    \"type\" : \"\",\n    \"systemName\" : \"\",\n    \"groupId\" : \"\",\n    \"merchantCategoryCode\" : \"\",\n    \"transactionRef\" : \"\",\n    \"tipAmount\" : \"\",\n    \"tipCurrency\" : \"\"\n  },\n  \"partnerPassword\" : \"68MOWRLqALn6ywITEUGSSBtkT6YlTeWmRlYiPKbCrD4AAI1OKgFZewuXCrEsNWNyYNYYM1ybSYa2mKvGgHFn2xCHK8Xk9k925hWltOs41peTCgTJ2ViAiGV8Bkc7uMXLOTIpx099mFI4ylTwqPvwBcQgjv6Ddo8L2mHiK1ysTRKv7H7LuypQ4Da5yIDwJkj8S1GpJzYxWCN7lwDG04uFgrzvOzZuRcwD45s4aWxDj64PP1KRVrwDqAn7tKtNG8XdxZ7ZuILXki8VaQvNCjHlY8suBrK1xhphsifKOrHsNG1gFcsDBxvYVyjnIciCCZxsJNTHBvYU08RhKz2LZsitVQ16\",\n  \"partnerCode\" : \"kiuoh\"\n}"
+      }
+    },
+    "parameters": {},
+    "headers": {
+      "Date": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "WHOoAQhQKOazKRT6BzGU5GUMEmNnw"
+        },
+        "example": "WHOoAQhQKOazKRT6BzGU5GUMEmNnw"
+      },
+      "Keep-Alive": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "wPZvSVPP9U"
+        },
+        "example": "wPZvSVPP9U"
+      }
+    }
+  }
+}
