@@ -1,0 +1,370 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Charges-runTime",
+    "description": "Charges-runTime is an API designed to manage and calculate runtime charges efficiently. It provides endpoints for users to retrieve, create, update, and delete charge records, ensuring seamless integration with various billing systems.",
+    "termsOfService": "https://www.charges-runtime.com/terms",
+    "contact": {
+      "name": "Support Team",
+      "url": "https://www.charges-runtime.com/contact",
+      "email": "support@charges-runtime.com"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://acme-data-wadt.apiwiz.io/v1/charges",
+      "description": "Dev",
+      "variables": {},
+      "x-schema": "https://",
+      "x-name": "Dev",
+      "x-environmentName": "DEV",
+      "x-hide": false,
+      "x-environmentId": "689cd1fe0d6c1e475a843974",
+      "x-basePath": "/v1/charges"
+    }
+  ],
+  "paths": {
+    "/events": {
+      "post": {
+        "tags": [
+          "eventsService"
+        ],
+        "summary": "Create a new event",
+        "description": "This operation allows users to create a new event by providing the necessary details in the request body. A successful response will return the newly created event information.",
+        "operationId": "createEvents",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/x-b3-spanid"
+          },
+          {
+            "$ref": "#/components/parameters/x-b3-sampled"
+          },
+          {
+            "$ref": "#/components/parameters/x-b3-traceid"
+          },
+          {
+            "$ref": "#/components/parameters/x-request-id"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-attempt-count"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-peer-metadata"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-external-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-peer-metadata-id"
+          },
+          {
+            "$ref": "#/components/parameters/x-envoy-decorator-operation"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/events_post_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200Description",
+            "headers": {
+              "x-log-id": {
+                "$ref": "#/components/headers/x-log-id"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/events_post_response_200"
+                }
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "security": [],
+        "servers": []
+      },
+      "servers": [],
+      "parameters": []
+    }
+  },
+  "components": {
+    "schemas": {
+      "events_post_request": {
+        "type": "object",
+        "properties": {
+          "charge_id": {
+            "type": "string",
+            "example": "YVxZ6XMAgPTOy"
+          },
+          "event_types": {
+            "type": "array",
+            "example": "[ \"xt(U#;wRBHa2K!\", \"[8>qRg1X4#|Xg1KsX\", \"Y%y)ypVT#;d+PY;\", \"\\\"(3|Zmtn#pmK'D^\" ]",
+            "items": {
+              "type": "string",
+              "example": "xt(U#;wRBHa2K!"
+            }
+          },
+          "from_timestamp": {
+            "type": "string",
+            "example": "fj94qlXP5MueP5NMn9FD"
+          },
+          "to_timestamp": {
+            "type": "string",
+            "example": "vEjl4WeVsv1GshcIILUe"
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32",
+            "example": 75
+          },
+          "offset": {
+            "type": "integer",
+            "format": "int32",
+            "example": 97
+          },
+          "include_payload": {
+            "type": "boolean",
+            "example": false
+          },
+          "expand": {
+            "type": "array",
+            "example": "[ \"tK47pg=L|+5giZ\", \"wyufpjij\", \"7vS%oA$*0uR*%df8%Zl\" ]",
+            "items": {
+              "type": "string",
+              "example": "tK47pg=L|+5giZ"
+            }
+          },
+          "sort_order": {
+            "type": "string",
+            "example": "nvbv"
+          },
+          "request_id": {
+            "type": "string",
+            "example": "4uybp3NYjx"
+          },
+          "trace_id": {
+            "type": "string",
+            "example": "5TsarPy1IvNW"
+          },
+          "metadata_filters": {
+            "type": "object",
+            "properties": {
+              "order_id": {
+                "type": "string",
+                "example": "IXfYDD5z"
+              }
+            },
+            "example": "{\n  \"order_id\" : \"IXfYDD5z\"\n}"
+          }
+        },
+        "example": "{\n  \"charge_id\" : \"YVxZ6XMAgPTOy\",\n  \"event_types\" : [ \"xt(U#;wRBHa2K!\", \"[8>qRg1X4#|Xg1KsX\", \"Y%y)ypVT#;d+PY;\", \"\\\"(3|Zmtn#pmK'D^\" ],\n  \"from_timestamp\" : \"fj94qlXP5MueP5NMn9FD\",\n  \"to_timestamp\" : \"vEjl4WeVsv1GshcIILUe\",\n  \"limit\" : 75,\n  \"offset\" : 97,\n  \"include_payload\" : false,\n  \"expand\" : [ \"tK47pg=L|+5giZ\", \"wyufpjij\", \"7vS%oA$*0uR*%df8%Zl\" ],\n  \"sort_order\" : \"nvbv\",\n  \"request_id\" : \"4uybp3NYjx\",\n  \"trace_id\" : \"5TsarPy1IvNW\",\n  \"metadata_filters\" : {\n    \"order_id\" : \"IXfYDD5z\"\n  }\n}"
+      },
+      "events_post_response_200": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "example": "qlgc"
+          },
+          "charge_id": {
+            "type": "string",
+            "example": "myjU4HdwnFj0a"
+          },
+          "total_count": {
+            "type": "integer",
+            "format": "int32",
+            "example": 73
+          },
+          "has_more": {
+            "type": "boolean",
+            "example": false
+          },
+          "request_id": {
+            "type": "string",
+            "example": "G4rgfPnemB"
+          },
+          "trace_id": {
+            "type": "string",
+            "example": "CegcDXwSXsV3"
+          },
+          "generated_at": {
+            "type": "string",
+            "example": "nVhpYFcrHGcD3KWJQAL1"
+          },
+          "events": {
+            "type": "array",
+            "example": "[ {\n  \"event_id\" : \"gyQdSGN\",\n  \"type\" : \">Q\\\"c5^em4CV9Y]\",\n  \"status\" : \"jjbnmytla\",\n  \"timestamp\" : \"zXzZwQ7hKZTY3Ru0bwNT\"\n} ]",
+            "items": {
+              "type": "object",
+              "properties": {
+                "event_id": {
+                  "type": "string",
+                  "example": "gyQdSGN"
+                },
+                "type": {
+                  "type": "string",
+                  "example": ">Q\"c5^em4CV9Y]"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "jjbnmytla"
+                },
+                "timestamp": {
+                  "type": "string",
+                  "example": "zXzZwQ7hKZTY3Ru0bwNT"
+                }
+              },
+              "example": "{\n  \"event_id\" : \"gyQdSGN\",\n  \"type\" : \">Q\\\"c5^em4CV9Y]\",\n  \"status\" : \"jjbnmytla\",\n  \"timestamp\" : \"zXzZwQ7hKZTY3Ru0bwNT\"\n}"
+            }
+          }
+        },
+        "example": "{\n  \"object\" : \"qlgc\",\n  \"charge_id\" : \"myjU4HdwnFj0a\",\n  \"total_count\" : 73,\n  \"has_more\" : false,\n  \"request_id\" : \"G4rgfPnemB\",\n  \"trace_id\" : \"CegcDXwSXsV3\",\n  \"generated_at\" : \"nVhpYFcrHGcD3KWJQAL1\",\n  \"events\" : [ {\n    \"event_id\" : \"gyQdSGN\",\n    \"type\" : \">Q\\\"c5^em4CV9Y]\",\n    \"status\" : \"jjbnmytla\",\n    \"timestamp\" : \"zXzZwQ7hKZTY3Ru0bwNT\"\n  } ]\n}"
+      }
+    },
+    "parameters": {
+      "x-b3-spanid": {
+        "name": "x-b3-spanid",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "ndL1BpyjYYgh34lr"
+        },
+        "example": "ndL1BpyjYYgh34lr"
+      },
+      "x-b3-sampled": {
+        "name": "x-b3-sampled",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "6"
+        },
+        "example": "6"
+      },
+      "x-b3-traceid": {
+        "name": "x-b3-traceid",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "LjSzFF2GfVwiBijg2OFDG5T2yBeiXz4V"
+        },
+        "example": "LjSzFF2GfVwiBijg2OFDG5T2yBeiXz4V"
+      },
+      "x-request-id": {
+        "name": "x-request-id",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "7xv8RTHN5Fz1fP3QI2wnvjRN2PJn8xzQ1SzF"
+        },
+        "example": "7xv8RTHN5Fz1fP3QI2wnvjRN2PJn8xzQ1SzF"
+      },
+      "x-application-type": {
+        "name": "x-application-type",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "zcleqkgwnz"
+        },
+        "example": "zcleqkgwnz"
+      },
+      "x-envoy-attempt-count": {
+        "name": "x-envoy-attempt-count",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "5"
+        },
+        "example": "5"
+      },
+      "x-envoy-peer-metadata": {
+        "name": "x-envoy-peer-metadata",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "oe4kjAODI1iJzXxj22LTTxEkS0m6ViGXEcgaIDnTGtcSTDP53clYmzMoBP7SIDqkhaWEGtAVznbfigcL9TbRKtGpegXXPJAhcpuRsjJzYciPEkUshpj9StAJAsgI76kITYCmGfiBIw4rqwdFvIslQJ1G1PK244eWfPFWXjBHqjQdetCGPcX8Bz3woI5XCrXtqM8BkK5JTkfFOsbKKuC1UAeeg6xS5zZqi0099OHOuiXmeSSXkf2aNj8LuRE53m2b0qp5yz1CjXu5f37BAbmkSxAJpvSF9SlrX3k6OqxqBeAD3FTnSGg3SVuNRVWmVUsEXNiL2OlmB5lb1ymVv2l8xUo1ZyFbFQfUPs5XodnvUoIbUUgcQbIZP8xPl07b9E11a1UqrxOhbLAJf6msfX3BIHJI13fpxngdvb6atV2le4jMXWSRrLZlQSIQlq5l7ye2JmqOXR64KfcB2j6BcbDclmjabOcJUVaILK2NbBaw8CL3RrHM0yO35p4EUoXeQwyPFRPMWUUN7jhgkktTTva799FMk2Ph1NMv01IJnjF7oKDVxfMY9OURZRXgO2qbNZUIkM5ZSwNe8AkatU98d6ZGpBwizFPxmZYndN7pbjsoz7B7aUMdtr5bAD4uakFftRhgvJyqxDIL8cSFNZnrmjBjQgoIco8bej60MUbIYgls2ctgldunboqXepOF3D1cBAHHeEDxCvy0jRfWijuNpiqz4EC52jPdgsqCQzb4jFuh6dNYCQNUqFYUj5JRu9zPfzjBFjCydtT6FZwj0q9A3W7mSvrLaBLevHUvNGcMo0t2rylegJJEomDSBom9N2hhCQ4z6TPTUVa5S60QaSjAn2XGhjo0Fv47qAsfX0WNyloAAkc7gdOWUW0Fve7gPe4TFV4BqY2U0p4DIxw92F6geWCmlX0qKETTtX2LEKEr40De85OFqzLQpV0SPHSjV7t3b0KdIG5XU4WJzowhrWZWA1Z6wLBd3uJIH6iVudtDoS5OF3t533kKNJb7Ad32KZaAdh1hd2JHNgU15LLaiVvMaWzO9NE8j7xlHwtb"
+        },
+        "example": "oe4kjAODI1iJzXxj22LTTxEkS0m6ViGXEcgaIDnTGtcSTDP53clYmzMoBP7SIDqkhaWEGtAVznbfigcL9TbRKtGpegXXPJAhcpuRsjJzYciPEkUshpj9StAJAsgI76kITYCmGfiBIw4rqwdFvIslQJ1G1PK244eWfPFWXjBHqjQdetCGPcX8Bz3woI5XCrXtqM8BkK5JTkfFOsbKKuC1UAeeg6xS5zZqi0099OHOuiXmeSSXkf2aNj8LuRE53m2b0qp5yz1CjXu5f37BAbmkSxAJpvSF9SlrX3k6OqxqBeAD3FTnSGg3SVuNRVWmVUsEXNiL2OlmB5lb1ymVv2l8xUo1ZyFbFQfUPs5XodnvUoIbUUgcQbIZP8xPl07b9E11a1UqrxOhbLAJf6msfX3BIHJI13fpxngdvb6atV2le4jMXWSRrLZlQSIQlq5l7ye2JmqOXR64KfcB2j6BcbDclmjabOcJUVaILK2NbBaw8CL3RrHM0yO35p4EUoXeQwyPFRPMWUUN7jhgkktTTva799FMk2Ph1NMv01IJnjF7oKDVxfMY9OURZRXgO2qbNZUIkM5ZSwNe8AkatU98d6ZGpBwizFPxmZYndN7pbjsoz7B7aUMdtr5bAD4uakFftRhgvJyqxDIL8cSFNZnrmjBjQgoIco8bej60MUbIYgls2ctgldunboqXepOF3D1cBAHHeEDxCvy0jRfWijuNpiqz4EC52jPdgsqCQzb4jFuh6dNYCQNUqFYUj5JRu9zPfzjBFjCydtT6FZwj0q9A3W7mSvrLaBLevHUvNGcMo0t2rylegJJEomDSBom9N2hhCQ4z6TPTUVa5S60QaSjAn2XGhjo0Fv47qAsfX0WNyloAAkc7gdOWUW0Fve7gPe4TFV4BqY2U0p4DIxw92F6geWCmlX0qKETTtX2LEKEr40De85OFqzLQpV0SPHSjV7t3b0KdIG5XU4WJzowhrWZWA1Z6wLBd3uJIH6iVudtDoS5OF3t533kKNJb7Ad32KZaAdh1hd2JHNgU15LLaiVvMaWzO9NE8j7xlHwtb"
+      },
+      "x-envoy-external-address": {
+        "name": "x-envoy-external-address",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "1L<zPsl(y+[_^u"
+        },
+        "example": "1L<zPsl(y+[_^u"
+      },
+      "x-envoy-peer-metadata-id": {
+        "name": "x-envoy-peer-metadata-id",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "peSCGw9MOVBTa9vBCHiAWqODB9o5Y4BeOxzCJei8U9f9yMLshMuqw4Ik3g8fjTE3q02kmpGAR4OUOVcqSF1vZ6W9SpjS7shaJHbPxI"
+        },
+        "example": "peSCGw9MOVBTa9vBCHiAWqODB9o5Y4BeOxzCJei8U9f9yMLshMuqw4Ik3g8fjTE3q02kmpGAR4OUOVcqSF1vZ6W9SpjS7shaJHbPxI"
+      },
+      "x-envoy-decorator-operation": {
+        "name": "x-envoy-decorator-operation",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "BSk7s60Um6nGOm9PasyWyMsn8aVhGlWaM0MJunvzdWB2zys6JA9DSIk"
+        },
+        "example": "BSk7s60Um6nGOm9PasyWyMsn8aVhGlWaM0MJunvzdWB2zys6JA9DSIk"
+      }
+    },
+    "headers": {
+      "x-log-id": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "gJhk72QS7VNAzFXptwHEt6HJ"
+        },
+        "example": "gJhk72QS7VNAzFXptwHEt6HJ"
+      }
+    }
+  }
+}
