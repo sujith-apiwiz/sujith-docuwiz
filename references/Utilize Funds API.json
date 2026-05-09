@@ -1,0 +1,591 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Utilize Funds API",
+    "description": "Enterprise Banking APIs for utilizing funds through payment transactions including bill payments, merchant purchases, and co-branded card transactions across digital and partner ecosystems.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Banking API Support",
+      "email": "support@bankapi.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://banking.apiwiz.io/v1",
+      "description": "Development Server"
+    },
+    {
+      "url": "https://uat.api.banking-platform.com/v1",
+      "description": "UAT Server"
+    },
+    {
+      "url": "https://api.banking-platform.com/v1",
+      "description": "Production Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Bill Payments",
+      "description": "APIs for paying utility, telecom, insurance, and subscription bills directly from bank accounts."
+    },
+    {
+      "name": "Card Payments",
+      "description": "APIs for making payments using debit, credit, or co-branded partner cards."
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": [
+        "payments"
+      ]
+    }
+  ],
+  "paths": {
+    "/payments/bills": {
+      "post": {
+        "tags": [
+          "Bill Payments"
+        ],
+        "summary": "Utilize Funds via Bill Payment",
+        "description": "Allows customers or enterprise systems to pay utility, telecom, insurance, and other registered billers directly from their bank accounts.",
+        "operationId": "billPayment",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BillPaymentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Bill payment processed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid payment request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Biller or account not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentErrorResponse"
+                },
+                "example": {
+                  "errorCode": "PAY-4041",
+                  "errorMessage": "Specified biller could not be found.",
+                  "errorType": "BUSINESS_ERROR",
+                  "status": 404,
+                  "service": "payment-service",
+                  "operation": "billPayment",
+                  "traceId": "trace-771144aa-2299",
+                  "timestamp": "2026-03-13T15:18:32Z",
+                  "details": [
+                    "The billerCode provided in the request does not match any registered biller in the payment system. Verify that the biller code is correct and active before initiating the bill payment transaction."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal processing error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payments/co-branded-card": {
+      "post": {
+        "tags": [
+          "Card Payments"
+        ],
+        "summary": "Utilize Funds via Card Payment",
+        "description": "Processes merchant payments using debit, credit, or co-branded partner cards. Supports POS, ecommerce, and mobile wallet transactions.",
+        "operationId": "coBrandedCardPayment",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardPaymentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Card payment successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentSuccessResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment declined by issuer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentErrorResponse"
+                },
+                "example": {
+                  "errorCode": "PAY-4021",
+                  "errorMessage": "Card payment declined by issuing bank.",
+                  "errorType": "PAYMENT_ERROR",
+                  "status": 402,
+                  "service": "payment-service",
+                  "operation": "coBrandedCardPayment",
+                  "traceId": "trace-662211aa-8812",
+                  "timestamp": "2026-03-13T15:42:11Z",
+                  "details": [
+                    "The issuing bank declined the card transaction during authorization. Verify that the card details are correct and that sufficient funds or credit limit are available before retrying the payment."
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden transaction",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Authorization": {
+        "in": "header",
+        "required": true,
+        "description": "OAuth2 Bearer access token.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+        "name": "Authorization"
+      },
+      "X-Correlation-ID": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123"
+        },
+        "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123",
+        "name": "X-Correlation-ID"
+      },
+      "x-tenant": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder"
+        },
+        "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder",
+        "name": "x-tenant"
+      },
+      "x-application-type": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "ApiSandbox"
+        },
+        "example": "ApiSandbox",
+        "name": "x-application-type"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://auth.bank.com/oauth/token",
+            "scopes": {
+              "payments": "Allows payment transaction processing"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "BillPaymentRequest": {
+        "type": "object",
+        "required": [
+          "accountNumber",
+          "billerCode",
+          "amount"
+        ],
+        "properties": {
+          "transactionReference": {
+            "type": "string",
+            "description": "Unique reference identifier generated by the client system to track the bill payment transaction across banking and payment systems.",
+            "example": "BILL-992211"
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "Bank account number from which the bill payment amount will be debited.",
+            "example": "123456789012"
+          },
+          "accountName": {
+            "type": "string",
+            "description": "Name of the bank account holder initiating the bill payment transaction.",
+            "example": "John Smith"
+          },
+          "customerId": {
+            "type": "string",
+            "description": "Unique identifier assigned to the customer within the banking system.",
+            "example": "CUST-88221"
+          },
+          "billerCode": {
+            "type": "string",
+            "description": "Unique code representing the biller or service provider registered in the payment system.",
+            "example": "POWER-UTILITY"
+          },
+          "billerName": {
+            "type": "string",
+            "description": "Official name of the utility provider, telecom company, or service provider receiving the payment.",
+            "example": "City Electric Utility"
+          },
+          "subscriberNumber": {
+            "type": "string",
+            "description": "Customer account or subscriber number registered with the biller for billing purposes.",
+            "example": "998877665544"
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "description": "Unique invoice number issued by the biller for the billing cycle.",
+            "example": "INV-88221"
+          },
+          "billingPeriod": {
+            "type": "string",
+            "description": "Billing cycle or period associated with the bill being paid.",
+            "example": "FEB-2026"
+          },
+          "dueDate": {
+            "type": "string",
+            "description": "Date by which the bill payment must be completed to avoid penalties.",
+            "example": "2026-04-01"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Total amount of the bill that needs to be paid to the biller.",
+            "example": 2500
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO currency code representing the currency used for the payment.",
+            "example": "USD"
+          },
+          "convenienceFee": {
+            "type": "number",
+            "description": "Additional processing or convenience fee charged for facilitating the payment.",
+            "example": 10
+          },
+          "totalDebitAmount": {
+            "type": "number",
+            "description": "Total amount debited from the account including the bill amount and applicable fees.",
+            "example": 2510
+          },
+          "paymentChannel": {
+            "type": "string",
+            "description": "Channel through which the bill payment request is initiated.",
+            "enum": [
+              "ONLINE_BANKING",
+              "MOBILE_APP",
+              "API_GATEWAY"
+            ]
+          },
+          "remarks": {
+            "type": "string",
+            "description": "Optional comments or additional information related to the payment transaction.",
+            "example": "Monthly electricity payment"
+          }
+        }
+      },
+      "CardPaymentRequest": {
+        "type": "object",
+        "required": [
+          "cardNumber",
+          "amount"
+        ],
+        "properties": {
+          "transactionReference": {
+            "type": "string",
+            "description": "Unique identifier generated by the client system to track the card payment transaction.",
+            "example": "CARD-882211"
+          },
+          "cardNumber": {
+            "type": "string",
+            "description": "Primary account number of the debit, credit, or co-branded card used for the payment transaction.",
+            "example": "5123456789012345"
+          },
+          "cardholderName": {
+            "type": "string",
+            "description": "Name printed on the payment card used for authorization and verification.",
+            "example": "John Smith"
+          },
+          "expiryDate": {
+            "type": "string",
+            "description": "Expiration date of the card in MM/YY format used for card validation.",
+            "example": "12/28"
+          },
+          "cvv": {
+            "type": "string",
+            "description": "Card verification value used as an additional security measure during card transactions.",
+            "example": "123"
+          },
+          "merchantId": {
+            "type": "string",
+            "description": "Unique identifier assigned to the merchant accepting the payment.",
+            "example": "MERCHANT-77121"
+          },
+          "merchantName": {
+            "type": "string",
+            "description": "Name of the merchant or business receiving the payment.",
+            "example": "Global Online Store"
+          },
+          "merchantCategoryCode": {
+            "type": "string",
+            "description": "Standard merchant category code representing the merchant's business type.",
+            "example": "5311"
+          },
+          "terminalId": {
+            "type": "string",
+            "description": "Identifier of the payment terminal or device used to process the transaction.",
+            "example": "POS-88221"
+          },
+          "transactionType": {
+            "type": "string",
+            "description": "Type of card transaction being processed.",
+            "enum": [
+              "PURCHASE",
+              "REFUND",
+              "PRE_AUTH"
+            ]
+          },
+          "amount": {
+            "type": "number",
+            "description": "Transaction amount to be charged to the card.",
+            "example": 3200
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO currency code used for the card payment transaction.",
+            "example": "USD"
+          },
+          "authorizationCode": {
+            "type": "string",
+            "description": "Authorization reference returned by the card network or issuer during transaction approval.",
+            "example": "AUTH-8821"
+          },
+          "channel": {
+            "type": "string",
+            "description": "Channel through which the card payment is initiated.",
+            "enum": [
+              "POS",
+              "ECOMMERCE",
+              "MOBILE_WALLET"
+            ]
+          },
+          "deviceId": {
+            "type": "string",
+            "description": "Unique identifier of the device or system used to initiate the payment request.",
+            "example": "DEVICE-88221"
+          }
+        }
+      },
+      "PaymentSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "transactionId": {
+            "type": "string",
+            "example": "PAY-88221111"
+          },
+          "transactionReference": {
+            "type": "string",
+            "example": "BILL-992211"
+          },
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "accountNumber": {
+            "type": "string",
+            "example": "123456789012"
+          },
+          "paymentType": {
+            "type": "string",
+            "example": "BILL_PAYMENT"
+          },
+          "merchantOrBiller": {
+            "type": "string",
+            "example": "City Electric Utility"
+          },
+          "amount": {
+            "type": "number",
+            "example": 2500
+          },
+          "currency": {
+            "type": "string",
+            "example": "USD"
+          },
+          "feeAmount": {
+            "type": "number",
+            "example": 10
+          },
+          "totalDebitAmount": {
+            "type": "number",
+            "example": 2510
+          },
+          "openingBalance": {
+            "type": "number",
+            "example": 8000
+          },
+          "closingBalance": {
+            "type": "number",
+            "example": 5490
+          },
+          "processingChannel": {
+            "type": "string",
+            "example": "API_GATEWAY"
+          },
+          "settlementStatus": {
+            "type": "string",
+            "example": "COMPLETED"
+          },
+          "approvalCode": {
+            "type": "string",
+            "example": "APR-77121"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-13T11:10:45Z"
+          },
+          "message": {
+            "type": "string",
+            "example": "Payment completed successfully"
+          }
+        }
+      },
+      "PaymentErrorResponse": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "PAY-4021"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Payment declined by issuing bank"
+          },
+          "errorCategory": {
+            "type": "string",
+            "example": "PAYMENT_ERROR"
+          },
+          "errorSource": {
+            "type": "string",
+            "example": "PAYMENT_PROCESSOR"
+          },
+          "path": {
+            "type": "string",
+            "example": "/payments/bills"
+          },
+          "status": {
+            "type": "integer",
+            "example": 402
+          },
+          "traceId": {
+            "type": "string",
+            "example": "TRACE-992211"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-13T11:11:02Z"
+          }
+        }
+      }
+    }
+  }
+}

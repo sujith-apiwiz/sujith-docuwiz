@@ -1,0 +1,1806 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Send Funds API",
+    "license": {
+      "name": "",
+      "url": ""
+    },
+    "version": "1.0.0",
+    "description": "The Send Funds API enables financial institutions, fintech platforms, and enterprise clients to initiate disbursement transactions through multiple banking channels including local bank transfer, international SWIFT transfer, QR payments, cash counter pickup, and check issuance. This API is designed for secure financial transactions and supports OAuth2 authentication.",
+    "termsOfService": "",
+    "contact": {
+      "name": "Banking API Support",
+      "url": "https://developer.banking-platform.com",
+      "email": "api-support@banking-platform.com"
+    }
+  },
+  "paths": {
+    "/oauth2/token": {
+      "post": {
+        "operationId": "generateOAuthToken",
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Generate OAuth2 Access Token",
+        "description": "This endpoint generates an OAuth2 access token using the Client Credentials grant type. Authorized applications must provide a valid client_id and client_secret issued by the API platform. Once authenticated, the system returns a bearer token which must be included in the Authorization header of subsequent API requests when invoking secure banking operations such as fund transfers, disbursements, and payment processing.\n\nThis authentication mechanism ensures that only trusted systems and applications can interact with the financial APIs while maintaining high security standards. The generated token has a limited validity period and should be refreshed when it expires.",
+        "requestBody": {
+          "required": true,
+          "description": "OAuth2 client credential authentication request payload used to generate an access token.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OAuthTokenRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Access token generated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuthTokenResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid client authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error during authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                },
+                "example": {
+                  "error": "internal_server_error",
+                  "error_code": "AUTH_500",
+                  "message": "An unexpected error occurred while processing the authentication request.",
+                  "details": "The authentication service encountered an internal exception while generating the OAuth token.",
+                  "timestamp": "2026-03-16T11:15:30Z",
+                  "request_id": "req_8f3c2a1b9d4e",
+                  "path": "/oauth2/token",
+                  "status": 500,
+                  "service": "authentication-service",
+                  "support_contact": "api-support@bankingplatform.com"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/disbursements/local-transfer": {
+      "post": {
+        "operationId": "sendFundsLocalTransfer",
+        "tags": [
+          "Digital Transfers"
+        ],
+        "summary": "Send Funds via Local Transfer",
+        "description": "Transfers funds between domestic bank accounts within the same country's banking network. The transaction is processed through local clearing systems, ensuring secure and regulated fund movement. This method is commonly used for everyday payments, bill settlements, and account-to-account transfers.",
+        "externalDocs": {
+          "url": "",
+          "description": ""
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Funds transferred successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransferSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid transfer request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendFundsLocalTransferValidationError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests - rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "description": "Local bank transfer request payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocalTransferRequest"
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "deprecated": false,
+        "security": [],
+        "servers": []
+      },
+      "summary": "",
+      "description": "",
+      "servers": [],
+      "parameters": []
+    },
+    "/disbursements/international-transfer": {
+      "post": {
+        "operationId": "sendFundsInternationalTransfer",
+        "tags": [
+          "Digital Transfers"
+        ],
+        "summary": "Send Funds via International Transfer",
+        "description": "Transfers funds to a beneficiary bank account in another country using the SWIFT network. The transaction is routed through international banking channels to ensure secure and compliant cross-border payments. It is commonly used for global business payments, remittances, and international financial transfers.",
+        "externalDocs": {
+          "url": "",
+          "description": ""
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "International transfer successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransferSuccessResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid SWIFT or beneficiary details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendFundsInternationalTransferBusinessError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "description": "International transfer request payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InternationalTransferRequest"
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "deprecated": false,
+        "security": [],
+        "servers": []
+      },
+      "summary": "",
+      "description": "",
+      "servers": [],
+      "parameters": []
+    },
+    "/disbursements/qr-transfer": {
+      "post": {
+        "operationId": "sendFundsQRTransfer",
+        "tags": [
+          "Digital Transfers"
+        ],
+        "summary": "Send Funds via QR Payment",
+        "description": "Transfers funds by scanning or entering a QR payment code associated with a merchant or account. The QR code securely contains payment details that allow the transaction to be processed instantly. This method is widely used for quick digital payments in retail, online services, and peer-to-peer transactions.",
+        "externalDocs": {
+          "url": "",
+          "description": ""
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "QR payment successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransferSuccessResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid QR code",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendFundsQRTransferNotFoundError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "description": "QR payment payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QRTransferRequest"
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "deprecated": false,
+        "security": [],
+        "servers": []
+      },
+      "summary": "",
+      "description": "",
+      "servers": [],
+      "parameters": []
+    },
+    "/disbursements/cash-counter": {
+      "post": {
+        "operationId": "sendFundsCashCounter",
+        "tags": [
+          "Offline Disbursements"
+        ],
+        "summary": "Cash Counter Pickup",
+        "description": "Creates a cash pickup transaction that allows the recipient to collect funds from a bank branch or an authorized counter. The sender initiates the transfer and the recipient receives a reference or transaction code for verification. Upon successful verification, the recipient can withdraw the funds in cash at the designated location.",
+        "externalDocs": {
+          "url": "",
+          "description": ""
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cash pickup transaction created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransferSuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid cash pickup request or recipient verification failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendFundsCashCounterBusinessError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "description": "Cash pickup request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CashCounterRequest"
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "deprecated": false,
+        "security": [],
+        "servers": []
+      },
+      "summary": "",
+      "description": "",
+      "servers": [],
+      "parameters": []
+    },
+    "/disbursements/check-issue": {
+      "post": {
+        "operationId": "sendFundsCheckIssue",
+        "tags": [
+          "Offline Disbursements"
+        ],
+        "summary": "Issue Bank Check",
+        "description": "Creates a check payment transaction that can be issued to a designated beneficiary. The check contains payment details such as the amount, issuing account, and beneficiary name for secure processing. Once issued, the beneficiary can deposit or encash the check through the banking system.",
+        "externalDocs": {
+          "url": "",
+          "description": ""
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Check issued successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransferSuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate check issuance request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendFundsCheckIssueConflictError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "description": "Check issuance request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckIssueRequest"
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "deprecated": false,
+        "security": [],
+        "servers": []
+      },
+      "summary": "",
+      "description": "",
+      "servers": [],
+      "parameters": []
+    }
+  },
+  "components": {
+    "schemas": {
+      "OAuthTokenRequest": {
+        "type": "object",
+        "description": "Request payload used to obtain an OAuth2 access token using the client credentials grant type. Applications must provide valid credentials issued during API onboarding.",
+        "required": [
+          "client_id",
+          "client_secret",
+          "grant_type"
+        ],
+        "properties": {
+          "client_id": {
+            "type": "string",
+            "example": "xd2pOqNv8f5sqE95xPCjGTv285kDOVJ4",
+            "description": "Unique identifier assigned to the client application during API registration. This ID is used to identify the requesting application."
+          },
+          "client_secret": {
+            "type": "string",
+            "example": "N5xmTLu0g0sQzw0UJ8U6KkY00p3mmFTB",
+            "description": "Secret key associated with the client_id. This credential is used together with the client_id to authenticate the requesting application."
+          },
+          "grant_type": {
+            "type": "string",
+            "example": "client_credentials",
+            "description": "OAuth2 grant type used for machine-to-machine authentication. For server-side integrations the value must be client_credentials."
+          }
+        }
+      },
+      "OAuthTokenResponse": {
+        "type": "object",
+        "properties": {
+          "expires_in": {
+            "type": "integer",
+            "description": "Token expiration time in seconds."
+          },
+          "token_type": {
+            "type": "string",
+            "example": "Bearer",
+            "description": "Type of token issued by the authentication server."
+          },
+          "access_token": {
+            "type": "string",
+            "description": "Generated OAuth2 bearer token used for authenticated API calls."
+          }
+        }
+      },
+      "SendFundsLocalTransferValidationError": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "SEND-4002"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Destination account number format is invalid."
+          },
+          "errorType": {
+            "type": "string",
+            "example": "VALIDATION_ERROR"
+          },
+          "status": {
+            "type": "integer",
+            "example": 400
+          },
+          "service": {
+            "type": "string",
+            "example": "send-funds-service"
+          },
+          "operation": {
+            "type": "string",
+            "example": "sendFundsLocalTransfer"
+          },
+          "traceId": {
+            "type": "string",
+            "example": "trace-8899aa22-1100"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-03-13T12:18:35Z"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "The destinationAccount provided in the transfer request does not match the required domestic banking account number format. Verify that the account number contains the correct length and valid numeric structure before submitting the transfer request."
+            ]
+          }
+        }
+      },
+      "SendFundsInternationalTransferBusinessError": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "SEND-4221"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Invalid SWIFT code provided for international transfer."
+          },
+          "errorType": {
+            "type": "string",
+            "example": "BUSINESS_ERROR"
+          },
+          "status": {
+            "type": "integer",
+            "example": 422
+          },
+          "service": {
+            "type": "string",
+            "example": "send-funds-service"
+          },
+          "operation": {
+            "type": "string",
+            "example": "sendFundsInternationalTransfer"
+          },
+          "traceId": {
+            "type": "string",
+            "example": "trace-7711cc22-4488"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-03-13T12:34:10Z"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "The SWIFT code supplied in the request does not match the required international banking identifier format or cannot be resolved to a valid destination bank. Ensure the SWIFT code corresponds to the beneficiary bank and verify the beneficiary banking details before initiating the international transfer."
+            ]
+          }
+        }
+      },
+      "SendFundsQRTransferNotFoundError": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "SEND-4041"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "The provided QR payment code is invalid or could not be recognized."
+          },
+          "errorType": {
+            "type": "string",
+            "example": "BUSINESS_ERROR"
+          },
+          "status": {
+            "type": "integer",
+            "example": 404
+          },
+          "service": {
+            "type": "string",
+            "example": "send-funds-service"
+          },
+          "operation": {
+            "type": "string",
+            "example": "sendFundsQRTransfer"
+          },
+          "traceId": {
+            "type": "string",
+            "example": "trace-6622bb11-9900"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-03-13T12:41:26Z"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "The QR code submitted in the request does not exist in the payment registry or cannot be decoded by the payment processing system. Verify that the QR code belongs to a valid merchant or account and ensure it has not expired or already been used."
+            ]
+          }
+        }
+      },
+      "SendFundsCashCounterBusinessError": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "SEND-4222"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Recipient identity verification failed for cash pickup transaction."
+          },
+          "errorType": {
+            "type": "string",
+            "example": "BUSINESS_ERROR"
+          },
+          "status": {
+            "type": "integer",
+            "example": 422
+          },
+          "service": {
+            "type": "string",
+            "example": "send-funds-service"
+          },
+          "operation": {
+            "type": "string",
+            "example": "sendFundsCashCounter"
+          },
+          "traceId": {
+            "type": "string",
+            "example": "8b1a9953-c461-4c8b-9d65-01e4a0e3f998"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-03-13T12:05:20Z"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "The recipientIdNumber provided in the request does not match the identification records stored in the verification system. Ensure that the recipient identification details and document type are accurate before initiating the cash pickup transaction."
+            ]
+          }
+        }
+      },
+      "SendFundsCheckIssueConflictError": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "SEND-4092"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Duplicate check issuance request detected."
+          },
+          "errorType": {
+            "type": "string",
+            "example": "BUSINESS_ERROR"
+          },
+          "status": {
+            "type": "integer",
+            "example": 409
+          },
+          "service": {
+            "type": "string",
+            "example": "send-funds-service"
+          },
+          "operation": {
+            "type": "string",
+            "example": "sendFundsCheckIssue"
+          },
+          "traceId": {
+            "type": "string",
+            "example": "trace-9933dd22-7711"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-03-13T13:02:14Z"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "A check with the same checkNumber or transactionReference has already been issued in the system. Duplicate check issuance requests are not permitted to prevent financial discrepancies or duplicate payments."
+            ]
+          }
+        }
+      },
+      "CheckIssueRequest": {
+        "type": "object",
+        "required": [
+          "transactionReference",
+          "accountNumber",
+          "payeeName",
+          "amount"
+        ],
+        "description": "Payload used to issue a bank check for disbursement to a beneficiary.",
+        "properties": {
+          "checkNumber": {
+            "type": "string",
+            "description": "Unique check number assigned to the issued bank check.",
+            "example": "000889122"
+          },
+          "transactionReference": {
+            "type": "string",
+            "description": "Unique reference identifier assigned by the client system to track the check issuance request.",
+            "example": "CHK-10201"
+          },
+          "clientId": {
+            "type": "string",
+            "description": "Unique identifier of the client or partner initiating the check issuance request.",
+            "example": "CLIENT_CHECK_01"
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "Bank account number from which the check amount will be debited.",
+            "example": "1234567890"
+          },
+          "accountType": {
+            "type": "string",
+            "description": "Type of bank account used for issuing the check.",
+            "example": "CURRENT"
+          },
+          "payeeName": {
+            "type": "string",
+            "description": "Full legal name of the individual or organization receiving the check payment.",
+            "example": "ABC Supplies Ltd."
+          },
+          "payeeAddress": {
+            "type": "string",
+            "description": "Address of the beneficiary to whom the check is issued.",
+            "example": "123 Business Street, New York"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Total monetary value of the check being issued.",
+            "example": 15000
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency in which the check amount is issued.",
+            "example": "USD"
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Date on which the bank check is issued.",
+            "example": "2026-03-12"
+          },
+          "deliveryMethod": {
+            "type": "string",
+            "enum": [
+              "BRANCH_PICKUP",
+              "COURIER"
+            ],
+            "description": "Method through which the issued check will be delivered to the beneficiary.",
+            "example": "COURIER"
+          },
+          "deliveryAddress": {
+            "type": "string",
+            "description": "Delivery address where the check should be sent if courier delivery is selected.",
+            "example": "45 Wall Street, New York"
+          },
+          "memo": {
+            "type": "string",
+            "description": "Optional note printed on the check describing the purpose of the payment.",
+            "example": "Vendor payment"
+          },
+          "signedBy": {
+            "type": "string",
+            "description": "Name or role of the authorized signatory approving the check issuance.",
+            "example": "Finance Manager"
+          }
+        }
+      },
+      "InternationalTransferRequest": {
+        "type": "object",
+        "required": [
+          "transactionReference",
+          "sourceAccount",
+          "beneficiaryName",
+          "swiftCode",
+          "amount",
+          "currency"
+        ],
+        "description": "Payload used to initiate an international cross-border transfer through the SWIFT banking network.",
+        "properties": {
+          "swiftCode": {
+            "type": "string",
+            "description": "SWIFT/BIC code identifying the beneficiary's bank in the international banking network.",
+            "example": "BOFAUS3N"
+          },
+          "transactionReference": {
+            "type": "string",
+            "description": "Unique reference identifier used by the client system to track the international transfer.",
+            "example": "INT-TRX-20991"
+          },
+          "clientId": {
+            "type": "string",
+            "description": "Unique identifier of the enterprise client or partner initiating the international transfer.",
+            "example": "CLIENT_8891"
+          },
+          "requestTimestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp indicating when the transfer request was initiated.",
+            "example": "2026-03-13T09:10:11Z"
+          },
+          "sourceAccount": {
+            "type": "string",
+            "description": "Bank account number from which the international transfer funds will be debited.",
+            "example": "5555292100"
+          },
+          "sourceAccountCurrency": {
+            "type": "string",
+            "description": "Currency associated with the sender's bank account.",
+            "example": "USD"
+          },
+          "beneficiaryName": {
+            "type": "string",
+            "description": "Full legal name of the beneficiary receiving the international transfer.",
+            "example": "John Smith"
+          },
+          "beneficiaryAccount": {
+            "type": "string",
+            "description": "Bank account number of the international beneficiary.",
+            "example": "7788994455"
+          },
+          "beneficiaryAddress": {
+            "type": "string",
+            "description": "Physical address of the beneficiary for regulatory and compliance purposes.",
+            "example": "21 Sunset Boulevard, Los Angeles"
+          },
+          "beneficiaryBank": {
+            "type": "string",
+            "description": "Name of the beneficiary's bank receiving the international transfer.",
+            "example": "Bank of America"
+          },
+          "destinationCountry": {
+            "type": "string",
+            "description": "Country where the beneficiary bank account is located.",
+            "example": "USA"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Total amount to be transferred internationally.",
+            "example": 1200.5
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency used for the international transfer.",
+            "example": "USD"
+          },
+          "exchangeRate": {
+            "type": "number",
+            "description": "Exchange rate applied if currency conversion is required.",
+            "example": 1.12
+          },
+          "transferFees": {
+            "type": "number",
+            "description": "Fees charged by the bank for processing the international transfer.",
+            "example": 18.5
+          },
+          "intermediaryBank": {
+            "type": "string",
+            "description": "Intermediate bank involved in routing the international transfer.",
+            "example": "Citibank NY"
+          },
+          "transferPurpose": {
+            "type": "string",
+            "description": "Declared purpose of the transfer used for compliance and regulatory checks.",
+            "example": "Family Support"
+          },
+          "complianceCheckRequired": {
+            "type": "boolean",
+            "description": "Indicates whether additional compliance screening such as AML checks should be performed.",
+            "example": true
+          }
+        }
+      },
+      "QRTransferRequest": {
+        "type": "object",
+        "required": [
+          "transactionReference",
+          "sourceAccount",
+          "qrCode",
+          "amount"
+        ],
+        "description": "Payload used to perform a payment by scanning or entering a QR code associated with a merchant.",
+        "properties": {
+          "qrCode": {
+            "type": "string",
+            "description": "Encoded QR payment string containing merchant and transaction information.",
+            "example": "00020101021229370016A000000677010111011300660000123456"
+          },
+          "transactionReference": {
+            "type": "string",
+            "description": "Unique reference identifier for the QR payment transaction.",
+            "example": "QR-TRX-88329"
+          },
+          "clientId": {
+            "type": "string",
+            "description": "Identifier of the client application initiating the QR payment.",
+            "example": "CLIENT_QR_12"
+          },
+          "sourceAccount": {
+            "type": "string",
+            "description": "Bank account number from which the QR payment will be debited.",
+            "example": "1234567890"
+          },
+          "sourceAccountCurrency": {
+            "type": "string",
+            "description": "Currency associated with the sender account.",
+            "example": "USD"
+          },
+          "merchantId": {
+            "type": "string",
+            "description": "Unique identifier assigned to the merchant receiving the payment.",
+            "example": "MERCH_88129"
+          },
+          "merchantName": {
+            "type": "string",
+            "description": "Registered name of the merchant associated with the QR code.",
+            "example": "ABC Retail Store"
+          },
+          "merchantCategory": {
+            "type": "string",
+            "description": "Business category classification of the merchant.",
+            "example": "Retail"
+          },
+          "merchantCity": {
+            "type": "string",
+            "description": "City where the merchant is located.",
+            "example": "New York"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Total payment amount to be transferred via QR.",
+            "example": 250.75
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency used for the QR payment transaction.",
+            "example": "USD"
+          },
+          "tipAmount": {
+            "type": "number",
+            "description": "Optional gratuity amount added to the payment.",
+            "example": 5
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "description": "Invoice reference associated with the QR payment.",
+            "example": "INV-88912"
+          },
+          "customerNote": {
+            "type": "string",
+            "description": "Optional note added by the customer for the merchant.",
+            "example": "Payment for groceries"
+          },
+          "deviceId": {
+            "type": "string",
+            "description": "Identifier of the device used to perform the QR payment.",
+            "example": "DEVICE_1221"
+          }
+        }
+      },
+      "CashCounterRequest": {
+        "type": "object",
+        "required": [
+          "transactionReference",
+          "senderAccount",
+          "recipientName",
+          "amount"
+        ],
+        "description": "Payload used to initiate a cash pickup disbursement allowing the recipient to collect funds from a bank branch.",
+        "properties": {
+          "recipientIdNumber": {
+            "type": "string",
+            "description": "Identification number used to verify the recipient at the pickup location.",
+            "example": "A12345678"
+          },
+          "transactionReference": {
+            "type": "string",
+            "description": "Unique identifier assigned to the cash pickup transaction.",
+            "example": "CASH-00129"
+          },
+          "clientId": {
+            "type": "string",
+            "description": "Identifier of the client application initiating the transaction.",
+            "example": "CLIENT_909"
+          },
+          "senderAccount": {
+            "type": "string",
+            "description": "Bank account number from which funds will be debited.",
+            "example": "1234567890"
+          },
+          "senderName": {
+            "type": "string",
+            "description": "Full name of the person sending the funds.",
+            "example": "Michael Johnson"
+          },
+          "senderPhone": {
+            "type": "string",
+            "description": "Contact number of the sender.",
+            "example": "+15551234567"
+          },
+          "recipientName": {
+            "type": "string",
+            "description": "Full name of the person authorized to collect the cash.",
+            "example": "Maria Garcia"
+          },
+          "recipientPhone": {
+            "type": "string",
+            "description": "Contact number of the recipient.",
+            "example": "+15557654321"
+          },
+          "recipientIdType": {
+            "type": "string",
+            "description": "Type of identification document required for verification.",
+            "example": "PASSPORT"
+          },
+          "pickupBranch": {
+            "type": "string",
+            "description": "Bank branch where the recipient can collect the funds.",
+            "example": "Downtown Branch"
+          },
+          "pickupCity": {
+            "type": "string",
+            "description": "City where the pickup branch is located.",
+            "example": "New York"
+          },
+          "pickupCode": {
+            "type": "string",
+            "description": "Secure code used by the recipient to claim the funds.",
+            "example": "PKP992811"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Total amount available for cash pickup.",
+            "example": 10000
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency in which the cash pickup is issued.",
+            "example": "USD"
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Date after which the pickup code expires and funds cannot be collected.",
+            "example": "2026-03-20"
+          }
+        }
+      },
+      "LocalTransferRequest": {
+        "type": "object",
+        "required": [
+          "transactionReference",
+          "clientId",
+          "sourceAccount",
+          "destinationAccount",
+          "amount",
+          "currency"
+        ],
+        "properties": {
+          "destinationAccount": {
+            "type": "string",
+            "example": "5555100223",
+            "description": "Account number of the beneficiary receiving the funds."
+          },
+          "transactionReference": {
+            "type": "string",
+            "example": "REF-20260313-001",
+            "description": "Unique reference identifier assigned by the client system to track the transfer request."
+          },
+          "clientId": {
+            "type": "string",
+            "example": "CLIENT_10201",
+            "description": "Unique identifier of the client or partner initiating the transfer."
+          },
+          "channel": {
+            "type": "string",
+            "enum": [
+              "MOBILE_APP",
+              "WEB",
+              "API_PARTNER"
+            ],
+            "example": "API_PARTNER",
+            "description": "Channel through which the transfer request was initiated."
+          },
+          "requestTimestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-03-13T10:22:45Z",
+            "description": "Timestamp when the transfer request was created in the client system."
+          },
+          "sourceAccount": {
+            "type": "string",
+            "example": "5555292100",
+            "description": "Account number from which the funds will be debited."
+          },
+          "sourceAccountType": {
+            "type": "string",
+            "example": "SAVINGS",
+            "description": "Type of account used for the transfer."
+          },
+          "sourceBankCode": {
+            "type": "string",
+            "example": "BANK001",
+            "description": "Bank identifier code representing the sender's bank."
+          },
+          "destinationAccountName": {
+            "type": "string",
+            "example": "Robert Miller",
+            "description": "Name of the beneficiary account holder."
+          },
+          "destinationBank": {
+            "type": "string",
+            "example": "Global Bank",
+            "description": "Name of the destination bank."
+          },
+          "destinationBankCode": {
+            "type": "string",
+            "example": "BANK998",
+            "description": "Bank code identifying the beneficiary's bank."
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "example": 5000.75,
+            "description": "Amount to be transferred from the source account."
+          },
+          "currency": {
+            "type": "string",
+            "example": "USD",
+            "description": "Currency in which the transfer will be processed."
+          },
+          "transferPurpose": {
+            "type": "string",
+            "example": "Invoice Payment",
+            "description": "Purpose of the transfer used for transaction classification."
+          },
+          "remarks": {
+            "type": "string",
+            "example": "Payment for invoice INV-1221",
+            "description": "Additional notes or comments related to the transfer."
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "NORMAL",
+              "HIGH",
+              "URGENT"
+            ],
+            "example": "NORMAL",
+            "description": "Priority level of the transfer which may influence processing speed."
+          },
+          "scheduleDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-03-14",
+            "description": "Optional date on which the transfer should be executed."
+          },
+          "feeBearer": {
+            "type": "string",
+            "enum": [
+              "SENDER",
+              "RECEIVER",
+              "SHARED"
+            ],
+            "example": "SENDER",
+            "description": "Specifies which party is responsible for paying the transaction fees."
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Optional additional metadata supplied by the client application.",
+            "additionalProperties": true
+          }
+        }
+      },
+      "TransferSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "transactionId": {
+            "type": "string",
+            "example": "TXN98456321"
+          },
+          "referenceNumber": {
+            "type": "string",
+            "example": "REF88392012"
+          },
+          "clientReference": {
+            "type": "string",
+            "example": "REF-20260313-001"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "SUCCESS",
+              "PENDING",
+              "FAILED"
+            ],
+            "example": "SUCCESS"
+          },
+          "processingChannel": {
+            "type": "string",
+            "example": "LOCAL_TRANSFER"
+          },
+          "processingTimeMs": {
+            "type": "integer",
+            "example": 320
+          },
+          "settlementDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-03-14"
+          },
+          "amountProcessed": {
+            "type": "number",
+            "example": 5000.75
+          },
+          "currency": {
+            "type": "string",
+            "example": "USD"
+          },
+          "feesCharged": {
+            "type": "number",
+            "example": 2.5
+          },
+          "taxApplied": {
+            "type": "number",
+            "example": 0.25
+          },
+          "exchangeRateApplied": {
+            "type": "number",
+            "example": 1.1
+          },
+          "balanceAfterTransaction": {
+            "type": "number",
+            "example": 45210.55
+          },
+          "message": {
+            "type": "string",
+            "example": "Transaction processed successfully"
+          },
+          "traceId": {
+            "type": "string",
+            "example": "a99212aa-1234-44d5-b234-4a1f23b1a111"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-03-13T10:22:45Z"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "BANK-4001"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Invalid account number"
+          },
+          "errorType": {
+            "type": "string",
+            "enum": [
+              "VALIDATION_ERROR",
+              "AUTHORIZATION_ERROR",
+              "BUSINESS_ERROR",
+              "SYSTEM_ERROR"
+            ]
+          },
+          "traceId": {
+            "type": "string",
+            "example": "f42c2d3a-88c3-4d56-a91e-7a1f23b1a992"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AuthenticationValidationError": {
+        "type": "object",
+        "description": "Returned when the authentication request payload is invalid or missing required parameters required to generate an OAuth2 access token.",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "invalid_client",
+            "description": "Machine readable error code indicating the type of validation failure."
+          },
+          "error_description": {
+            "type": "string",
+            "example": "Invalid client authentication",
+            "description": "Human readable message explaining the validation failure."
+          }
+        }
+      },
+      "UnauthorizedResponse": {
+        "type": "object",
+        "description": "Returned when the request does not contain a valid OAuth access token.",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "AUTH-401"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Unauthorized request. Access token is missing or invalid."
+          },
+          "errorType": {
+            "type": "string",
+            "example": "AUTHENTICATION_ERROR"
+          },
+          "status": {
+            "type": "integer",
+            "example": 401
+          },
+          "method": {
+            "type": "string",
+            "example": "POST"
+          },
+          "traceId": {
+            "type": "string",
+            "example": "d94d5f1a-73b2-4e6f-a41a-7d92a8120c9e"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-03-13T11:05:10Z"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Authorization header is missing",
+              "Bearer token is invalid"
+            ]
+          }
+        }
+      },
+      "RateLimitResponse": {
+        "type": "object",
+        "description": "Returned when the client exceeds the allowed API rate limit.",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "RATE-429"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Too many requests. Rate limit exceeded."
+          },
+          "errorType": {
+            "type": "string",
+            "example": "RATE_LIMIT_ERROR"
+          },
+          "status": {
+            "type": "integer",
+            "example": 429
+          },
+          "limit": {
+            "type": "integer",
+            "example": 100
+          },
+          "remaining": {
+            "type": "integer",
+            "example": 0
+          },
+          "retryAfterSeconds": {
+            "type": "integer",
+            "example": 60
+          },
+          "traceId": {
+            "type": "string",
+            "example": "c3f2c2f0-1a44-4c23-91aa-8f21e6e0a22f"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-03-13T11:06:01Z"
+          }
+        }
+      },
+      "InternalServerErrorResponse": {
+        "type": "object",
+        "description": "Returned when an unexpected server error occurs.",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "SYS-500"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "An unexpected error occurred while processing the transaction."
+          },
+          "errorType": {
+            "type": "string",
+            "example": "SYSTEM_ERROR"
+          },
+          "status": {
+            "type": "integer",
+            "example": 500
+          },
+          "service": {
+            "type": "string",
+            "example": "send-funds-service"
+          },
+          "operation": {
+            "type": "string",
+            "example": "sendFundsLocalTransfer"
+          },
+          "traceId": {
+            "type": "string",
+            "example": "ffb0bcd1-0b6d-4e3b-83fd-2e6b7c4e123a"
+          },
+          "supportReference": {
+            "type": "string",
+            "example": "SUP-778212"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-03-13T11:07:20Z"
+          }
+        }
+      }
+    },
+    "responses": {},
+    "parameters": {
+      "Authorization": {
+        "in": "header",
+        "required": true,
+        "description": "OAuth2 Bearer access token.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+        "name": "Authorization"
+      },
+      "X-Correlation-ID": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123"
+        },
+        "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123",
+        "name": "X-Correlation-ID"
+      },
+      "x-tenant": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder"
+        },
+        "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder",
+        "name": "x-tenant"
+      },
+      "x-application-type": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "ApiSandbox"
+        },
+        "example": "ApiSandbox",
+        "name": "x-application-type"
+      }
+    },
+    "examples": {},
+    "requestBodies": {},
+    "headers": {
+      "access-control-allow-credentials": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "kcxo"
+        },
+        "example": "kcxo"
+      },
+      "access-control-allow-origin": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "j@e%N<C/5rjBd=PYe@40iAq<8nz*D"
+        },
+        "example": "j@e%N<C/5rjBd=PYe@40iAq<8nz*D"
+      },
+      "access-control-expose-headers": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "jdL=GLK:M;DpCbuV"
+        },
+        "example": "jdL=GLK:M;DpCbuV"
+      },
+      "date": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "PUeNxuyxdy4FIR0WvPZgaSCacfk1g"
+        },
+        "example": "PUeNxuyxdy4FIR0WvPZgaSCacfk1g"
+      },
+      "expires": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "5"
+        },
+        "example": "5"
+      },
+      "pragma": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "{pEa{N3["
+        },
+        "example": "{pEa{N3["
+      },
+      "server": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "p^LEK3c]Jcx"
+        },
+        "example": "p^LEK3c]Jcx"
+      },
+      "strict-transport-security": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "ARqQvakQz6tgcmKiuSQ4DGxiptDInp8rFAxw"
+        },
+        "example": "ARqQvakQz6tgcmKiuSQ4DGxiptDInp8rFAxw"
+      },
+      "traceid": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "RxNDGX8GIMkdpijW"
+        },
+        "example": "RxNDGX8GIMkdpijW"
+      },
+      "vary": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "+^a#GXBg1=O7$bs\"AI&09X[{Ec5V,sl$2>1V6p-SJL{.\"_9*sk/HTl(yaQF'?&S6yt/"
+        },
+        "example": "+^a#GXBg1=O7$bs\"AI&09X[{Ec5V,sl$2>1V6p-SJL{.\"_9*sk/HTl(yaQF'?&S6yt/"
+      },
+      "x-content-type-options": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "uhfwshb"
+        },
+        "example": "uhfwshb"
+      },
+      "x-envoy-upstream-service-time": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "6192"
+        },
+        "example": "6192"
+      },
+      "x-frame-options": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "roeb"
+        },
+        "example": "roeb"
+      },
+      "x-log-id": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "ZeW1kMWhiWwvWRKLPkvyjtEo"
+        },
+        "example": "ZeW1kMWhiWwvWRKLPkvyjtEo"
+      },
+      "x-xss-protection": {
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "example": "7"
+        },
+        "example": "7"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://api.banking-platform.com/oauth/token",
+            "scopes": {
+              "sendfunds": "Allows sending funds through disbursement APIs"
+            }
+          }
+        }
+      }
+    },
+    "links": {},
+    "callbacks": {}
+  },
+  "servers": [
+    {
+      "x-schema": "https://",
+      "url": "https://test1-kong-apiproxy.apiwiz.io/v1",
+      "x-name": "https://test1-kong-apiproxy.apiwiz.io/v1",
+      "x-basePath": "/v1",
+      "description": "Development Server",
+      "variables": {},
+      "x-hide": false,
+      "x-environmentId": "",
+      "x-environmentName": ""
+    },
+    {
+      "x-schema": "https://",
+      "url": "https://uat-banking.apiwiz.io/v1",
+      "x-name": "https://uat-banking.apiwiz.io/v1",
+      "x-basePath": "/v1",
+      "description": "UAT Server",
+      "variables": {},
+      "x-hide": false,
+      "x-environmentId": "",
+      "x-environmentName": ""
+    },
+    {
+      "x-schema": "https://",
+      "url": "https://banking.apiwiz.io/v1",
+      "x-name": "https://banking.apiwiz.io/v1",
+      "x-basePath": "/v1",
+      "description": "Production Server",
+      "variables": {},
+      "x-hide": false,
+      "x-environmentId": "",
+      "x-environmentName": ""
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": [
+        "sendfunds"
+      ]
+    }
+  ],
+  "externalDocs": {
+    "description": "Banking API Documentation",
+    "url": "https://developer.banking-platform.com/docs"
+  },
+  "tags": [
+    {
+      "name": "Digital Transfers",
+      "description": "APIs used to send funds through digital banking channels such as local bank transfers, international remittance, and QR payments."
+    },
+    {
+      "name": "Offline Disbursements",
+      "description": "APIs used to disburse funds through physical banking channels such as branch cash pickup and check issuance."
+    }
+  ]
+}

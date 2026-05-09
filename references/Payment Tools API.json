@@ -1,0 +1,1941 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Payment Tools API",
+    "description": "Enterprise payment tooling APIs that allow financial institutions and fintech platforms to automate payments, configure transaction limits, perform fraud monitoring, manage invoices, and implement payment validation and confirmation flows. These APIs help organizations manage complex payment operations including batch payments, recurring payments, invoice-based collections, and advanced risk management.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Payment Tools API Support",
+      "email": "support@api.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://banking.apiwiz.io/v1",
+      "description": "Development Server"
+    },
+    {
+      "url": "https://uat.api.banking-platform.com/v1",
+      "description": "UAT Server"
+    },
+    {
+      "url": "https://api.banking-platform.com/v1",
+      "description": "Production Server"
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": [
+        "payments"
+      ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Payment Automation",
+      "description": "APIs for automating payment operations including batch payments, scheduled payments, and invoice-based payment flows."
+    },
+    {
+      "name": "Payment Controls & Risk",
+      "description": "APIs for payment governance including validation, fraud monitoring, transaction limits, and payment confirmation."
+    }
+  ],
+  "paths": {
+    "/payments/batch": {
+      "post": {
+        "tags": [
+          "Payment Automation"
+        ],
+        "summary": "Process Batch Payments",
+        "description": "Processes multiple payments in a single batch request allowing financial institutions or enterprises to execute bulk disbursements efficiently.",
+        "operationId": "processBatchPayments",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchPaymentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Batch payments processed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchPaymentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid batch payload format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchPaymentError"
+                },
+                "example": {
+                  "errorCode": "PAYTOOLS-4001",
+                  "errorMessage": "Invalid batch payment request payload.",
+                  "errorType": "VALIDATION_ERROR",
+                  "status": 400,
+                  "service": "payment-tools-service",
+                  "operation": "processBatchPayments",
+                  "traceId": "trace-881122aa-6611",
+                  "timestamp": "2026-03-14T09:12:41Z",
+                  "details": [
+                    "The batch payment payload contains invalid or missing required fields such as batchId, organizationId, paymentCount, or sourceAccount. Verify that all mandatory parameters are provided and formatted correctly."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payments/scheduled": {
+      "post": {
+        "tags": [
+          "Payment Automation"
+        ],
+        "summary": "Schedule Recurring Payments",
+        "description": "Creates scheduled or recurring payment instructions for automated disbursement on predefined schedules.",
+        "operationId": "schedulePayments",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScheduledPaymentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Recurring payment scheduled successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduledPaymentResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate schedule detected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduleConflictError"
+                },
+                "example": {
+                  "errorCode": "PAYTOOLS-4091",
+                  "errorMessage": "Recurring payment schedule already exists.",
+                  "errorType": "BUSINESS_ERROR",
+                  "status": 409,
+                  "service": "payment-tools-service",
+                  "operation": "schedulePayments",
+                  "traceId": "trace-662211bb-7722",
+                  "timestamp": "2026-03-14T09:16:18Z",
+                  "details": [
+                    "A recurring payment configuration with the same scheduleId or parameters already exists in the system. Modify the schedule configuration or use a unique schedule identifier before submitting the request."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payments/failure-handling": {
+      "post": {
+        "tags": [
+          "Payment Automation"
+        ],
+        "summary": "Handle Payment Failures",
+        "description": "Automatically handles failed transactions with retry logic, fallback payment methods, or notification triggers.",
+        "operationId": "paymentFailureHandling",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FailureHandlingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Failure handling workflow executed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailureHandlingResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Failure handling rule invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailureRuleError"
+                },
+                "example": {
+                  "errorCode": "PAYTOOLS-4221",
+                  "errorMessage": "Invalid failure handling configuration.",
+                  "errorType": "VALIDATION_ERROR",
+                  "status": 422,
+                  "service": "payment-tools-service",
+                  "operation": "paymentFailureHandling",
+                  "traceId": "trace-552211cc-8832",
+                  "timestamp": "2026-03-14T09:18:05Z",
+                  "details": [
+                    "The failure handling configuration contains invalid retry parameters such as retryIntervalSeconds or maxRetryAttempts. Ensure retry rules and fallback methods follow supported configuration policies."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payments/limits": {
+      "post": {
+        "tags": [
+          "Payment Controls & Risk"
+        ],
+        "summary": "Configure Transaction Limits",
+        "description": "Defines custom payment limits for accounts or organizations to prevent excessive or unauthorized transactions.",
+        "operationId": "setTransactionLimits",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LimitRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transaction limits configured",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LimitResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Limit policy violation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LimitPolicyError"
+                },
+                "example": {
+                  "errorCode": "PAYTOOLS-4031",
+                  "errorMessage": "Transaction limit policy violation detected.",
+                  "errorType": "POLICY_VIOLATION",
+                  "status": 403,
+                  "service": "payment-tools-service",
+                  "operation": "setTransactionLimits",
+                  "traceId": "trace-772211aa-9911",
+                  "timestamp": "2026-03-14T09:20:44Z",
+                  "details": [
+                    "The configured transaction limit exceeds the maximum allowed policy for the specified account or organization. Review the limit configuration parameters before resubmitting the request."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payments/invoices": {
+      "post": {
+        "tags": [
+          "Payment Automation"
+        ],
+        "summary": "Create Customized Invoice",
+        "description": "Generates customized invoices that customers can pay using supported payment channels.",
+        "operationId": "createInvoice",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Invoice created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Customer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerNotFoundError"
+                },
+                "example": {
+                  "errorCode": "PAYTOOLS-4041",
+                  "errorMessage": "Customer not found for invoice creation.",
+                  "errorType": "RESOURCE_NOT_FOUND",
+                  "status": 404,
+                  "service": "payment-tools-service",
+                  "operation": "createInvoice",
+                  "traceId": "trace-441122dd-8821",
+                  "timestamp": "2026-03-14T09:24:10Z",
+                  "details": [
+                    "The provided customerId does not exist in the billing or customer management system. Verify that the customer identifier is correct before attempting to generate the invoice."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payments/validation": {
+      "post": {
+        "tags": [
+          "Payment Controls & Risk"
+        ],
+        "summary": "Validate Payment",
+        "description": "Validates payment data including beneficiary verification, AML screening, and account balance validation.",
+        "operationId": "validatePayment",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payment validated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized validation request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "errorCode": "PAYTOOLS-4011",
+                  "errorMessage": "Authentication failed for payment validation request.",
+                  "errorType": "AUTHENTICATION_ERROR",
+                  "status": 401,
+                  "service": "payment-tools-service",
+                  "operation": "validatePayment",
+                  "traceId": "trace-882211ee-7722",
+                  "timestamp": "2026-03-14T09:26:51Z",
+                  "details": [
+                    "The OAuth2 access token provided in the Authorization header is missing, invalid, or expired. Obtain a valid access token before attempting the payment validation request."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payments/confirmation": {
+      "post": {
+        "tags": [
+          "Payment Controls & Risk"
+        ],
+        "summary": "Confirm Payment",
+        "description": "Confirms payment completion and generates final settlement confirmation.",
+        "operationId": "confirmPayment",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payment confirmed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmationResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Transaction not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionNotFoundError"
+                },
+                "example": {
+                  "errorCode": "PAYTOOLS-4042",
+                  "errorMessage": "Transaction not found for confirmation.",
+                  "errorType": "RESOURCE_NOT_FOUND",
+                  "status": 404,
+                  "service": "payment-tools-service",
+                  "operation": "confirmPayment",
+                  "traceId": "trace-992211aa-6644",
+                  "timestamp": "2026-03-14T09:29:02Z",
+                  "details": [
+                    "The specified transactionId does not exist or has already been settled in the payment system. Verify the transaction reference before submitting the confirmation request."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payments/fraud-detection": {
+      "post": {
+        "tags": [
+          "Payment Controls & Risk"
+        ],
+        "summary": "Smart Fraud & Risk Analysis",
+        "description": "Analyzes payment activity to detect fraud using behavioral analytics and risk scoring.",
+        "operationId": "fraudDetection",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FraudRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Fraud analysis completed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FraudResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Fraud detection service overloaded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FraudRateLimitError"
+                },
+                "example": {
+                  "errorCode": "PAYTOOLS-4291",
+                  "errorMessage": "Fraud detection service rate limit exceeded.",
+                  "errorType": "RATE_LIMIT_EXCEEDED",
+                  "status": 429,
+                  "service": "payment-tools-service",
+                  "operation": "fraudDetection",
+                  "traceId": "trace-662211cc-8831",
+                  "timestamp": "2026-03-14T09:31:11Z",
+                  "details": [
+                    "The fraud detection engine is currently processing a high volume of requests and cannot handle additional analysis requests. Retry the request after the specified retry interval."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payments/fees": {
+      "post": {
+        "tags": [
+          "Payment Controls & Risk"
+        ],
+        "summary": "Collect Custom Fees",
+        "description": "Collects configurable service fees for transactions such as processing fees, platform charges, or regulatory fees.",
+        "operationId": "collectFees",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeeCollectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Fee collected successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeeCollectionResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Fee payment required or insufficient balance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeePaymentError"
+                },
+                "example": {
+                  "errorCode": "PAYTOOLS-4021",
+                  "errorMessage": "Insufficient balance to collect service fee.",
+                  "errorType": "PAYMENT_REQUIRED",
+                  "status": 402,
+                  "service": "payment-tools-service",
+                  "operation": "collectFees",
+                  "traceId": "trace-772211dd-9931",
+                  "timestamp": "2026-03-14T09:34:27Z",
+                  "details": [
+                    "The account associated with the transaction does not have sufficient balance to cover the configured service fee and taxes. Ensure adequate funds are available before retrying the fee collection request."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Authorization": {
+        "in": "header",
+        "required": true,
+        "description": "OAuth2 Bearer access token.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+        "name": "Authorization"
+      },
+      "X-Correlation-ID": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123"
+        },
+        "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123",
+        "name": "X-Correlation-ID"
+      },
+      "x-tenant": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder"
+        },
+        "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder",
+        "name": "x-tenant"
+      },
+      "x-application-type": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "ApiSandbox"
+        },
+        "example": "ApiSandbox",
+        "name": "x-application-type"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://api.com/oauth/token",
+            "scopes": {
+              "payments": "Access payment tools APIs"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "BatchPaymentRequest": {
+        "type": "object",
+        "required": [
+          "batchId",
+          "organizationId",
+          "paymentCount",
+          "currency",
+          "totalAmount",
+          "sourceAccount"
+        ],
+        "properties": {
+          "batchId": {
+            "type": "string",
+            "description": "Unique identifier assigned to the batch payment request.",
+            "example": "BATCH-882211"
+          },
+          "organizationId": {
+            "type": "string",
+            "description": "Identifier of the organization initiating the batch payment.",
+            "example": "ORG-22119"
+          },
+          "initiatorId": {
+            "type": "string",
+            "description": "User or system that initiated the batch payment process.",
+            "example": "TREASURY_SYSTEM"
+          },
+          "paymentCount": {
+            "type": "integer",
+            "description": "Total number of individual payments included in the batch.",
+            "example": 25
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency used for all transactions in the batch.",
+            "example": "USD"
+          },
+          "totalAmount": {
+            "type": "number",
+            "description": "Total aggregated value of all payments in the batch.",
+            "example": 25000
+          },
+          "executionDate": {
+            "type": "string",
+            "description": "Date when the batch payments should be executed.",
+            "example": "2026-03-20"
+          },
+          "priorityLevel": {
+            "type": "string",
+            "description": "Priority assigned to the batch for processing.",
+            "example": "HIGH"
+          },
+          "sourceAccount": {
+            "type": "string",
+            "description": "Account from which the batch payments will be debited.",
+            "example": "123456789012"
+          },
+          "paymentChannel": {
+            "type": "string",
+            "description": "Channel through which the batch request is submitted.",
+            "example": "API_GATEWAY"
+          },
+          "callbackUrl": {
+            "type": "string",
+            "description": "Optional webhook URL to notify when batch processing is completed.",
+            "example": "https://client-system.com/payment-callback"
+          }
+        }
+      },
+      "BatchPaymentResponse": {
+        "type": "object",
+        "properties": {
+          "batchId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "processedPayments": {
+            "type": "integer"
+          },
+          "failedPayments": {
+            "type": "integer"
+          },
+          "totalAmount": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "processingTimeMs": {
+            "type": "integer"
+          },
+          "createdTimestamp": {
+            "type": "string"
+          },
+          "completedTimestamp": {
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string"
+          }
+        }
+      },
+      "BatchPaymentError": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        }
+      },
+      "ScheduledPaymentRequest": {
+        "type": "object",
+        "required": [
+          "scheduleId",
+          "payerAccount",
+          "beneficiaryAccount",
+          "amount",
+          "currency"
+        ],
+        "properties": {
+          "scheduleId": {
+            "type": "string",
+            "description": "Unique identifier for the recurring payment configuration.",
+            "example": "SCH-77221"
+          },
+          "payerAccount": {
+            "type": "string",
+            "description": "Account number from which the recurring payment will be debited.",
+            "example": "123456789012"
+          },
+          "beneficiaryAccount": {
+            "type": "string",
+            "description": "Destination account receiving the scheduled payment.",
+            "example": "998877665544"
+          },
+          "beneficiaryName": {
+            "type": "string",
+            "description": "Name of the payment recipient.",
+            "example": "City Electric Utility"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount to be transferred in each scheduled payment.",
+            "example": 120
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency used for the recurring payment.",
+            "example": "USD"
+          },
+          "frequency": {
+            "type": "string",
+            "description": "Recurring payment frequency.",
+            "example": "MONTHLY"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date of the recurring payment schedule.",
+            "example": "2026-04-01"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Optional end date when the recurring payments should stop.",
+            "example": "2027-04-01"
+          },
+          "maxExecutions": {
+            "type": "integer",
+            "description": "Maximum number of scheduled executions allowed.",
+            "example": 12
+          },
+          "paymentPurpose": {
+            "type": "string",
+            "description": "Purpose or description of the recurring payment.",
+            "example": "Monthly electricity bill"
+          }
+        }
+      },
+      "ScheduledPaymentResponse": {
+        "type": "object",
+        "properties": {
+          "scheduleId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "nextExecutionDate": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "executionsCompleted": {
+            "type": "integer"
+          },
+          "executionsRemaining": {
+            "type": "integer"
+          },
+          "createdTimestamp": {
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string"
+          },
+          "paymentChannel": {
+            "type": "string"
+          }
+        }
+      },
+      "ScheduleConflictError": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "SCHEDULE_CONFLICT"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "A recurring payment already exists for the specified schedule"
+          },
+          "scheduleId": {
+            "type": "string"
+          },
+          "existingScheduleDate": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "resolutionHint": {
+            "type": "string"
+          }
+        }
+      },
+      "FailureHandlingRequest": {
+        "type": "object",
+        "required": [
+          "transactionId",
+          "accountId",
+          "currency"
+        ],
+        "properties": {
+          "transactionId": {
+            "type": "string",
+            "description": "Unique identifier of the failed transaction.",
+            "example": "TXN-992211"
+          },
+          "originalPaymentId": {
+            "type": "string",
+            "description": "Reference to the original payment request.",
+            "example": "PAY-882211"
+          },
+          "retryEnabled": {
+            "type": "boolean",
+            "description": "Indicates whether automatic retry should be attempted.",
+            "example": true
+          },
+          "maxRetryAttempts": {
+            "type": "integer",
+            "description": "Maximum number of retry attempts allowed.",
+            "example": 3
+          },
+          "retryIntervalSeconds": {
+            "type": "integer",
+            "description": "Interval in seconds between retry attempts.",
+            "example": 60
+          },
+          "fallbackPaymentMethod": {
+            "type": "string",
+            "description": "Alternative payment method to use if retries fail.",
+            "example": "CARD_PAYMENT"
+          },
+          "notificationEmail": {
+            "type": "string",
+            "description": "Email address to notify when failure handling workflow executes.",
+            "example": "ops@company.com"
+          },
+          "notificationPhone": {
+            "type": "string",
+            "description": "Phone number to notify via SMS.",
+            "example": "+15551234567"
+          },
+          "failureReason": {
+            "type": "string",
+            "description": "Reason code explaining why the transaction failed.",
+            "example": "INSUFFICIENT_BALANCE"
+          },
+          "accountId": {
+            "type": "string",
+            "description": "Account associated with the failed payment.",
+            "example": "ACC-77221"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency of the failed payment transaction.",
+            "example": "USD"
+          }
+        }
+      },
+      "FailureHandlingResponse": {
+        "type": "object",
+        "properties": {
+          "transactionId": {
+            "type": "string"
+          },
+          "retryScheduled": {
+            "type": "boolean"
+          },
+          "retryAttemptsRemaining": {
+            "type": "integer"
+          },
+          "nextRetryTimestamp": {
+            "type": "string"
+          },
+          "fallbackActivated": {
+            "type": "boolean"
+          },
+          "fallbackMethod": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "processingTimeMs": {
+            "type": "integer"
+          },
+          "timestamp": {
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string"
+          }
+        }
+      },
+      "FailureRuleError": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "ruleId": {
+            "type": "string"
+          },
+          "invalidParameter": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "path": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "resolutionHint": {
+            "type": "string"
+          }
+        }
+      },
+      "LimitRequest": {
+        "type": "object",
+        "required": [
+          "accountId",
+          "dailyLimit",
+          "currency"
+        ],
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "description": "Account identifier to which the transaction limits apply.",
+            "example": "ACC-88221"
+          },
+          "userId": {
+            "type": "string",
+            "description": "User identifier if limits apply to a specific user.",
+            "example": "USR-22119"
+          },
+          "dailyLimit": {
+            "type": "number",
+            "description": "Maximum amount allowed for transactions per day.",
+            "example": 10000
+          },
+          "monthlyLimit": {
+            "type": "number",
+            "description": "Maximum cumulative amount allowed per month.",
+            "example": 200000
+          },
+          "perTransactionLimit": {
+            "type": "number",
+            "description": "Maximum allowed amount per individual transaction.",
+            "example": 5000
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency used for limit configuration.",
+            "example": "USD"
+          },
+          "limitType": {
+            "type": "string",
+            "description": "Type of limit being configured.",
+            "example": "ACCOUNT_LEVEL"
+          },
+          "effectiveDate": {
+            "type": "string",
+            "description": "Date when the limit becomes active.",
+            "example": "2026-03-15"
+          },
+          "expiryDate": {
+            "type": "string",
+            "description": "Optional expiration date for the configured limit.",
+            "example": "2027-03-15"
+          },
+          "approvalRequired": {
+            "type": "boolean",
+            "description": "Indicates if limit configuration requires manual approval.",
+            "example": true
+          },
+          "requestedBy": {
+            "type": "string",
+            "description": "System or user requesting the limit configuration.",
+            "example": "ADMIN_PORTAL"
+          }
+        }
+      },
+      "LimitResponse": {
+        "type": "object",
+        "properties": {
+          "limitId": {
+            "type": "string"
+          },
+          "accountId": {
+            "type": "string"
+          },
+          "dailyLimit": {
+            "type": "number"
+          },
+          "monthlyLimit": {
+            "type": "number"
+          },
+          "perTransactionLimit": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "limitStatus": {
+            "type": "string"
+          },
+          "effectiveDate": {
+            "type": "string"
+          },
+          "expiryDate": {
+            "type": "string"
+          },
+          "updatedTimestamp": {
+            "type": "string"
+          }
+        }
+      },
+      "LimitPolicyError": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "policyId": {
+            "type": "string"
+          },
+          "violatedLimitType": {
+            "type": "string"
+          },
+          "attemptedAmount": {
+            "type": "number"
+          },
+          "allowedAmount": {
+            "type": "number"
+          },
+          "timestamp": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "path": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string"
+          }
+        }
+      },
+      "InvoiceRequest": {
+        "type": "object",
+        "required": [
+          "invoiceId",
+          "merchantId",
+          "customerId",
+          "invoiceAmount",
+          "currency"
+        ],
+        "properties": {
+          "invoiceId": {
+            "type": "string",
+            "description": "Unique identifier assigned to the invoice.",
+            "example": "INV-882211"
+          },
+          "merchantId": {
+            "type": "string",
+            "description": "Identifier of the merchant or organization issuing the invoice.",
+            "example": "MERCHANT-77221"
+          },
+          "customerId": {
+            "type": "string",
+            "description": "Identifier of the customer receiving the invoice.",
+            "example": "CUST-88221"
+          },
+          "invoiceAmount": {
+            "type": "number",
+            "description": "Total amount to be paid by the customer.",
+            "example": 500
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency used for the invoice.",
+            "example": "USD"
+          },
+          "invoiceDescription": {
+            "type": "string",
+            "description": "Description of the products or services billed.",
+            "example": "Subscription renewal for premium plan"
+          },
+          "dueDate": {
+            "type": "string",
+            "description": "Date when the invoice payment is due.",
+            "example": "2026-04-01"
+          },
+          "taxAmount": {
+            "type": "number",
+            "description": "Applicable tax amount included in the invoice.",
+            "example": 25
+          },
+          "discountAmount": {
+            "type": "number",
+            "description": "Discount applied to the invoice total.",
+            "example": 10
+          },
+          "paymentMethodsAllowed": {
+            "type": "array",
+            "description": "List of payment methods allowed for invoice settlement.",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "CARD",
+              "BANK_TRANSFER",
+              "QR_PAYMENT"
+            ]
+          },
+          "callbackUrl": {
+            "type": "string",
+            "description": "Webhook endpoint to notify when the invoice payment is completed.",
+            "example": "https://merchant.com/invoice-callback"
+          }
+        }
+      },
+      "InvoiceResponse": {
+        "type": "object",
+        "properties": {
+          "invoiceId": {
+            "type": "string"
+          },
+          "invoiceStatus": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "invoiceLink": {
+            "type": "string"
+          },
+          "qrCodeUrl": {
+            "type": "string"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "createdTimestamp": {
+            "type": "string"
+          },
+          "dueDate": {
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string"
+          }
+        }
+      },
+      "CustomerNotFoundError": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "path": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string"
+          },
+          "resolutionHint": {
+            "type": "string"
+          }
+        }
+      },
+      "ValidationRequest": {
+        "type": "object",
+        "required": [
+          "transactionId",
+          "payerAccount",
+          "amount",
+          "currency"
+        ],
+        "properties": {
+          "transactionId": {
+            "type": "string",
+            "description": "Unique identifier of the payment transaction being validated.",
+            "example": "TXN-992211"
+          },
+          "payerAccount": {
+            "type": "string",
+            "description": "Account number from which the payment will be debited.",
+            "example": "123456789012"
+          },
+          "beneficiaryAccount": {
+            "type": "string",
+            "description": "Destination account receiving the payment.",
+            "example": "998877665544"
+          },
+          "beneficiaryName": {
+            "type": "string",
+            "description": "Name of the payment beneficiary.",
+            "example": "ABC Suppliers Ltd"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the transaction being validated.",
+            "example": 750
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency of the payment transaction.",
+            "example": "USD"
+          },
+          "paymentChannel": {
+            "type": "string",
+            "description": "Channel through which the payment was initiated.",
+            "example": "MOBILE_APP"
+          },
+          "paymentPurpose": {
+            "type": "string",
+            "description": "Purpose or description of the payment.",
+            "example": "Vendor payment"
+          },
+          "complianceCheckRequired": {
+            "type": "boolean",
+            "description": "Indicates if AML or compliance screening should be performed.",
+            "example": true
+          },
+          "fraudCheckRequired": {
+            "type": "boolean",
+            "description": "Indicates if fraud detection checks should be performed.",
+            "example": true
+          },
+          "initiatorId": {
+            "type": "string",
+            "description": "Identifier of the system or user initiating the validation.",
+            "example": "ONLINE_BANKING"
+          }
+        }
+      },
+      "ValidationResponse": {
+        "type": "object",
+        "properties": {
+          "transactionId": {
+            "type": "string"
+          },
+          "validationStatus": {
+            "type": "string"
+          },
+          "accountVerified": {
+            "type": "boolean"
+          },
+          "balanceCheck": {
+            "type": "boolean"
+          },
+          "fraudCheckStatus": {
+            "type": "string"
+          },
+          "complianceCheckStatus": {
+            "type": "string"
+          },
+          "riskScore": {
+            "type": "number"
+          },
+          "validationTimestamp": {
+            "type": "string"
+          },
+          "approved": {
+            "type": "boolean"
+          },
+          "referenceId": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthError": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "authType": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "path": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string"
+          },
+          "resolutionHint": {
+            "type": "string"
+          }
+        }
+      },
+      "ConfirmationRequest": {
+        "type": "object",
+        "required": [
+          "transactionId",
+          "payerAccount",
+          "amount",
+          "currency"
+        ],
+        "properties": {
+          "transactionId": {
+            "type": "string",
+            "description": "Identifier of the payment transaction being confirmed.",
+            "example": "TXN-77221"
+          },
+          "payerAccount": {
+            "type": "string",
+            "description": "Account from which the payment was debited.",
+            "example": "123456789012"
+          },
+          "beneficiaryAccount": {
+            "type": "string",
+            "description": "Account receiving the payment.",
+            "example": "998877665544"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the transaction being confirmed.",
+            "example": 350
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency used for the payment.",
+            "example": "USD"
+          },
+          "paymentChannel": {
+            "type": "string",
+            "description": "Channel used to initiate the payment.",
+            "example": "API_GATEWAY"
+          },
+          "confirmationMethod": {
+            "type": "string",
+            "description": "Method used to confirm the payment.",
+            "example": "OTP"
+          },
+          "otpCode": {
+            "type": "string",
+            "description": "One-time password used for confirming the transaction.",
+            "example": "482199"
+          },
+          "deviceId": {
+            "type": "string",
+            "description": "Identifier of the device used to confirm the payment.",
+            "example": "DEVICE-88221"
+          },
+          "location": {
+            "type": "string",
+            "description": "Geographic location from where the confirmation was initiated.",
+            "example": "New York, USA"
+          },
+          "initiatedTimestamp": {
+            "type": "string",
+            "description": "Timestamp when the confirmation request was initiated.",
+            "example": "2026-03-20T12:30:00Z"
+          }
+        }
+      },
+      "ConfirmationResponse": {
+        "type": "object",
+        "properties": {
+          "transactionId": {
+            "type": "string"
+          },
+          "confirmationStatus": {
+            "type": "string"
+          },
+          "settlementStatus": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "confirmedTimestamp": {
+            "type": "string"
+          },
+          "processingTimeMs": {
+            "type": "integer"
+          },
+          "referenceId": {
+            "type": "string"
+          },
+          "confirmationChannel": {
+            "type": "string"
+          },
+          "receiptUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "TransactionNotFoundError": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "transactionId": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "path": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string"
+          },
+          "resolutionHint": {
+            "type": "string"
+          }
+        }
+      },
+      "FraudRequest": {
+        "type": "object",
+        "required": [
+          "transactionId",
+          "payerAccount",
+          "amount",
+          "currency"
+        ],
+        "properties": {
+          "transactionId": {
+            "type": "string",
+            "description": "Unique identifier of the transaction to be evaluated for fraud.",
+            "example": "TXN-882211"
+          },
+          "payerAccount": {
+            "type": "string",
+            "description": "Account initiating the transaction.",
+            "example": "123456789012"
+          },
+          "beneficiaryAccount": {
+            "type": "string",
+            "description": "Account receiving the funds.",
+            "example": "998877665544"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Transaction amount under fraud evaluation.",
+            "example": 5000
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency used for the transaction.",
+            "example": "USD"
+          },
+          "deviceId": {
+            "type": "string",
+            "description": "Device identifier used during transaction initiation.",
+            "example": "DEVICE-77221"
+          },
+          "ipAddress": {
+            "type": "string",
+            "description": "IP address from which the transaction originated.",
+            "example": "192.168.1.10"
+          },
+          "location": {
+            "type": "string",
+            "description": "Geographic location associated with the transaction.",
+            "example": "San Francisco, USA"
+          },
+          "transactionType": {
+            "type": "string",
+            "description": "Type of transaction being analyzed.",
+            "example": "TRANSFER"
+          },
+          "behavioralProfileId": {
+            "type": "string",
+            "description": "Identifier of the customer's behavioral risk profile.",
+            "example": "PROFILE-88221"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Timestamp when the transaction occurred.",
+            "example": "2026-03-20T12:45:00Z"
+          }
+        }
+      },
+      "FraudResponse": {
+        "type": "object",
+        "properties": {
+          "transactionId": {
+            "type": "string"
+          },
+          "fraudScore": {
+            "type": "number"
+          },
+          "riskLevel": {
+            "type": "string"
+          },
+          "recommendedAction": {
+            "type": "string"
+          },
+          "mlModelVersion": {
+            "type": "string"
+          },
+          "analysisTimestamp": {
+            "type": "string"
+          },
+          "geoRiskScore": {
+            "type": "number"
+          },
+          "behaviorRiskScore": {
+            "type": "number"
+          },
+          "deviceRiskScore": {
+            "type": "number"
+          },
+          "referenceId": {
+            "type": "string"
+          }
+        }
+      },
+      "FraudRateLimitError": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "retryAfterSeconds": {
+            "type": "integer"
+          },
+          "timestamp": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "path": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string"
+          }
+        }
+      },
+      "FeeCollectionRequest": {
+        "type": "object",
+        "required": [
+          "transactionId",
+          "accountId",
+          "feeAmount",
+          "currency"
+        ],
+        "properties": {
+          "transactionId": {
+            "type": "string",
+            "description": "Reference identifier of the transaction for which the fee is collected.",
+            "example": "TXN-662211"
+          },
+          "accountId": {
+            "type": "string",
+            "description": "Account from which the service fee will be deducted.",
+            "example": "ACC-77221"
+          },
+          "feeType": {
+            "type": "string",
+            "description": "Type of fee being collected.",
+            "example": "PROCESSING_FEE"
+          },
+          "feeAmount": {
+            "type": "number",
+            "description": "Base service fee amount applied to the transaction.",
+            "example": 5
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency used for the fee transaction.",
+            "example": "USD"
+          },
+          "taxAmount": {
+            "type": "number",
+            "description": "Applicable tax amount applied to the fee.",
+            "example": 0.5
+          },
+          "totalFee": {
+            "type": "number",
+            "description": "Total fee amount including taxes.",
+            "example": 5.5
+          },
+          "paymentChannel": {
+            "type": "string",
+            "description": "Channel through which the transaction was initiated.",
+            "example": "API"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the fee collected.",
+            "example": "Payment processing fee"
+          },
+          "initiatorId": {
+            "type": "string",
+            "description": "System or user initiating the fee collection.",
+            "example": "PAYMENT_GATEWAY"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Timestamp when the fee collection request was created.",
+            "example": "2026-03-20T12:50:00Z"
+          }
+        }
+      },
+      "FeeCollectionResponse": {
+        "type": "object",
+        "properties": {
+          "feeTransactionId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "feeAmount": {
+            "type": "number"
+          },
+          "taxAmount": {
+            "type": "number"
+          },
+          "totalAmount": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "processedTimestamp": {
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string"
+          },
+          "receiptUrl": {
+            "type": "string"
+          },
+          "accountBalance": {
+            "type": "number"
+          }
+        }
+      },
+      "FeePaymentError": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "accountId": {
+            "type": "string"
+          },
+          "requiredAmount": {
+            "type": "number"
+          },
+          "availableBalance": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "path": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

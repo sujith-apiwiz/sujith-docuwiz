@@ -1,0 +1,1314 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Receive Funds API",
+    "description": "Enterprise Banking API for receiving funds through multiple collection channels including PayCode transfers, international remittance, QRPH payments, direct debit, cash counter deposits, and check scan deposits.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "RCBC API Support",
+      "email": "api-support@rcbc.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://banking.apiwiz.io/v1",
+      "description": "Development Server"
+    },
+    {
+      "url": "https://uat.api.banking-platform.com/v1",
+      "description": "UAT Server"
+    },
+    {
+      "url": "https://api.banking-platform.com/v1",
+      "description": "Production Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Digital Collections",
+      "description": "APIs used to receive funds through digital banking channels such as PayCode transfers, QR payments, international remittance, and direct debit collections."
+    },
+    {
+      "name": "Branch Collections",
+      "description": "APIs used to receive funds through physical banking channels including branch cash deposits and check scan processing."
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": [
+        "receivefunds"
+      ]
+    }
+  ],
+  "paths": {
+    "/collections/local-transfer-paycode": {
+      "post": {
+        "summary": "Receive Funds via PayCode",
+        "description": "Collect funds using a PayCode generated for domestic bank transfers. The payer uses the provided PayCode to initiate a payment from their bank account through supported banking channels. Once the PayCode is validated and the transaction is processed, the funds are credited to the designated beneficiary account.",
+        "operationId": "receiveLocalPayCode",
+        "tags": [
+          "Digital Collections"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "PayCode collection request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayCodeCollectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Funds received successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CollectionSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid PayCode",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "COLL-4001",
+                  "errorMessage": "The provided PayCode is invalid or expired.",
+                  "errorType": "VALIDATION_ERROR",
+                  "status": 400,
+                  "service": "receive-funds-service",
+                  "operation": "receiveLocalPayCode",
+                  "traceId": "trace-992211-aa12",
+                  "timestamp": "2026-03-13T10:25:45Z",
+                  "details": [
+                    "The PayCode supplied in the request is either invalid or has expired. Ensure that the PayCode exists in the system and is still active before submitting the collection request."
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/collections/international-transfer": {
+      "post": {
+        "summary": "Receive Funds via International Transfer",
+        "description": "Collect funds sent from international banks through SWIFT or other remittance networks. The incoming transfer is validated using the provided SWIFT code and beneficiary account details. Once the transaction is verified and processed, the funds are credited to the beneficiary account.",
+        "operationId": "receiveInternationalTransfer",
+        "tags": [
+          "Digital Collections"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "International collection request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InternationalCollectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "International funds received successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CollectionSuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid SWIFT or transfer details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "COLL-4221",
+                  "errorMessage": "Invalid SWIFT code or international transfer details.",
+                  "errorType": "BUSINESS_ERROR",
+                  "status": 422,
+                  "service": "receive-funds-service",
+                  "operation": "receiveInternationalTransfer",
+                  "traceId": "trace-8832aa11-9922",
+                  "timestamp": "2026-03-13T11:02:18Z",
+                  "details": [
+                    "The SWIFT code provided in the request is invalid or does not correspond to the destination bank. Verify that the SWIFT code is correct and supported for the specified international transfer."
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/collections/qrph": {
+      "post": {
+        "summary": "Receive Funds via QRPH",
+        "description": "Collect payments using QRPH merchant QR codes provided to customers. The payer scans the QRPH code using a supported banking or mobile payment application to initiate the transaction. Once the payment is authorized and processed, the funds are credited to the merchant’s beneficiary account.",
+        "operationId": "receiveQRPH",
+        "tags": [
+          "Digital Collections"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "QRPH collection request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QRPHCollectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "QRPH payment collected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CollectionSuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "QR code not recognized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "COLL-4041",
+                  "errorMessage": "The provided QRPH code is not recognized or is no longer valid.",
+                  "errorType": "BUSINESS_ERROR",
+                  "status": 404,
+                  "service": "receive-funds-service",
+                  "operation": "receiveQRPH",
+                  "traceId": "trace-7744bb22-1199",
+                  "timestamp": "2026-03-13T11:18:52Z",
+                  "details": [
+                    "The QRPH code supplied in the request could not be found or validated in the merchant registry. Ensure the QR code is correct, active, and has not expired before initiating the collection request."
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/collections/direct-debit": {
+      "post": {
+        "summary": "Receive Funds via Direct Debit",
+        "description": "Initiates a direct debit request to collect funds from a customer’s bank account. The system validates the customer's authorization and debit mandate before proceeding with the transaction. Once the verification is successful, the specified amount is debited from the customer’s account and credited to the designated merchant account.",
+        "operationId": "directDebitCollection",
+        "tags": [
+          "Digital Collections"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Direct debit collection request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirectDebitRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Direct debit successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CollectionSuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "COLL-4031",
+                  "errorMessage": "Direct debit authorization failed for the customer account.",
+                  "errorType": "AUTHORIZATION_ERROR",
+                  "status": 403,
+                  "service": "receive-funds-service",
+                  "operation": "directDebitCollection",
+                  "traceId": "trace-6677cc33-8821",
+                  "timestamp": "2026-03-13T11:32:14Z",
+                  "details": [
+                    "The customer's debit mandate is not active or valid for this transaction. Verify that the mandate is authorized and active before attempting the direct debit request."
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/collections/cash-counter": {
+      "post": {
+        "summary": "Receive Funds via Cash Counter",
+        "description": "Deposit funds at a bank branch counter into a designated beneficiary account. The depositor provides the required account details and cash amount to the bank teller for processing. Once verified, the deposited funds are credited to the beneficiary account and the transaction is recorded in the banking system.",
+        "operationId": "cashCounterCollection",
+        "tags": [
+          "Branch Collections"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Cash deposit request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CashCounterCollectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cash deposit received",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CollectionSuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Duplicate deposit request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "COLL-4091",
+                  "errorMessage": "Duplicate cash deposit request detected.",
+                  "errorType": "BUSINESS_ERROR",
+                  "status": 409,
+                  "service": "receive-funds-service",
+                  "operation": "cashCounterCollection",
+                  "traceId": "trace-55aa8821-bc92",
+                  "timestamp": "2026-03-13T11:45:28Z",
+                  "details": [
+                    "A cash deposit request with the same transaction reference has already been processed. Ensure that duplicate deposit submissions are not sent for the same transaction."
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/collections/check-scan": {
+      "post": {
+        "summary": "Receive Funds via Check Scan",
+        "description": "Deposits funds by scanning and processing a physical check using digital image capture. The check images are validated and the amount is credited to the beneficiary account after verification.",
+        "operationId": "checkScanCollection",
+        "tags": [
+          "Branch Collections"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Check scan deposit request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckScanRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Check scanned and deposit initiated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CollectionSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid check image or check details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "COLL-4005",
+                  "errorMessage": "Invalid check image or check details provided.",
+                  "errorType": "VALIDATION_ERROR",
+                  "status": 400,
+                  "service": "receive-funds-service",
+                  "operation": "checkScanCollection",
+                  "traceId": "trace-77dd9912-a221",
+                  "timestamp": "2026-03-13T12:02:41Z",
+                  "details": [
+                    "The check image or provided check details could not be validated during processing. Ensure the check images are clear and that the check number and issuing bank information are correct."
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - invalid or missing access token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests - rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Authorization": {
+        "in": "header",
+        "required": true,
+        "description": "OAuth2 Bearer access token.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+        "name": "Authorization"
+      },
+      "X-Correlation-ID": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123"
+        },
+        "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123",
+        "name": "X-Correlation-ID"
+      },
+      "x-tenant": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder"
+        },
+        "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder",
+        "name": "x-tenant"
+      },
+      "x-application-type": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "ApiSandbox"
+        },
+        "example": "ApiSandbox",
+        "name": "x-application-type"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://api.com/oauth/token",
+            "scopes": {
+              "receivefunds": "Allows receiving funds through collections APIs"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "CollectionSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "transactionId": {
+            "type": "string",
+            "example": "COLL98456321"
+          },
+          "transactionReference": {
+            "type": "string",
+            "example": "REF-992871"
+          },
+          "collectionChannel": {
+            "type": "string",
+            "example": "QRPH"
+          },
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "processingStatus": {
+            "type": "string",
+            "example": "COMPLETED"
+          },
+          "amountReceived": {
+            "type": "number",
+            "example": 5000
+          },
+          "currency": {
+            "type": "string",
+            "example": "PHP"
+          },
+          "processingFee": {
+            "type": "number",
+            "example": 25
+          },
+          "taxAmount": {
+            "type": "number",
+            "example": 3
+          },
+          "netAmountCredited": {
+            "type": "number",
+            "example": 4972
+          },
+          "beneficiaryAccount": {
+            "type": "string",
+            "example": "1234567890"
+          },
+          "beneficiaryName": {
+            "type": "string",
+            "example": "Pedro Santos"
+          },
+          "payerName": {
+            "type": "string",
+            "example": "Juan Dela Cruz"
+          },
+          "payerBank": {
+            "type": "string",
+            "example": "BPI"
+          },
+          "settlementDate": {
+            "type": "string",
+            "example": "2026-03-13"
+          },
+          "processingTimeMs": {
+            "type": "integer",
+            "example": 285
+          },
+          "traceId": {
+            "type": "string",
+            "example": "TRACE-992211"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-12T11:10:45Z"
+          },
+          "message": {
+            "type": "string",
+            "example": "Funds credited successfully"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "COLL-4001"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Invalid request parameters"
+          },
+          "errorType": {
+            "type": "string",
+            "example": "VALIDATION_ERROR"
+          },
+          "status": {
+            "type": "integer",
+            "example": 400
+          },
+          "traceId": {
+            "type": "string",
+            "example": "TRACE-992211"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-12T11:11:02Z"
+          }
+        }
+      },
+      "UnauthorizedResponse": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "AUTH-401"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Unauthorized request"
+          },
+          "status": {
+            "type": "integer",
+            "example": 401
+          },
+          "traceId": {
+            "type": "string",
+            "example": "TRACE-332211"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-12T11:11:02Z"
+          }
+        }
+      },
+      "RateLimitResponse": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "RATE-429"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Too many requests"
+          },
+          "status": {
+            "type": "integer",
+            "example": 429
+          },
+          "retryAfterSeconds": {
+            "type": "integer",
+            "example": 60
+          },
+          "traceId": {
+            "type": "string",
+            "example": "TRACE-221188"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-12T11:11:02Z"
+          }
+        }
+      },
+      "PayCodeCollectionRequest": {
+        "type": "object",
+        "required": [
+          "payCode",
+          "accountNumber",
+          "amount",
+          "currency"
+        ],
+        "properties": {
+          "payCode": {
+            "type": "string",
+            "example": "RCBCPAY123456",
+            "description": "Unique PayCode generated for the transaction used to identify and authorize the incoming collection request."
+          },
+          "accountNumber": {
+            "type": "string",
+            "example": "1234567890",
+            "description": "Beneficiary bank account number where the received funds will be credited."
+          },
+          "accountName": {
+            "type": "string",
+            "example": "Juan Dela Cruz",
+            "description": "Full name of the account holder receiving the funds."
+          },
+          "payerName": {
+            "type": "string",
+            "example": "Maria Santos",
+            "description": "Name of the individual or entity initiating the payment."
+          },
+          "payerAccount": {
+            "type": "string",
+            "example": "9988776655",
+            "description": "Bank account number of the payer sending the funds."
+          },
+          "payerBank": {
+            "type": "string",
+            "example": "BPI",
+            "description": "Name of the bank where the payer's account is maintained."
+          },
+          "payerContact": {
+            "type": "string",
+            "example": "+639171234567",
+            "description": "Contact phone number or identifier of the payer for verification or notification purposes."
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "example": 5000,
+            "description": "Total amount of money to be collected from the payer."
+          },
+          "currency": {
+            "type": "string",
+            "example": "PHP",
+            "description": "Currency in which the collection transaction will be processed."
+          },
+          "transactionReference": {
+            "type": "string",
+            "example": "REF-992871",
+            "description": "Client-generated reference identifier used for tracking the collection transaction."
+          },
+          "remarks": {
+            "type": "string",
+            "example": "Payment for invoice #812",
+            "description": "Optional note or description associated with the payment."
+          },
+          "channel": {
+            "type": "string",
+            "enum": [
+              "MOBILE_APP",
+              "WEB",
+              "API_PARTNER"
+            ],
+            "example": "MOBILE_APP",
+            "description": "Channel through which the payment request was initiated."
+          },
+          "deviceId": {
+            "type": "string",
+            "example": "DEVICE-ABCD-1234",
+            "description": "Identifier of the device or application used to initiate the collection request."
+          }
+        }
+      },
+      "InternationalCollectionRequest": {
+        "type": "object",
+        "required": [
+          "beneficiaryAccount",
+          "swiftCode",
+          "amount",
+          "currency"
+        ],
+        "properties": {
+          "beneficiaryAccount": {
+            "type": "string",
+            "example": "1234567890",
+            "description": "Bank account number that will receive the international funds."
+          },
+          "beneficiaryName": {
+            "type": "string",
+            "example": "Maria Santos",
+            "description": "Full name of the beneficiary receiving the international transfer."
+          },
+          "senderName": {
+            "type": "string",
+            "example": "John Smith",
+            "description": "Name of the person or organization sending the funds."
+          },
+          "senderCountry": {
+            "type": "string",
+            "example": "USA",
+            "description": "Country from which the international transfer originated."
+          },
+          "originBank": {
+            "type": "string",
+            "example": "Citibank",
+            "description": "Name of the bank initiating the international remittance."
+          },
+          "swiftCode": {
+            "type": "string",
+            "example": "RCBCPHMM",
+            "description": "SWIFT/BIC code identifying the destination bank for the international transfer."
+          },
+          "amount": {
+            "type": "number",
+            "example": 1500,
+            "description": "Amount sent by the payer in the original currency."
+          },
+          "currency": {
+            "type": "string",
+            "example": "USD",
+            "description": "Currency in which the international transfer was sent."
+          },
+          "fxRate": {
+            "type": "number",
+            "example": 55.23,
+            "description": "Foreign exchange rate applied when converting the funds to the local currency."
+          },
+          "convertedAmount": {
+            "type": "number",
+            "example": 82845,
+            "description": "Total amount credited to the beneficiary account after currency conversion."
+          },
+          "purposeOfTransfer": {
+            "type": "string",
+            "example": "Family support",
+            "description": "Purpose or reason provided for the international remittance."
+          },
+          "complianceCheck": {
+            "type": "boolean",
+            "example": true,
+            "description": "Indicates whether the transaction requires additional regulatory or compliance validation."
+          },
+          "transactionReference": {
+            "type": "string",
+            "example": "INTL-TRX-77821",
+            "description": "Unique reference identifier used to track the international collection transaction."
+          }
+        }
+      },
+      "QRPHCollectionRequest": {
+        "type": "object",
+        "required": [
+          "merchantId",
+          "qrCode",
+          "amount"
+        ],
+        "properties": {
+          "merchantId": {
+            "type": "string",
+            "example": "MERCHANT001",
+            "description": "Unique identifier assigned to the merchant receiving the QRPH payment."
+          },
+          "merchantName": {
+            "type": "string",
+            "example": "ABC Retail Store",
+            "description": "Registered business name of the merchant associated with the QRPH code."
+          },
+          "merchantCategoryCode": {
+            "type": "string",
+            "example": "5411",
+            "description": "Merchant Category Code (MCC) that identifies the type of business or service offered by the merchant."
+          },
+          "qrCode": {
+            "type": "string",
+            "example": "00020101021229370016A00000067701011101130066000012345653036045802PH",
+            "description": "Encoded QRPH payment string that contains merchant and transaction details used to process the payment."
+          },
+          "payerName": {
+            "type": "string",
+            "example": "Carlos Reyes",
+            "description": "Name of the customer initiating the QRPH payment."
+          },
+          "payerAccount": {
+            "type": "string",
+            "example": "8822112233",
+            "description": "Bank account number of the payer from which the funds will be debited."
+          },
+          "amount": {
+            "type": "number",
+            "example": 250,
+            "description": "Total payment amount being collected from the payer through the QRPH transaction."
+          },
+          "currency": {
+            "type": "string",
+            "example": "PHP",
+            "description": "Currency in which the QRPH payment will be processed."
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "example": "INV-99221",
+            "description": "Invoice or billing reference associated with the merchant transaction."
+          },
+          "transactionReference": {
+            "type": "string",
+            "example": "QRPH-TRX-81221",
+            "description": "Unique reference identifier generated to track the QRPH payment transaction."
+          },
+          "terminalId": {
+            "type": "string",
+            "example": "POS-88921",
+            "description": "Identifier of the merchant terminal or POS device used to initiate the QRPH transaction."
+          },
+          "location": {
+            "type": "string",
+            "example": "Manila Mall Branch",
+            "description": "Physical or operational location of the merchant where the QRPH payment was initiated."
+          }
+        }
+      },
+      "DirectDebitRequest": {
+        "type": "object",
+        "required": [
+          "customerAccount",
+          "merchantAccount",
+          "amount"
+        ],
+        "properties": {
+          "customerAccount": {
+            "type": "string",
+            "example": "9876543210",
+            "description": "Bank account number of the customer from which the funds will be debited."
+          },
+          "customerName": {
+            "type": "string",
+            "example": "Anna Cruz",
+            "description": "Full name of the customer whose account will be debited."
+          },
+          "merchantAccount": {
+            "type": "string",
+            "example": "1234567890",
+            "description": "Bank account number of the merchant receiving the collected funds."
+          },
+          "merchantName": {
+            "type": "string",
+            "example": "Utility Provider Inc.",
+            "description": "Name of the merchant or organization initiating the direct debit request."
+          },
+          "authorizationId": {
+            "type": "string",
+            "example": "AUTH123456",
+            "description": "Identifier representing the authorization approval provided by the customer for the debit transaction."
+          },
+          "mandateId": {
+            "type": "string",
+            "example": "MANDATE77821",
+            "description": "Unique identifier of the debit mandate authorizing recurring or one-time debit from the customer's account."
+          },
+          "amount": {
+            "type": "number",
+            "example": 3000,
+            "description": "Total amount to be debited from the customer's account."
+          },
+          "currency": {
+            "type": "string",
+            "example": "PHP",
+            "description": "Currency in which the direct debit transaction will be processed."
+          },
+          "billingCycle": {
+            "type": "string",
+            "example": "MONTHLY",
+            "description": "Billing cycle indicating how frequently the debit will occur, such as monthly or one-time."
+          },
+          "invoiceReference": {
+            "type": "string",
+            "example": "INV-78211",
+            "description": "Reference number associated with the billing invoice for which the payment is being collected."
+          },
+          "transactionReference": {
+            "type": "string",
+            "example": "DD-TRX-66121",
+            "description": "Unique transaction reference used to track the direct debit request."
+          }
+        }
+      },
+      "CashCounterCollectionRequest": {
+        "type": "object",
+        "required": [
+          "accountNumber",
+          "amount"
+        ],
+        "properties": {
+          "accountNumber": {
+            "type": "string",
+            "example": "1234567890",
+            "description": "Beneficiary bank account number where the deposited cash will be credited."
+          },
+          "accountName": {
+            "type": "string",
+            "example": "Pedro Santos",
+            "description": "Full name of the account holder receiving the deposited funds."
+          },
+          "depositorName": {
+            "type": "string",
+            "example": "Miguel Santos",
+            "description": "Name of the individual depositing cash at the bank branch."
+          },
+          "depositorIdType": {
+            "type": "string",
+            "example": "PASSPORT",
+            "description": "Type of identification document presented by the depositor during the cash deposit process."
+          },
+          "depositorIdNumber": {
+            "type": "string",
+            "example": "P99887766",
+            "description": "Identification number corresponding to the provided ID document for depositor verification."
+          },
+          "branchLocation": {
+            "type": "string",
+            "example": "RCBC Makati Branch",
+            "description": "Name or location of the bank branch where the cash deposit is made."
+          },
+          "tellerId": {
+            "type": "string",
+            "example": "TELLER-221",
+            "description": "Identifier of the bank teller or counter agent processing the cash deposit transaction."
+          },
+          "amount": {
+            "type": "number",
+            "example": 10000,
+            "description": "Total amount of cash deposited at the branch counter."
+          },
+          "currency": {
+            "type": "string",
+            "example": "PHP",
+            "description": "Currency in which the cash deposit transaction is processed."
+          },
+          "transactionReference": {
+            "type": "string",
+            "example": "CASH-TRX-99121",
+            "description": "Unique reference identifier used to track the cash deposit transaction."
+          }
+        }
+      },
+      "CheckScanRequest": {
+        "type": "object",
+        "required": [
+          "accountNumber",
+          "checkNumber",
+          "amount"
+        ],
+        "properties": {
+          "accountNumber": {
+            "type": "string",
+            "example": "1234567890",
+            "description": "Beneficiary bank account number where the check deposit will be credited after successful verification."
+          },
+          "accountName": {
+            "type": "string",
+            "example": "ABC Corporation",
+            "description": "Name of the account holder receiving the funds from the scanned check."
+          },
+          "checkNumber": {
+            "type": "string",
+            "example": "CHK998877",
+            "description": "Unique number printed on the physical check used to identify the check instrument."
+          },
+          "issuingBank": {
+            "type": "string",
+            "example": "BDO",
+            "description": "Name of the bank that issued the check being deposited."
+          },
+          "checkDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-03-12",
+            "description": "Date written on the check indicating when the payment was issued."
+          },
+          "payerName": {
+            "type": "string",
+            "example": "Global Supplies Ltd",
+            "description": "Name of the individual or organization that issued the check."
+          },
+          "amount": {
+            "type": "number",
+            "example": 8500,
+            "description": "Total monetary value specified on the check to be deposited."
+          },
+          "currency": {
+            "type": "string",
+            "example": "PHP",
+            "description": "Currency in which the check amount is denominated."
+          },
+          "imageFrontUrl": {
+            "type": "string",
+            "example": "https://cdn.com/check/front123.jpg",
+            "description": "URL link pointing to the digital image of the front side of the scanned check."
+          },
+          "imageBackUrl": {
+            "type": "string",
+            "example": "https://cdn.com/check/back123.jpg",
+            "description": "URL link pointing to the digital image of the back side of the scanned check."
+          },
+          "transactionReference": {
+            "type": "string",
+            "example": "CHECK-TRX-99211",
+            "description": "Unique transaction reference identifier used to track the check scan deposit request."
+          }
+        }
+      },
+      "InternalServerErrorResponse": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "SYS-500"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Unexpected server error occurred"
+          },
+          "status": {
+            "type": "integer",
+            "example": 500
+          },
+          "traceId": {
+            "type": "string",
+            "example": "TRACE-889211"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-12T11:11:02Z"
+          }
+        }
+      }
+    }
+  }
+}

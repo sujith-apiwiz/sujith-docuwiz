@@ -1,0 +1,888 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Lending Tools API",
+    "description": "Enterprise Lending Tools APIs designed for financial institutions, fintech platforms, and digital banks to automate loan lifecycle operations including loan origination, borrower credit scoring, credit line configuration, and borrower engagement workflows. These APIs support risk evaluation, borrower communication, loan underwriting automation, and real-time lending decision processing.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Banking API Platform Team",
+      "email": "api-support@bank.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://banking.apiwiz.io/v1",
+      "description": "Development Server"
+    },
+    {
+      "url": "https://uat.api.banking-platform.com/v1",
+      "description": "UAT Server"
+    },
+    {
+      "url": "https://api.banking-platform.com/v1",
+      "description": "Production Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Loan Processing",
+      "description": "APIs responsible for loan origination and credit line management."
+    },
+    {
+      "name": "Borrower Intelligence",
+      "description": "APIs responsible for borrower analytics including credit scoring and engagement workflows."
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": [
+        "lending-tools"
+      ]
+    }
+  ],
+  "paths": {
+    "/lending-tools/loan-origination": {
+      "post": {
+        "tags": [
+          "Loan Processing"
+        ],
+        "summary": "Loan Origination Processing",
+        "description": "Processes loan applications submitted through digital channels or partner integrations. The API validates borrower data, performs underwriting checks, evaluates eligibility rules, and triggers loan approval workflows.",
+        "operationId": "loanOrigination",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Loan application payload containing borrower information, loan request details, and financial profile.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoanOriginationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Loan application successfully processed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LendingToolSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid loan request payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "LEND-4001",
+                  "errorMessage": "Invalid loan origination request payload.",
+                  "errorType": "VALIDATION_ERROR",
+                  "status": 400,
+                  "service": "lending-tools-service",
+                  "operation": "loanOrigination",
+                  "traceId": "trace-551122aa-6622",
+                  "timestamp": "2026-03-14T10:11:42Z",
+                  "details": [
+                    "The loan origination payload contains missing or incorrectly formatted fields such as applicationId, customerId, loanProduct, or requestedAmount. Verify that all mandatory borrower and loan parameters are provided correctly before submitting the request."
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "LEND-4011",
+                  "errorMessage": "Authentication failed for lending API request.",
+                  "errorType": "AUTHENTICATION_ERROR",
+                  "status": 401,
+                  "service": "lending-tools-service",
+                  "operation": "loanOrigination",
+                  "traceId": "trace-771144bb-9921",
+                  "timestamp": "2026-03-14T10:13:12Z",
+                  "details": [
+                    "The OAuth2 access token provided in the Authorization header is invalid, expired, or missing required scopes. Obtain a valid access token before retrying the loan origination request."
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access to lending operation denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "LEND-4031",
+                  "errorMessage": "Access to loan origination operation is denied.",
+                  "errorType": "AUTHORIZATION_ERROR",
+                  "status": 403,
+                  "service": "lending-tools-service",
+                  "operation": "loanOrigination",
+                  "traceId": "trace-992211cc-8811",
+                  "timestamp": "2026-03-14T10:14:44Z",
+                  "details": [
+                    "The requesting client or application does not have sufficient permissions to initiate loan origination workflows. Verify that the API client is granted the required lending-tools scope and permissions."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal lending platform error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "LEND-5001",
+                  "errorMessage": "Loan origination processing failed.",
+                  "errorType": "SYSTEM_ERROR",
+                  "status": 500,
+                  "service": "lending-tools-service",
+                  "operation": "loanOrigination",
+                  "traceId": "trace-882211dd-7732",
+                  "timestamp": "2026-03-14T10:16:10Z",
+                  "details": [
+                    "The lending platform encountered an unexpected internal error while executing the underwriting and eligibility evaluation workflow. Retry the loan origination request later or contact system support if the issue persists."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lending-tools/credit-scoring": {
+      "post": {
+        "tags": [
+          "Borrower Intelligence"
+        ],
+        "summary": "Credit Scoring Evaluation",
+        "description": "Evaluates borrower creditworthiness using internal credit risk models and external credit bureau data. The API returns a credit score, risk classification, and lending recommendation.",
+        "operationId": "creditScoring",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Credit scoring evaluation payload.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditScoringRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Credit score successfully calculated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LendingToolSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid credit scoring request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "LEND-4002",
+                  "errorMessage": "Invalid credit scoring request payload.",
+                  "errorType": "VALIDATION_ERROR",
+                  "status": 400,
+                  "service": "lending-tools-service",
+                  "operation": "creditScoring",
+                  "traceId": "trace-661144aa-8822",
+                  "timestamp": "2026-03-14T10:18:09Z",
+                  "details": [
+                    "The credit scoring request payload is missing mandatory borrower risk attributes such as customerId, annualIncome, or creditUtilization. Verify that the credit evaluation parameters are correctly populated before retrying the request."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Credit scoring engine failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "LEND-5002",
+                  "errorMessage": "Credit scoring engine processing error.",
+                  "errorType": "SYSTEM_ERROR",
+                  "status": 500,
+                  "service": "lending-tools-service",
+                  "operation": "creditScoring",
+                  "traceId": "trace-771122bb-6631",
+                  "timestamp": "2026-03-14T10:19:47Z",
+                  "details": [
+                    "The credit scoring engine failed while retrieving credit bureau data or executing risk evaluation models. Retry the request later once the scoring service becomes available."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lending-tools/credit-line": {
+      "post": {
+        "tags": [
+          "Loan Processing"
+        ],
+        "summary": "Credit Line Management",
+        "description": "Creates or modifies revolving credit lines for approved customers. This API allows financial institutions to manage credit limits, interest calculations, billing cycles, and risk thresholds.",
+        "operationId": "creditLineManagement",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Credit line configuration payload.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditLineRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Credit line successfully configured",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LendingToolSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid credit line configuration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "LEND-4003",
+                  "errorMessage": "Invalid credit line configuration payload.",
+                  "errorType": "VALIDATION_ERROR",
+                  "status": 400,
+                  "service": "lending-tools-service",
+                  "operation": "creditLineManagement",
+                  "traceId": "trace-882211ee-4411",
+                  "timestamp": "2026-03-14T10:21:30Z",
+                  "details": [
+                    "The credit line configuration request contains invalid parameters such as creditLimit, billingCycleDays, or interestCalculationMethod. Ensure that the provided credit facility settings comply with the lending configuration rules."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Credit management system error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "LEND-5003",
+                  "errorMessage": "Credit line management processing failure.",
+                  "errorType": "SYSTEM_ERROR",
+                  "status": 500,
+                  "service": "lending-tools-service",
+                  "operation": "creditLineManagement",
+                  "traceId": "trace-772211aa-9981",
+                  "timestamp": "2026-03-14T10:23:05Z",
+                  "details": [
+                    "The lending credit management engine encountered an unexpected error while creating or updating the revolving credit facility. Retry the request later once the credit management service becomes available."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lending-tools/borrower-engagement": {
+      "post": {
+        "tags": [
+          "Borrower Intelligence"
+        ],
+        "summary": "Smart Borrower Engagement",
+        "description": "Triggers borrower engagement workflows such as loan reminders, promotional offers, delinquency notifications, and payment alerts across digital communication channels.",
+        "operationId": "borrowerEngagement",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Borrower engagement event payload.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BorrowerEngagementRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Borrower engagement processed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LendingToolSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid borrower engagement request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "LEND-4004",
+                  "errorMessage": "Invalid borrower engagement request payload.",
+                  "errorType": "VALIDATION_ERROR",
+                  "status": 400,
+                  "service": "lending-tools-service",
+                  "operation": "borrowerEngagement",
+                  "traceId": "trace-662211cc-7733",
+                  "timestamp": "2026-03-14T10:25:41Z",
+                  "details": [
+                    "The borrower engagement request contains missing or invalid attributes such as engagementType, borrowerId, or communicationChannel. Verify that all engagement workflow parameters are correctly configured before retrying the request."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Engagement workflow processing error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "LEND-5004",
+                  "errorMessage": "Borrower engagement workflow execution failed.",
+                  "errorType": "SYSTEM_ERROR",
+                  "status": 500,
+                  "service": "lending-tools-service",
+                  "operation": "borrowerEngagement",
+                  "traceId": "trace-441122dd-8824",
+                  "timestamp": "2026-03-14T10:27:12Z",
+                  "details": [
+                    "The engagement orchestration engine failed while triggering borrower communication workflows or notification channels. Retry the engagement request later once the messaging infrastructure becomes available."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Authorization": {
+        "in": "header",
+        "required": true,
+        "description": "OAuth2 Bearer access token.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+        "name": "Authorization"
+      },
+      "X-Correlation-ID": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123"
+        },
+        "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123",
+        "name": "X-Correlation-ID"
+      },
+      "x-tenant": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder"
+        },
+        "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder",
+        "name": "x-tenant"
+      },
+      "x-application-type": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "ApiSandbox"
+        },
+        "example": "ApiSandbox",
+        "name": "x-application-type"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://api.bank.com/oauth/token",
+            "scopes": {
+              "lending-tools": "Access lending platform APIs"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "LoanOriginationRequest": {
+        "type": "object",
+        "description": "Loan application submission payload used to initiate the loan origination and underwriting workflow.",
+        "required": [
+          "applicationId",
+          "customerId",
+          "loanProduct",
+          "requestedAmount"
+        ],
+        "properties": {
+          "applicationId": {
+            "type": "string",
+            "description": "Unique identifier assigned to the loan application.",
+            "example": "APP-883221"
+          },
+          "customerId": {
+            "type": "string",
+            "description": "Unique identifier of the borrower submitting the loan application.",
+            "example": "CUST-77121"
+          },
+          "applicantName": {
+            "type": "string",
+            "description": "Full name of the borrower applying for the loan.",
+            "example": "John Doe"
+          },
+          "loanProduct": {
+            "type": "string",
+            "description": "Loan product being requested by the borrower.",
+            "example": "PERSONAL_LOAN"
+          },
+          "requestedAmount": {
+            "type": "number",
+            "description": "Total loan amount requested by the borrower.",
+            "example": 25000
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency in which the loan amount is requested.",
+            "example": "USD"
+          },
+          "tenureMonths": {
+            "type": "integer",
+            "description": "Loan repayment duration expressed in months.",
+            "example": 36
+          },
+          "interestRateType": {
+            "type": "string",
+            "description": "Interest rate structure applied to the loan.",
+            "example": "FIXED"
+          },
+          "loanPurpose": {
+            "type": "string",
+            "description": "Purpose for which the borrower is requesting the loan.",
+            "example": "Education financing"
+          },
+          "employmentType": {
+            "type": "string",
+            "description": "Employment category of the borrower.",
+            "example": "FULL_TIME"
+          },
+          "annualIncome": {
+            "type": "number",
+            "description": "Declared annual income of the borrower used for eligibility evaluation.",
+            "example": 85000
+          },
+          "creditScore": {
+            "type": "integer",
+            "description": "Credit score of the borrower retrieved from credit bureaus.",
+            "example": 720
+          },
+          "applicationChannel": {
+            "type": "string",
+            "description": "Channel through which the loan application was submitted.",
+            "example": "API_PARTNER"
+          },
+          "submittedAt": {
+            "type": "string",
+            "description": "Timestamp indicating when the loan application was submitted.",
+            "example": "2026-03-12T10:30:00Z"
+          }
+        }
+      },
+      "CreditScoringRequest": {
+        "type": "object",
+        "description": "Payload used to evaluate borrower creditworthiness and risk profile using internal and external scoring models.",
+        "properties": {
+          "customerId": {
+            "type": "string",
+            "description": "Identifier of the borrower whose credit profile is being evaluated.",
+            "example": "CUST-88221"
+          },
+          "bureauProvider": {
+            "type": "string",
+            "description": "Credit bureau used to retrieve borrower credit data.",
+            "example": "EXPERIAN"
+          },
+          "bureauReportId": {
+            "type": "string",
+            "description": "Reference identifier of the credit report retrieved from the bureau.",
+            "example": "BR-99221"
+          },
+          "annualIncome": {
+            "type": "number",
+            "description": "Borrower’s annual income used for credit evaluation.",
+            "example": 80000
+          },
+          "existingLoanCount": {
+            "type": "integer",
+            "description": "Number of existing loans currently held by the borrower.",
+            "example": 2
+          },
+          "creditUtilization": {
+            "type": "number",
+            "description": "Percentage of total credit currently utilized by the borrower.",
+            "example": 0.45
+          },
+          "paymentHistoryScore": {
+            "type": "number",
+            "description": "Score representing historical repayment behavior.",
+            "example": 0.9
+          },
+          "debtToIncomeRatio": {
+            "type": "number",
+            "description": "Ratio of total debt obligations compared to income.",
+            "example": 0.35
+          },
+          "recentCreditInquiries": {
+            "type": "integer",
+            "description": "Number of recent credit inquiries made for the borrower.",
+            "example": 3
+          },
+          "requestedLoanAmount": {
+            "type": "number",
+            "description": "Loan amount requested which will be evaluated against the credit score.",
+            "example": 20000
+          },
+          "evaluationTimestamp": {
+            "type": "string",
+            "description": "Timestamp when the credit scoring evaluation was performed.",
+            "example": "2026-03-12T21:15:00Z"
+          }
+        }
+      },
+      "CreditLineRequest": {
+        "type": "object",
+        "description": "Payload used to create or modify revolving credit lines for approved customers.",
+        "properties": {
+          "creditLineId": {
+            "type": "string",
+            "description": "Unique identifier assigned to the credit line.",
+            "example": "CL-77121"
+          },
+          "customerId": {
+            "type": "string",
+            "description": "Identifier of the borrower associated with the credit line.",
+            "example": "CUST-77121"
+          },
+          "creditLimit": {
+            "type": "number",
+            "description": "Maximum credit amount approved for the borrower.",
+            "example": 50000
+          },
+          "availableBalance": {
+            "type": "number",
+            "description": "Available credit balance remaining on the credit line.",
+            "example": 50000
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency in which the credit line is issued.",
+            "example": "USD"
+          },
+          "interestRate": {
+            "type": "number",
+            "description": "Interest rate applied to the utilized credit amount.",
+            "example": 12.5
+          },
+          "interestCalculationMethod": {
+            "type": "string",
+            "description": "Method used to calculate interest on outstanding balances.",
+            "example": "DAILY_REDUCING"
+          },
+          "billingCycleDays": {
+            "type": "integer",
+            "description": "Number of days in the billing cycle used for repayment calculations.",
+            "example": 30
+          },
+          "minimumPaymentPercent": {
+            "type": "number",
+            "description": "Minimum percentage of the outstanding balance required for repayment.",
+            "example": 5
+          },
+          "creditLineStatus": {
+            "type": "string",
+            "description": "Current operational status of the credit line.",
+            "example": "ACTIVE"
+          },
+          "riskRating": {
+            "type": "string",
+            "description": "Risk classification assigned to the credit facility.",
+            "example": "LOW_RISK"
+          },
+          "issuedAt": {
+            "type": "string",
+            "description": "Timestamp indicating when the credit line was issued.",
+            "example": "2026-03-12T21:20:00Z"
+          }
+        }
+      },
+      "BorrowerEngagementRequest": {
+        "type": "object",
+        "description": "Payload used to trigger borrower engagement workflows such as payment reminders, promotional campaigns, and delinquency notifications.",
+        "properties": {
+          "engagementId": {
+            "type": "string",
+            "description": "Unique identifier of the engagement event.",
+            "example": "ENG-88221"
+          },
+          "borrowerId": {
+            "type": "string",
+            "description": "Identifier of the borrower receiving the engagement notification.",
+            "example": "CUST-77121"
+          },
+          "loanAccountId": {
+            "type": "string",
+            "description": "Loan account associated with the engagement event.",
+            "example": "LN-77121"
+          },
+          "engagementType": {
+            "type": "string",
+            "description": "Type of engagement workflow being triggered.",
+            "example": "PAYMENT_REMINDER"
+          },
+          "communicationChannel": {
+            "type": "string",
+            "description": "Communication channel used to deliver the engagement message.",
+            "example": "SMS"
+          },
+          "templateId": {
+            "type": "string",
+            "description": "Identifier of the message template used for the engagement notification.",
+            "example": "LOAN_REMINDER_TEMPLATE"
+          },
+          "nextPaymentDueDate": {
+            "type": "string",
+            "description": "Next scheduled payment due date for the loan.",
+            "example": "2026-04-01"
+          },
+          "outstandingBalance": {
+            "type": "number",
+            "description": "Remaining balance owed by the borrower.",
+            "example": 12500
+          },
+          "daysPastDue": {
+            "type": "integer",
+            "description": "Number of days the borrower is overdue on the payment.",
+            "example": 3
+          },
+          "engagementScore": {
+            "type": "number",
+            "description": "Behavioral engagement score representing borrower responsiveness.",
+            "example": 0.82
+          },
+          "riskSegment": {
+            "type": "string",
+            "description": "Risk classification assigned to the borrower based on payment behavior.",
+            "example": "MEDIUM_RISK"
+          },
+          "triggeredAt": {
+            "type": "string",
+            "description": "Timestamp when the borrower engagement workflow was triggered.",
+            "example": "2026-03-12T18:30:00Z"
+          }
+        }
+      },
+      "LendingToolSuccessResponse": {
+        "type": "object",
+        "description": "Standard response returned after successful lending operations.",
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "example": "LEND-99221"
+          },
+          "operationType": {
+            "type": "string",
+            "example": "LOAN_ORIGINATION"
+          },
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "decision": {
+            "type": "string",
+            "example": "APPROVED"
+          },
+          "approvedAmount": {
+            "type": "number",
+            "example": 25000
+          },
+          "interestRate": {
+            "type": "number",
+            "example": 11.5
+          },
+          "riskRating": {
+            "type": "string",
+            "example": "LOW_RISK"
+          },
+          "processingTimeMs": {
+            "type": "integer",
+            "example": 140
+          },
+          "decisionEngine": {
+            "type": "string",
+            "example": "AI_RISK_ENGINE_V3"
+          },
+          "scoringModel": {
+            "type": "string",
+            "example": "CREDIT_MODEL_5.0"
+          },
+          "processedBy": {
+            "type": "string",
+            "example": "LENDING_CORE_SYSTEM"
+          },
+          "processedAt": {
+            "type": "string",
+            "example": "2026-03-12T21:25:00Z"
+          },
+          "message": {
+            "type": "string",
+            "example": "Lending workflow completed successfully."
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "Standard error payload returned for failed API requests.",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "LEND-4001"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Invalid lending request payload."
+          },
+          "errorCategory": {
+            "type": "string",
+            "example": "VALIDATION_ERROR"
+          },
+          "traceId": {
+            "type": "string",
+            "example": "TRACE-99221"
+          },
+          "requestId": {
+            "type": "string",
+            "example": "REQ-88221"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-12T21:30:00Z"
+          }
+        }
+      }
+    }
+  }
+}

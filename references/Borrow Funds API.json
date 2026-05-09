@@ -1,0 +1,707 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Borrow Funds API",
+    "description": "Enterprise Banking APIs that enable customers, small businesses, and corporations to apply for financing solutions including personal loans, SME loans, and corporate credit facilities.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Banking API Support",
+      "email": "support@bankapi.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://banking.apiwiz.io/v1",
+      "description": "Development Server"
+    },
+    {
+      "url": "https://uat.api.banking-platform.com/v1",
+      "description": "UAT Server"
+    },
+    {
+      "url": "https://api.banking-platform.com/v1",
+      "description": "Production Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Consumer Lending",
+      "description": "APIs that allow individuals to apply for personal or consumer loans."
+    },
+    {
+      "name": "Business Lending",
+      "description": "APIs that allow small businesses and corporations to apply for SME loans and corporate credit facilities."
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": [
+        "lending"
+      ]
+    }
+  ],
+  "paths": {
+    "/lending/consumer-loans": {
+      "post": {
+        "tags": [
+          "Consumer Lending"
+        ],
+        "summary": "Apply for Consumer Loan",
+        "description": "Allows individual customers to apply for consumer financing such as personal loans, auto loans, and lifestyle financing.",
+        "operationId": "consumerLoanApplication",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsumerLoanRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Consumer loan application processed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid loan request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Loan eligibility check failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanErrorResponse"
+                },
+                "example": {
+                  "errorCode": "LOAN-4221",
+                  "errorMessage": "Loan eligibility check failed due to insufficient credit score.",
+                  "errorType": "BUSINESS_ERROR",
+                  "status": 422,
+                  "service": "lending-service",
+                  "operation": "consumerLoanApplication",
+                  "traceId": "trace-882211aa-6612",
+                  "timestamp": "2026-03-13T16:45:22Z",
+                  "details": [
+                    "The credit score provided in the loan application does not meet the minimum eligibility criteria required for consumer loan approval. Improve the credit score or reduce existing liabilities before reapplying for the loan."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal processing error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lending/sme-loans": {
+      "post": {
+        "tags": [
+          "Business Lending"
+        ],
+        "summary": "Apply for SME Loan",
+        "description": "Allows small and medium enterprises to apply for business loans to support expansion, working capital, or asset financing.",
+        "operationId": "smeLoanApplication",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SMELoanRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SME loan application processed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid SME loan request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "SME loan eligibility failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanErrorResponse"
+                },
+                "example": {
+                  "errorCode": "LOAN-4222",
+                  "errorMessage": "SME loan eligibility check failed due to low business credit score.",
+                  "errorType": "BUSINESS_ERROR",
+                  "status": 422,
+                  "service": "lending-service",
+                  "operation": "smeLoanApplication",
+                  "traceId": "trace-771144bb-5511",
+                  "timestamp": "2026-03-13T16:58:10Z",
+                  "details": [
+                    "The businessCreditScore provided in the loan application is below the minimum threshold required for SME loan approval. Improve the company's credit profile or provide stronger collateral before submitting a new loan request."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal processing error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lending/corporate-loans": {
+      "post": {
+        "tags": [
+          "Business Lending"
+        ],
+        "summary": "Apply for Corporate Loan",
+        "description": "Allows large corporations to apply for structured financing solutions including term loans, credit facilities, and infrastructure financing.",
+        "operationId": "corporateLoanApplication",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CorporateLoanRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Corporate loan application processed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanSuccessResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Loan application rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanErrorResponse"
+                },
+                "example": {
+                  "errorCode": "LOAN-4031",
+                  "errorMessage": "Corporate loan application rejected due to insufficient collateral coverage.",
+                  "errorType": "BUSINESS_ERROR",
+                  "status": 403,
+                  "service": "lending-service",
+                  "operation": "corporateLoanApplication",
+                  "traceId": "trace-662211cc-7731",
+                  "timestamp": "2026-03-13T17:05:44Z",
+                  "details": [
+                    "The collateral value provided in the corporate loan application does not meet the minimum coverage required for the requested loan amount. Increase the collateral value or reduce the requested amount before submitting a new application."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal processing error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Authorization": {
+        "in": "header",
+        "required": true,
+        "description": "OAuth2 Bearer access token.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+        "name": "Authorization"
+      },
+      "X-Correlation-ID": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123"
+        },
+        "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123",
+        "name": "X-Correlation-ID"
+      },
+      "x-tenant": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder"
+        },
+        "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder",
+        "name": "x-tenant"
+      },
+      "x-application-type": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "ApiSandbox"
+        },
+        "example": "ApiSandbox",
+        "name": "x-application-type"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://auth.bank.com/oauth/token",
+            "scopes": {
+              "lending": "Allows loan application operations"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ConsumerLoanRequest": {
+        "type": "object",
+        "required": [
+          "customerId",
+          "requestedAmount",
+          "tenureMonths"
+        ],
+        "properties": {
+          "applicationReference": {
+            "type": "string",
+            "description": "Unique reference identifier generated by the client application to track the consumer loan application.",
+            "example": "CON-LOAN-99221"
+          },
+          "customerId": {
+            "type": "string",
+            "description": "Unique identifier assigned to the customer in the banking system submitting the loan application.",
+            "example": "CUST-88221"
+          },
+          "customerName": {
+            "type": "string",
+            "description": "Full legal name of the individual applying for the consumer loan.",
+            "example": "John Doe"
+          },
+          "loanType": {
+            "type": "string",
+            "description": "Type of consumer loan being requested by the applicant.",
+            "enum": [
+              "PERSONAL_LOAN",
+              "AUTO_LOAN",
+              "EDUCATION_LOAN"
+            ]
+          },
+          "requestedAmount": {
+            "type": "number",
+            "description": "Total loan amount requested by the customer.",
+            "example": 50000
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO currency code representing the currency of the requested loan.",
+            "example": "USD"
+          },
+          "tenureMonths": {
+            "type": "integer",
+            "description": "Loan repayment period expressed in months.",
+            "example": 24
+          },
+          "monthlyIncome": {
+            "type": "number",
+            "description": "Declared monthly income of the applicant used to assess repayment capacity.",
+            "example": 4500
+          },
+          "employmentType": {
+            "type": "string",
+            "description": "Employment classification of the applicant.",
+            "enum": [
+              "SALARIED",
+              "SELF_EMPLOYED"
+            ]
+          },
+          "creditScore": {
+            "type": "integer",
+            "description": "Credit score of the applicant used to evaluate loan eligibility and risk profile.",
+            "example": 720
+          },
+          "existingLiabilities": {
+            "type": "number",
+            "description": "Total outstanding liabilities or loan obligations currently held by the applicant.",
+            "example": 12000
+          },
+          "debtToIncomeRatio": {
+            "type": "number",
+            "description": "Ratio of total debt obligations to monthly income used for credit risk evaluation.",
+            "example": 0.32
+          },
+          "loanPurpose": {
+            "type": "string",
+            "description": "Purpose or reason for which the loan is being requested.",
+            "example": "Home renovation"
+          },
+          "channel": {
+            "type": "string",
+            "description": "Channel through which the loan application is submitted.",
+            "example": "MOBILE_BANKING"
+          }
+        }
+      },
+      "SMELoanRequest": {
+        "type": "object",
+        "properties": {
+          "applicationReference": {
+            "type": "string",
+            "description": "Unique reference identifier used to track the SME loan application.",
+            "example": "SME-LOAN-77221"
+          },
+          "businessName": {
+            "type": "string",
+            "description": "Registered legal name of the business applying for the loan.",
+            "example": "ABC Trading Ltd"
+          },
+          "businessRegistrationNumber": {
+            "type": "string",
+            "description": "Official registration number assigned to the business by regulatory authorities.",
+            "example": "BR-882211"
+          },
+          "industry": {
+            "type": "string",
+            "description": "Industry sector in which the business operates.",
+            "example": "Retail"
+          },
+          "annualRevenue": {
+            "type": "number",
+            "description": "Total annual revenue generated by the business.",
+            "example": 250000
+          },
+          "requestedAmount": {
+            "type": "number",
+            "description": "Loan amount requested by the business.",
+            "example": 100000
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO currency code representing the currency of the requested loan.",
+            "example": "USD"
+          },
+          "tenureMonths": {
+            "type": "integer",
+            "description": "Loan repayment period in months.",
+            "example": 36
+          },
+          "collateralType": {
+            "type": "string",
+            "description": "Type of collateral pledged to secure the loan.",
+            "example": "PROPERTY"
+          },
+          "collateralValue": {
+            "type": "number",
+            "description": "Estimated value of the collateral asset securing the loan.",
+            "example": 200000
+          },
+          "businessCreditScore": {
+            "type": "integer",
+            "description": "Credit score assigned to the business based on financial and credit history.",
+            "example": 690
+          },
+          "loanPurpose": {
+            "type": "string",
+            "description": "Primary purpose of the loan requested by the business.",
+            "example": "Business expansion"
+          },
+          "businessAddress": {
+            "type": "string",
+            "description": "Registered physical address of the business entity.",
+            "example": "120 Market Street, NY"
+          }
+        }
+      },
+      "CorporateLoanRequest": {
+        "type": "object",
+        "properties": {
+          "applicationReference": {
+            "type": "string",
+            "description": "Unique reference identifier for tracking the corporate loan application.",
+            "example": "CORP-LOAN-66211"
+          },
+          "companyName": {
+            "type": "string",
+            "description": "Legal name of the corporation applying for the loan.",
+            "example": "Global Manufacturing Corp"
+          },
+          "companyRegistrationId": {
+            "type": "string",
+            "description": "Official corporate registration number issued by the government or regulatory authority.",
+            "example": "REG-88221"
+          },
+          "creditFacilityType": {
+            "type": "string",
+            "description": "Type of credit facility being requested by the corporation.",
+            "enum": [
+              "TERM_LOAN",
+              "REVOLVING_CREDIT",
+              "PROJECT_FINANCE"
+            ]
+          },
+          "requestedAmount": {
+            "type": "number",
+            "description": "Total financing amount requested by the corporation.",
+            "example": 5000000
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO currency code representing the currency of the requested loan.",
+            "example": "USD"
+          },
+          "loanTenureMonths": {
+            "type": "integer",
+            "description": "Total loan tenure in months for repayment of the corporate facility.",
+            "example": 60
+          },
+          "companyRevenue": {
+            "type": "number",
+            "description": "Total annual revenue generated by the corporation.",
+            "example": 20000000
+          },
+          "ebitda": {
+            "type": "number",
+            "description": "Earnings Before Interest, Taxes, Depreciation, and Amortization used for financial evaluation.",
+            "example": 3500000
+          },
+          "collateralDescription": {
+            "type": "string",
+            "description": "Description of assets pledged as collateral to secure the loan.",
+            "example": "Commercial real estate"
+          },
+          "collateralValue": {
+            "type": "number",
+            "description": "Estimated market value of the collateral assets provided for the loan.",
+            "example": 8000000
+          },
+          "loanPurpose": {
+            "type": "string",
+            "description": "Purpose of the corporate loan such as infrastructure development or capital expansion.",
+            "example": "Infrastructure expansion"
+          },
+          "companyCreditRating": {
+            "type": "string",
+            "description": "Credit rating assigned to the corporation by a recognized credit rating agency.",
+            "example": "BBB+"
+          }
+        }
+      },
+      "LoanSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "loanApplicationId": {
+            "type": "string",
+            "example": "APP-88221111"
+          },
+          "applicationReference": {
+            "type": "string",
+            "example": "CON-LOAN-99221"
+          },
+          "status": {
+            "type": "string",
+            "example": "APPROVED"
+          },
+          "approvedAmount": {
+            "type": "number",
+            "example": 50000
+          },
+          "currency": {
+            "type": "string",
+            "example": "USD"
+          },
+          "interestRate": {
+            "type": "number",
+            "example": 7.5
+          },
+          "tenureMonths": {
+            "type": "integer",
+            "example": 24
+          },
+          "monthlyInstallment": {
+            "type": "number",
+            "example": 2250
+          },
+          "processingFee": {
+            "type": "number",
+            "example": 150
+          },
+          "insuranceFee": {
+            "type": "number",
+            "example": 60
+          },
+          "disbursementDate": {
+            "type": "string",
+            "example": "2026-04-01"
+          },
+          "loanAccountNumber": {
+            "type": "string",
+            "example": "LN-8837221"
+          },
+          "processingChannel": {
+            "type": "string",
+            "example": "API_GATEWAY"
+          },
+          "approvalAuthority": {
+            "type": "string",
+            "example": "Credit Risk Engine"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-13T16:21:00Z"
+          }
+        }
+      },
+      "LoanErrorResponse": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "LOAN-4031"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Loan eligibility criteria not met"
+          },
+          "errorCategory": {
+            "type": "string",
+            "example": "CREDIT_CHECK_FAILED"
+          },
+          "errorSource": {
+            "type": "string",
+            "example": "LENDING_SERVICE"
+          },
+          "path": {
+            "type": "string",
+            "example": "/lending/consumer-loans"
+          },
+          "status": {
+            "type": "integer",
+            "example": 403
+          },
+          "traceId": {
+            "type": "string",
+            "example": "TRACE-992211"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-13T16:21:30Z"
+          }
+        }
+      }
+    }
+  }
+}

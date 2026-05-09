@@ -1,0 +1,565 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Manage Funds API",
+    "description": "Enterprise Banking APIs for managing balances, transfers, liquidity allocation, and treasury movements across operating bank accounts and embedded banking accounts used by fintech platforms.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Banking API Support",
+      "email": "support@bankapi.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://banking.apiwiz.io/v1",
+      "description": "Development Server"
+    },
+    {
+      "url": "https://uat.api.banking-platform.com/v1",
+      "description": "UAT Server"
+    },
+    {
+      "url": "https://api.banking-platform.com/v1",
+      "description": "Production Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Operating Accounts",
+      "description": "APIs used by enterprises to manage liquidity and transfers across traditional bank operating accounts."
+    },
+    {
+      "name": "Embedded Accounts",
+      "description": "APIs used by fintech partners to manage balances and fund allocations within embedded banking accounts."
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": [
+        "managefunds"
+      ]
+    }
+  ],
+  "paths": {
+    "/accounts/operating/manage-funds": {
+      "post": {
+        "tags": [
+          "Operating Accounts"
+        ],
+        "summary": "Manage Funds via Operating Bank Accounts",
+        "description": "Performs fund management operations including balance inquiry, internal transfers, treasury allocations, and liquidity adjustments across enterprise operating bank accounts.",
+        "operationId": "manageOperatingAccounts",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OperatingAccountRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Funds operation completed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManageFundsSuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Account not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "BANK-4041",
+                  "errorMessage": "Operating account could not be found.",
+                  "errorType": "BUSINESS_ERROR",
+                  "status": 404,
+                  "service": "manage-funds-service",
+                  "operation": "manageOperatingAccounts",
+                  "traceId": "trace-772211bb-9912",
+                  "timestamp": "2026-03-13T14:05:10Z",
+                  "details": [
+                    "The operating account number provided in the request does not exist in the banking system. Verify that the account number is correct and active before initiating the funds management operation."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/embedded/manage-funds": {
+      "post": {
+        "tags": [
+          "Embedded Accounts"
+        ],
+        "summary": "Manage Funds via Embedded Bank Accounts",
+        "description": "Allows fintech partners or digital platforms to perform balance inquiries, wallet funding, settlement transfers, and fund allocations within embedded banking accounts.",
+        "operationId": "manageEmbeddedAccounts",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmbeddedAccountRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Embedded account funds operation successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManageFundsSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "BANK-4002",
+                  "errorMessage": "Embedded account ID format is invalid.",
+                  "errorType": "VALIDATION_ERROR",
+                  "status": 400,
+                  "service": "manage-funds-service",
+                  "operation": "manageEmbeddedAccounts",
+                  "traceId": "trace-661144bb-8821",
+                  "timestamp": "2026-03-13T14:08:12Z",
+                  "details": [
+                    "The embeddedAccountId provided in the request does not match the required account identifier format. Ensure the embedded account ID follows the expected pattern before submitting the funds management request."
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal processing error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Authorization": {
+        "in": "header",
+        "required": true,
+        "description": "OAuth2 Bearer access token.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+        "name": "Authorization"
+      },
+      "X-Correlation-ID": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123"
+        },
+        "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123",
+        "name": "X-Correlation-ID"
+      },
+      "x-tenant": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder"
+        },
+        "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder",
+        "name": "x-tenant"
+      },
+      "x-application-type": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "ApiSandbox"
+        },
+        "example": "ApiSandbox",
+        "name": "x-application-type"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://auth.bankapi.com/oauth/token",
+            "scopes": {
+              "managefunds": "Allows management of bank account funds"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "OperatingAccountRequest": {
+        "type": "object",
+        "required": [
+          "accountNumber",
+          "operationType",
+          "amount"
+        ],
+        "properties": {
+          "transactionReference": {
+            "type": "string",
+            "description": "Unique reference identifier assigned by the client system to track the fund management transaction.",
+            "example": "TXN-8837211"
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "Primary operating bank account number from which the funds operation will be initiated.",
+            "example": "123456789012"
+          },
+          "accountName": {
+            "type": "string",
+            "description": "Registered name of the enterprise or organization that owns the operating bank account.",
+            "example": "ABC Manufacturing Ltd"
+          },
+          "branchCode": {
+            "type": "string",
+            "description": "Bank branch identifier associated with the operating account used for routing or verification purposes.",
+            "example": "NYC-001"
+          },
+          "operationType": {
+            "type": "string",
+            "description": "Type of funds operation to be performed on the operating account.",
+            "enum": [
+              "BALANCE_INQUIRY",
+              "TRANSFER",
+              "LIQUIDITY_ALLOCATION"
+            ]
+          },
+          "sourceAccount": {
+            "type": "string",
+            "description": "Account number from which the funds will be debited during a transfer or liquidity movement.",
+            "example": "123456789012"
+          },
+          "destinationAccount": {
+            "type": "string",
+            "description": "Account number that will receive the funds during a transfer operation.",
+            "example": "998877665544"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of funds to be transferred or allocated as part of the operation.",
+            "example": 25000
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO currency code representing the currency of the transaction.",
+            "example": "USD"
+          },
+          "treasuryCode": {
+            "type": "string",
+            "description": "Internal treasury reference code used by the enterprise treasury management system.",
+            "example": "TRSY-7782"
+          },
+          "paymentPurpose": {
+            "type": "string",
+            "description": "Description of the business purpose or reason for the funds transfer or allocation.",
+            "example": "Vendor settlement"
+          },
+          "initiatedBy": {
+            "type": "string",
+            "description": "Identifier of the system, user, or application that initiated the funds operation.",
+            "example": "TREASURY_SYSTEM"
+          },
+          "channel": {
+            "type": "string",
+            "description": "Channel through which the request is initiated such as API gateway, mobile banking, or internal system.",
+            "example": "API_GATEWAY"
+          },
+          "deviceId": {
+            "type": "string",
+            "description": "Unique identifier of the device or system submitting the request.",
+            "example": "SYS-77821"
+          },
+          "remarks": {
+            "type": "string",
+            "description": "Optional notes or comments related to the transaction.",
+            "example": "Liquidity adjustment"
+          }
+        }
+      },
+      "EmbeddedAccountRequest": {
+        "type": "object",
+        "required": [
+          "embeddedAccountId",
+          "operationType",
+          "amount"
+        ],
+        "properties": {
+          "transactionReference": {
+            "type": "string",
+            "description": "Unique reference identifier provided by the fintech platform for tracking the transaction.",
+            "example": "EMB-99281"
+          },
+          "embeddedAccountId": {
+            "type": "string",
+            "description": "Unique identifier of the embedded banking account associated with the fintech platform.",
+            "example": "EMB-ACC-99281"
+          },
+          "customerId": {
+            "type": "string",
+            "description": "Unique identifier of the customer associated with the embedded account.",
+            "example": "CUST-88912"
+          },
+          "partnerId": {
+            "type": "string",
+            "description": "Identifier of the fintech partner or platform initiating the request.",
+            "example": "FINTECH-PLATFORM-01"
+          },
+          "walletId": {
+            "type": "string",
+            "description": "Unique identifier of the digital wallet within the embedded banking ecosystem.",
+            "example": "WALLET-778211"
+          },
+          "operationType": {
+            "type": "string",
+            "description": "Type of operation to perform within the embedded banking environment.",
+            "enum": [
+              "BALANCE_CHECK",
+              "FUND_ALLOCATION",
+              "SETTLEMENT_TRANSFER"
+            ]
+          },
+          "sourceWalletId": {
+            "type": "string",
+            "description": "Wallet identifier from which the funds will be debited.",
+            "example": "WALLET-889211"
+          },
+          "destinationWalletId": {
+            "type": "string",
+            "description": "Wallet identifier that will receive the funds during allocation or settlement.",
+            "example": "WALLET-778122"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of funds to be transferred or allocated between embedded accounts or wallets.",
+            "example": 1500
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO currency code used for the transaction.",
+            "example": "USD"
+          },
+          "availableBalance": {
+            "type": "number",
+            "description": "Current available balance in the embedded account before performing the operation.",
+            "example": 50000
+          },
+          "reservedBalance": {
+            "type": "number",
+            "description": "Amount currently reserved or locked for pending transactions within the account.",
+            "example": 5000
+          },
+          "settlementAccount": {
+            "type": "string",
+            "description": "Identifier of the settlement account used for clearing transactions with the partner bank.",
+            "example": "SETTLE-001"
+          },
+          "channel": {
+            "type": "string",
+            "description": "Source channel from which the request originates such as fintech API, mobile app, or partner system.",
+            "example": "FINTECH_API"
+          },
+          "remarks": {
+            "type": "string",
+            "description": "Optional remarks or additional context for the transaction.",
+            "example": "Wallet funding"
+          }
+        }
+      },
+      "ManageFundsSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "transactionId": {
+            "type": "string",
+            "example": "MF-99821122"
+          },
+          "transactionReference": {
+            "type": "string",
+            "example": "TXN-8837211"
+          },
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "operationType": {
+            "type": "string",
+            "example": "TRANSFER"
+          },
+          "accountNumber": {
+            "type": "string",
+            "example": "123456789012"
+          },
+          "openingBalance": {
+            "type": "number",
+            "example": 150000
+          },
+          "transactionAmount": {
+            "type": "number",
+            "example": 25000
+          },
+          "closingBalance": {
+            "type": "number",
+            "example": 175000
+          },
+          "currency": {
+            "type": "string",
+            "example": "USD"
+          },
+          "processingChannel": {
+            "type": "string",
+            "example": "API_GATEWAY"
+          },
+          "settlementStatus": {
+            "type": "string",
+            "example": "COMPLETED"
+          },
+          "approvalCode": {
+            "type": "string",
+            "example": "APR-88221"
+          },
+          "processingTimeMs": {
+            "type": "integer",
+            "example": 420
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-13T10:22:33Z"
+          },
+          "message": {
+            "type": "string",
+            "example": "Funds operation completed successfully"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "BANK-4001"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Invalid request payload"
+          },
+          "errorCategory": {
+            "type": "string",
+            "example": "VALIDATION_ERROR"
+          },
+          "errorSource": {
+            "type": "string",
+            "example": "MANAGE_FUNDS_SERVICE"
+          },
+          "traceId": {
+            "type": "string",
+            "example": "TRACE-882211"
+          },
+          "path": {
+            "type": "string",
+            "example": "/accounts/operating/manage-funds"
+          },
+          "status": {
+            "type": "integer",
+            "example": 400
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-13T10:23:01Z"
+          }
+        }
+      }
+    }
+  }
+}

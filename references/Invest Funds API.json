@@ -1,0 +1,694 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Invest Funds API",
+    "description": "Enterprise Banking APIs that enable customers, fintech platforms, and corporate clients to invest funds into financial instruments such as government bonds, corporate bonds, equities listed on stock exchanges, and digital assets including cryptocurrencies. The API supports secure investment execution, transaction tracking, and portfolio management.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Investment API Support",
+      "email": "support@bankapi.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://banking.apiwiz.io/v1",
+      "description": "Development Server"
+    },
+    {
+      "url": "https://uat.api.banking-platform.com/v1",
+      "description": "UAT Server"
+    },
+    {
+      "url": "https://api.banking-platform.com/v1",
+      "description": "Production Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Traditional Investments",
+      "description": "APIs for investing in traditional financial instruments such as government bonds, corporate bonds, and publicly traded stocks."
+    },
+    {
+      "name": "Digital Assets",
+      "description": "APIs for investing in blockchain-based digital assets such as cryptocurrencies."
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": [
+        "investments"
+      ]
+    }
+  ],
+  "paths": {
+    "/investments/bonds": {
+      "post": {
+        "summary": "Invest Funds via Bonds",
+        "description": "Allows investors to purchase government or corporate bonds. The API processes the bond purchase order, validates the investor account, allocates the bond instrument, and records the investment transaction.",
+        "operationId": "bondInvestment",
+        "tags": [
+          "Traditional Investments"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BondInvestmentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Bond investment successfully executed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvestmentSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid investment request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvestmentErrorResponse"
+                },
+                "example": {
+                  "errorCode": "INVEST-4001",
+                  "errorMessage": "Bond symbol is invalid or not supported.",
+                  "errorType": "VALIDATION_ERROR",
+                  "status": 400,
+                  "service": "investment-service",
+                  "operation": "bondInvestment",
+                  "traceId": "trace-771122aa-8891",
+                  "timestamp": "2026-03-13T18:05:11Z",
+                  "details": [
+                    "The bondSymbol provided in the request does not match any supported bond instrument in the investment catalog. Verify the bond symbol and ensure the instrument is available for trading before submitting the investment request."
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvestmentErrorResponse"
+                },
+                "example": {
+                  "errorCode": "INVEST-4011",
+                  "errorMessage": "Unauthorized investment request.",
+                  "errorType": "AUTHENTICATION_ERROR",
+                  "status": 401,
+                  "service": "investment-service",
+                  "operation": "bondInvestment",
+                  "traceId": "trace-662211bb-9921",
+                  "timestamp": "2026-03-13T18:06:40Z",
+                  "details": [
+                    "The request could not be authenticated because the access token is missing or invalid. Provide a valid OAuth2 bearer token in the Authorization header before attempting the bond investment transaction."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal processing error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvestmentErrorResponse"
+                },
+                "example": {
+                  "errorCode": "INVEST-5001",
+                  "errorMessage": "Investment transaction processing failed.",
+                  "errorType": "SYSTEM_ERROR",
+                  "status": 500,
+                  "service": "investment-service",
+                  "operation": "bondInvestment",
+                  "traceId": "trace-551122cc-7721",
+                  "timestamp": "2026-03-13T18:08:02Z",
+                  "details": [
+                    "An unexpected error occurred while processing the bond investment order in the investment execution system. Retry the request later or contact system support if the issue persists."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/investments/stocks": {
+      "post": {
+        "summary": "Invest Funds via Stocks",
+        "description": "Allows investors to purchase publicly traded shares on supported stock exchanges. The API submits an order to the trading engine and confirms execution details.",
+        "operationId": "stockInvestment",
+        "tags": [
+          "Traditional Investments"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StockInvestmentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stock purchase successfully executed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvestmentSuccessResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Stock order rejected by trading system",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvestmentErrorResponse"
+                },
+                "example": {
+                  "errorCode": "INVEST-4221",
+                  "errorMessage": "Stock order rejected due to insufficient account balance.",
+                  "errorType": "BUSINESS_ERROR",
+                  "status": 422,
+                  "service": "investment-service",
+                  "operation": "stockInvestment",
+                  "traceId": "trace-772211dd-8812",
+                  "timestamp": "2026-03-13T18:12:19Z",
+                  "details": [
+                    "The account balance linked to the investment account is insufficient to cover the requested stock purchase amount. Ensure adequate funds are available before submitting the stock investment order."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvestmentErrorResponse"
+                },
+                "example": {
+                  "errorCode": "INVEST-5002",
+                  "errorMessage": "Stock trading engine processing error.",
+                  "errorType": "SYSTEM_ERROR",
+                  "status": 500,
+                  "service": "investment-service",
+                  "operation": "stockInvestment",
+                  "traceId": "trace-881122aa-6631",
+                  "timestamp": "2026-03-13T18:14:05Z",
+                  "details": [
+                    "The stock trading engine encountered an unexpected processing error while executing the investment order. Retry the transaction after some time or contact system support if the problem persists."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/investments/crypto": {
+      "post": {
+        "summary": "Invest Funds via Cryptocurrency",
+        "description": "Allows investors to purchase supported cryptocurrencies via integrated crypto exchanges. The API validates wallet details, executes the crypto purchase, and records the blockchain transaction reference.",
+        "operationId": "cryptoInvestment",
+        "tags": [
+          "Digital Assets"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CryptoInvestmentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cryptocurrency purchase successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvestmentSuccessResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Investment rejected due to compliance restrictions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvestmentErrorResponse"
+                },
+                "example": {
+                  "errorCode": "INVEST-4031",
+                  "errorMessage": "Cryptocurrency investment blocked due to regulatory restrictions.",
+                  "errorType": "COMPLIANCE_ERROR",
+                  "status": 403,
+                  "service": "investment-service",
+                  "operation": "cryptoInvestment",
+                  "traceId": "trace-771144aa-5521",
+                  "timestamp": "2026-03-13T18:17:34Z",
+                  "details": [
+                    "The requested cryptocurrency investment is restricted due to regulatory or compliance policies applicable to the investor's jurisdiction. Verify regulatory eligibility or use a supported investment instrument."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Crypto exchange processing error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvestmentErrorResponse"
+                },
+                "example": {
+                  "errorCode": "INVEST-5003",
+                  "errorMessage": "Crypto exchange transaction processing failed.",
+                  "errorType": "SYSTEM_ERROR",
+                  "status": 500,
+                  "service": "investment-service",
+                  "operation": "cryptoInvestment",
+                  "traceId": "trace-661122cc-7723",
+                  "timestamp": "2026-03-13T18:19:02Z",
+                  "details": [
+                    "The integrated cryptocurrency exchange failed to execute the investment transaction due to an internal system issue. Retry the investment request later once the exchange service becomes available."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Authorization": {
+        "in": "header",
+        "required": true,
+        "description": "OAuth2 Bearer access token.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+        "name": "Authorization"
+      },
+      "X-Correlation-ID": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123"
+        },
+        "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123",
+        "name": "X-Correlation-ID"
+      },
+      "x-tenant": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder"
+        },
+        "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder",
+        "name": "x-tenant"
+      },
+      "x-application-type": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "ApiSandbox"
+        },
+        "example": "ApiSandbox",
+        "name": "x-application-type"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://api.com/oauth/token",
+            "scopes": {
+              "investments": "Allows investment transactions"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "BondInvestmentRequest": {
+        "type": "object",
+        "required": [
+          "investmentReference",
+          "investorId",
+          "bondSymbol",
+          "investmentAmount"
+        ],
+        "properties": {
+          "investmentReference": {
+            "type": "string",
+            "description": "Unique identifier generated by the client system to track the bond investment transaction.",
+            "example": "BOND-INV-88221"
+          },
+          "investorId": {
+            "type": "string",
+            "description": "Unique identifier assigned to the investor within the banking or investment platform.",
+            "example": "INV-77221"
+          },
+          "investorAccountNumber": {
+            "type": "string",
+            "description": "Bank or brokerage account number from which the investment funds will be debited.",
+            "example": "1234567890"
+          },
+          "bondIssuer": {
+            "type": "string",
+            "description": "Name of the institution issuing the bond instrument.",
+            "example": "Government Treasury"
+          },
+          "bondType": {
+            "type": "string",
+            "description": "Category of the bond instrument such as treasury bonds, municipal bonds, or corporate bonds.",
+            "example": "TREASURY_BOND"
+          },
+          "bondSymbol": {
+            "type": "string",
+            "description": "Unique trading symbol representing the bond instrument in the investment marketplace.",
+            "example": "TBOND2030"
+          },
+          "investmentAmount": {
+            "type": "number",
+            "description": "Total amount of funds allocated by the investor to purchase the bond.",
+            "example": 10000
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO currency code representing the currency used for the bond investment.",
+            "example": "USD"
+          },
+          "couponRate": {
+            "type": "number",
+            "description": "Annual interest rate paid by the bond issuer to investors.",
+            "example": 5.5
+          },
+          "maturityDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Date on which the bond matures and the principal amount will be repaid to the investor.",
+            "example": "2030-12-31"
+          },
+          "investmentChannel": {
+            "type": "string",
+            "description": "Channel through which the investment request is submitted.",
+            "example": "MOBILE_BANKING"
+          },
+          "portfolioId": {
+            "type": "string",
+            "description": "Identifier of the investment portfolio where the bond asset will be allocated.",
+            "example": "PORT-88221"
+          }
+        }
+      },
+      "StockInvestmentRequest": {
+        "type": "object",
+        "properties": {
+          "investmentReference": {
+            "type": "string",
+            "description": "Unique identifier assigned to the stock investment order for tracking purposes.",
+            "example": "STOCK-INV-66121"
+          },
+          "investorId": {
+            "type": "string",
+            "description": "Unique identifier representing the investor within the investment platform.",
+            "example": "INV-77221"
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "Brokerage or bank account number from which the stock purchase will be funded.",
+            "example": "56788990011"
+          },
+          "stockExchange": {
+            "type": "string",
+            "description": "Name of the stock exchange where the stock is listed and traded.",
+            "example": "NASDAQ"
+          },
+          "stockSymbol": {
+            "type": "string",
+            "description": "Ticker symbol representing the stock being purchased.",
+            "example": "AAPL"
+          },
+          "orderType": {
+            "type": "string",
+            "description": "Type of order placed for stock purchase such as market order or limit order.",
+            "example": "MARKET"
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Number of shares the investor intends to purchase.",
+            "example": 10
+          },
+          "pricePerShare": {
+            "type": "number",
+            "description": "Price per share at which the investor intends to buy the stock.",
+            "example": 185
+          },
+          "totalInvestment": {
+            "type": "number",
+            "description": "Total amount required to execute the stock purchase order.",
+            "example": 1850
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO currency code used for the stock transaction.",
+            "example": "USD"
+          },
+          "portfolioId": {
+            "type": "string",
+            "description": "Identifier of the investment portfolio where the purchased stock will be allocated.",
+            "example": "PORT-88221"
+          },
+          "investmentChannel": {
+            "type": "string",
+            "description": "Channel through which the stock investment request was initiated.",
+            "example": "WEB_PORTAL"
+          }
+        }
+      },
+      "CryptoInvestmentRequest": {
+        "type": "object",
+        "properties": {
+          "investmentReference": {
+            "type": "string",
+            "description": "Unique identifier assigned to track the cryptocurrency investment transaction.",
+            "example": "CRYPTO-INV-88221"
+          },
+          "investorId": {
+            "type": "string",
+            "description": "Unique identifier representing the investor initiating the cryptocurrency purchase.",
+            "example": "INV-77221"
+          },
+          "walletId": {
+            "type": "string",
+            "description": "Identifier of the digital wallet associated with the investor account.",
+            "example": "WALLET-88221"
+          },
+          "cryptoAsset": {
+            "type": "string",
+            "description": "Symbol representing the cryptocurrency asset being purchased.",
+            "example": "BTC"
+          },
+          "cryptoNetwork": {
+            "type": "string",
+            "description": "Blockchain network on which the cryptocurrency operates.",
+            "example": "Bitcoin"
+          },
+          "walletAddress": {
+            "type": "string",
+            "description": "Destination blockchain wallet address where the purchased cryptocurrency will be transferred.",
+            "example": "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"
+          },
+          "purchaseAmount": {
+            "type": "number",
+            "description": "Total amount of fiat currency used to purchase the cryptocurrency.",
+            "example": 5000
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO currency code representing the fiat currency used for the purchase.",
+            "example": "USD"
+          },
+          "exchangeRate": {
+            "type": "number",
+            "description": "Current exchange rate between the fiat currency and the cryptocurrency asset.",
+            "example": 60000
+          },
+          "cryptoQuantity": {
+            "type": "number",
+            "description": "Total quantity of cryptocurrency that will be credited to the investor wallet.",
+            "example": 0.083
+          },
+          "portfolioId": {
+            "type": "string",
+            "description": "Identifier of the investment portfolio where the digital asset will be recorded.",
+            "example": "PORT-88221"
+          },
+          "investmentChannel": {
+            "type": "string",
+            "description": "Channel through which the cryptocurrency investment request was initiated.",
+            "example": "API_GATEWAY"
+          }
+        }
+      },
+      "InvestmentSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "investmentId": {
+            "type": "string",
+            "example": "INVEST-88221111"
+          },
+          "investmentReference": {
+            "type": "string",
+            "example": "STOCK-INV-66121"
+          },
+          "status": {
+            "type": "string",
+            "example": "EXECUTED"
+          },
+          "assetType": {
+            "type": "string",
+            "example": "STOCK"
+          },
+          "assetSymbol": {
+            "type": "string",
+            "example": "AAPL"
+          },
+          "investmentAmount": {
+            "type": "number",
+            "example": 1850
+          },
+          "currency": {
+            "type": "string",
+            "example": "USD"
+          },
+          "executionPrice": {
+            "type": "number",
+            "example": 185
+          },
+          "quantity": {
+            "type": "number",
+            "example": 10
+          },
+          "portfolioId": {
+            "type": "string",
+            "example": "PORT-88221"
+          },
+          "processingChannel": {
+            "type": "string",
+            "example": "API"
+          },
+          "settlementDate": {
+            "type": "string",
+            "example": "2026-03-15"
+          },
+          "transactionReference": {
+            "type": "string",
+            "example": "TXN-552211"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-12T17:02:00Z"
+          }
+        }
+      },
+      "InvestmentErrorResponse": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "INVEST-4021"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Insufficient balance for investment"
+          },
+          "errorType": {
+            "type": "string",
+            "example": "VALIDATION_ERROR"
+          },
+          "traceId": {
+            "type": "string",
+            "example": "TRACE-992211"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-12T17:02:30Z"
+          }
+        }
+      }
+    }
+  }
+}

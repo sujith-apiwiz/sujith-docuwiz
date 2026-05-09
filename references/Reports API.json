@@ -1,0 +1,841 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Reports API",
+    "description": "Enterprise Banking APIs for generating financial and operational reports. Reports can be generated and delivered through multiple channels including corporate banking platforms, self-service dashboards, automated email delivery, secure SFTP distribution, and custom Statement of Account (SOA) integrations for enterprise systems.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Banking API Support",
+      "email": "support@banking-platform.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://banking.apiwiz.io/v1",
+      "description": "Development Server"
+    },
+    {
+      "url": "https://uat.api.banking-platform.com/v1",
+      "description": "UAT Server"
+    },
+    {
+      "url": "https://api.banking-platform.com/v1",
+      "description": "Production Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Report Generation",
+      "description": "APIs for generating reports through corporate platforms and dashboards."
+    },
+    {
+      "name": "Report Delivery",
+      "description": "APIs for distributing generated reports via email, SFTP, or external integrations."
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": [
+        "reports"
+      ]
+    }
+  ],
+  "paths": {
+    "/reports/corporate-platform": {
+      "post": {
+        "summary": "Generate Report via Corporate Banking Platform",
+        "description": "Generates financial or operational reports accessible through the corporate banking platform.",
+        "operationId": "corporatePlatformReport",
+        "tags": [
+          "Report Generation"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CorporateReportRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Corporate report generated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid report request parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal report generation error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/dashboard": {
+      "post": {
+        "summary": "Generate Report via Self-Service Dashboard",
+        "description": "Generates reports that users can view or download through the banking analytics dashboard.",
+        "operationId": "dashboardReport",
+        "tags": [
+          "Report Generation"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DashboardReportRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dashboard report generated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid dashboard report request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Report filters or data parameters invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Dashboard reporting system failure.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/email": {
+      "post": {
+        "summary": "Deliver Report via Automated Email",
+        "description": "Generates reports and automatically distributes them to configured recipients via email.",
+        "operationId": "emailReport",
+        "tags": [
+          "Report Delivery"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailReportRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Report generated and delivered via email.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid email delivery configuration.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Email delivery processing error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/sftp": {
+      "post": {
+        "summary": "Deliver Report via SFTP",
+        "description": "Generates reports and securely transfers them to configured SFTP destinations for enterprise clients.",
+        "operationId": "sftpReport",
+        "tags": [
+          "Report Delivery"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SftpReportRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Report successfully transferred to SFTP.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid SFTP configuration.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "SFTP transfer failure.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/custom-soa": {
+      "post": {
+        "summary": "Generate Custom SOA Reports",
+        "description": "Generates customized Statement of Account (SOA) reports for enterprise integrations and banking clients.",
+        "operationId": "customSoaReport",
+        "tags": [
+          "Report Generation"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomSoaReportRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SOA report generated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid SOA report request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "SOA generation processing error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Authorization": {
+        "name": "Authorization",
+        "in": "header",
+        "required": true,
+        "description": "OAuth2 Bearer access token.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+      },
+      "X-Correlation-ID": {
+        "name": "X-Correlation-ID",
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123"
+      },
+      "x-tenant": {
+        "name": "x-tenant",
+        "in": "header",
+        "required": false,
+        "description": "Tenant identifier used for multi-tenant routing.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder"
+      },
+      "x-application-type": {
+        "name": "x-application-type",
+        "in": "header",
+        "required": false,
+        "description": "Application environment initiating the request.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "ApiSandbox"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://api.banking-platform.com/oauth/token",
+            "scopes": {
+              "reports": "Allows generation and retrieval of reports"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "CorporateReportRequest": {
+        "type": "object",
+        "required": [
+          "reportReference",
+          "reportType",
+          "accountNumber"
+        ],
+        "properties": {
+          "reportReference": {
+            "type": "string",
+            "description": "Unique identifier used by the client system to track the report generation request.",
+            "example": "REP-88321"
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "Corporate bank account number for which the report is being generated.",
+            "example": "123456789012"
+          },
+          "customerId": {
+            "type": "string",
+            "description": "Unique identifier of the corporate customer requesting the report.",
+            "example": "CUST-88221"
+          },
+          "reportType": {
+            "type": "string",
+            "description": "Type of report requested through the corporate banking platform.",
+            "example": "TRANSACTION_REPORT"
+          },
+          "reportFormat": {
+            "type": "string",
+            "description": "File format in which the report should be generated.",
+            "example": "PDF"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Start date of the reporting period.",
+            "example": "2026-01-01"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date",
+            "description": "End date of the reporting period.",
+            "example": "2026-01-31"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency used to filter report transactions.",
+            "example": "USD"
+          },
+          "branchCode": {
+            "type": "string",
+            "description": "Branch identifier associated with the corporate account.",
+            "example": "NYC-001"
+          },
+          "generatedBy": {
+            "type": "string",
+            "description": "Identifier of the system or user requesting the report.",
+            "example": "CORPORATE_PORTAL"
+          },
+          "includeSubAccounts": {
+            "type": "boolean",
+            "description": "Indicates whether transactions from linked sub-accounts should be included.",
+            "example": true
+          }
+        }
+      },
+      "DashboardReportRequest": {
+        "type": "object",
+        "required": [
+          "reportReference",
+          "reportType"
+        ],
+        "properties": {
+          "reportReference": {
+            "type": "string",
+            "description": "Unique identifier for the dashboard report request.",
+            "example": "REP-99112"
+          },
+          "reportType": {
+            "type": "string",
+            "description": "Type of analytical report requested for the dashboard.",
+            "example": "ACCOUNT_ANALYTICS"
+          },
+          "dashboardId": {
+            "type": "string",
+            "description": "Identifier of the dashboard requesting the report.",
+            "example": "DASH-8821"
+          },
+          "userId": {
+            "type": "string",
+            "description": "Identifier of the dashboard user requesting the report.",
+            "example": "USR-11221"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Start date used to filter report data.",
+            "example": "2026-02-01"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date",
+            "description": "End date used to filter report data.",
+            "example": "2026-02-28"
+          },
+          "metrics": {
+            "type": "array",
+            "description": "List of metrics or KPIs to be included in the report.",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "TOTAL_TRANSACTIONS",
+              "AVERAGE_BALANCE"
+            ]
+          },
+          "visualizationType": {
+            "type": "string",
+            "description": "Preferred visualization format used in the dashboard.",
+            "example": "BAR_CHART"
+          },
+          "reportFormat": {
+            "type": "string",
+            "description": "Export format for downloading the report.",
+            "example": "CSV"
+          },
+          "generatedBy": {
+            "type": "string",
+            "description": "System or user initiating the report request.",
+            "example": "ANALYTICS_DASHBOARD"
+          }
+        }
+      },
+      "EmailReportRequest": {
+        "type": "object",
+        "required": [
+          "reportReference",
+          "reportType",
+          "recipientEmail"
+        ],
+        "properties": {
+          "reportReference": {
+            "type": "string",
+            "description": "Unique reference identifier for the report delivery request.",
+            "example": "REP-77421"
+          },
+          "reportType": {
+            "type": "string",
+            "description": "Type of report that will be generated and sent via email.",
+            "example": "STATEMENT_OF_ACCOUNT"
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "Bank account number associated with the report.",
+            "example": "123456789012"
+          },
+          "recipientEmail": {
+            "type": "string",
+            "description": "Email address where the generated report will be delivered.",
+            "example": "finance@company.com"
+          },
+          "cc": {
+            "type": "string",
+            "description": "Optional email address to receive a carbon copy of the report.",
+            "example": "audit@company.com"
+          },
+          "reportFormat": {
+            "type": "string",
+            "description": "Format of the report file attached to the email.",
+            "example": "PDF"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date of the reporting period.",
+            "example": "2026-02-01"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date of the reporting period.",
+            "example": "2026-02-28"
+          },
+          "scheduleType": {
+            "type": "string",
+            "description": "Delivery schedule for the report.",
+            "example": "MONTHLY"
+          },
+          "generatedBy": {
+            "type": "string",
+            "description": "System initiating the email report delivery.",
+            "example": "CORPORATE_PORTAL"
+          }
+        }
+      },
+      "SftpReportRequest": {
+        "type": "object",
+        "required": [
+          "reportReference",
+          "reportType",
+          "sftpHost"
+        ],
+        "properties": {
+          "reportReference": {
+            "type": "string",
+            "description": "Unique identifier for the SFTP report delivery request.",
+            "example": "REP-88222"
+          },
+          "reportType": {
+            "type": "string",
+            "description": "Type of report to generate and transfer via SFTP.",
+            "example": "TRANSACTION_REPORT"
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "Bank account number associated with the report.",
+            "example": "123456789012"
+          },
+          "sftpHost": {
+            "type": "string",
+            "description": "Hostname or IP address of the destination SFTP server.",
+            "example": "sftp.client-system.com"
+          },
+          "sftpPort": {
+            "type": "integer",
+            "description": "Port used to connect to the SFTP server.",
+            "example": 22
+          },
+          "sftpUsername": {
+            "type": "string",
+            "description": "Username used for SFTP authentication.",
+            "example": "client_sftp_user"
+          },
+          "destinationPath": {
+            "type": "string",
+            "description": "Destination directory where the report file will be uploaded.",
+            "example": "/reports/financial"
+          },
+          "reportFormat": {
+            "type": "string",
+            "description": "File format of the generated report.",
+            "example": "CSV"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date for report data.",
+            "example": "2026-02-01"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date for report data.",
+            "example": "2026-02-28"
+          }
+        }
+      },
+      "CustomSoaReportRequest": {
+        "type": "object",
+        "required": [
+          "reportReference",
+          "accountNumber"
+        ],
+        "properties": {
+          "reportReference": {
+            "type": "string",
+            "description": "Unique reference identifier used to track the SOA generation request.",
+            "example": "SOA-99211"
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "Bank account number for which the Statement of Account will be generated.",
+            "example": "123456789012"
+          },
+          "customerId": {
+            "type": "string",
+            "description": "Unique identifier of the customer requesting the SOA report.",
+            "example": "CUST-88221"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date of the reporting period.",
+            "example": "2026-01-01"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "End date of the reporting period.",
+            "example": "2026-01-31"
+          },
+          "reportFormat": {
+            "type": "string",
+            "description": "Output format of the SOA report.",
+            "example": "PDF"
+          },
+          "includeRunningBalance": {
+            "type": "boolean",
+            "description": "Indicates whether the report should include running balances for each transaction.",
+            "example": true
+          },
+          "includeOpeningBalance": {
+            "type": "boolean",
+            "description": "Indicates whether the opening balance should be included in the report.",
+            "example": true
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency used to filter the account transactions.",
+            "example": "USD"
+          },
+          "generatedBy": {
+            "type": "string",
+            "description": "System or integration initiating the SOA report generation.",
+            "example": "ENTERPRISE_INTEGRATION"
+          }
+        }
+      },
+      "ReportSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "reportId": {
+            "type": "string",
+            "example": "REP-992882"
+          },
+          "reportReference": {
+            "type": "string",
+            "example": "REP-88321"
+          },
+          "status": {
+            "type": "string",
+            "example": "GENERATED"
+          },
+          "reportType": {
+            "type": "string",
+            "example": "TRANSACTION_REPORT"
+          },
+          "generatedBy": {
+            "type": "string",
+            "example": "SYSTEM"
+          },
+          "fileFormat": {
+            "type": "string",
+            "example": "PDF"
+          },
+          "fileSizeKB": {
+            "type": "number",
+            "example": 820
+          },
+          "recordCount": {
+            "type": "integer",
+            "example": 1250
+          },
+          "deliveryChannel": {
+            "type": "string",
+            "example": "EMAIL"
+          },
+          "downloadUrl": {
+            "type": "string",
+            "example": "https://api.banking-platform.com/reports/REP-992882/download"
+          },
+          "generatedAt": {
+            "type": "string",
+            "example": "2026-03-12T18:40:00Z"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "REPORT-4001"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Invalid report parameters"
+          },
+          "errorCategory": {
+            "type": "string",
+            "example": "VALIDATION_ERROR"
+          },
+          "traceId": {
+            "type": "string",
+            "example": "TRACE-992211"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-12T18:41:00Z"
+          }
+        }
+      }
+    }
+  }
+}

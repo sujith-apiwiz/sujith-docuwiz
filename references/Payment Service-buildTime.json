@@ -1,0 +1,700 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Payment Service-buildTime",
+    "description": "The Payment Service-buildTime API provides endpoints to manage payment transactions and transfer funds securely and efficiently. It includes operations to retrieve transaction details by transaction ID and to initiate fund transfers between accounts.",
+    "termsOfService": "https://www.paymentservice.com/terms",
+    "contact": {
+      "name": "Payment Service Support",
+      "url": "https://www.paymentservice.com/support",
+      "email": "support@paymentservice.com"
+    },
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "https://acme-data-wadt.apiwiz.io/v1/payments",
+      "description": "Sandbox",
+      "variables": {},
+      "x-name": "Sandbox",
+      "x-environmentName": "",
+      "x-hide": false,
+      "x-environmentId": "",
+      "x-basePath": "/v1/payments"
+    },
+    {
+      "url": "https://acme-data-dev.apiwiz.io/v1/payments",
+      "description": "Dev",
+      "variables": {},
+      "x-name": "Dev",
+      "x-environmentName": "",
+      "x-hide": false,
+      "x-environmentId": "",
+      "x-basePath": "/v1/payments"
+    },
+    {
+      "url": "https://acme-data-prod.apiwiz.io/v1/payments",
+      "description": "Prod",
+      "variables": {},
+      "x-name": "Prod",
+      "x-environmentName": "",
+      "x-hide": false,
+      "x-environmentId": "",
+      "x-basePath": "/v1/payments"
+    }
+  ],
+  "tags": [
+    {
+      "name": "PaymentController",
+      "description": "Handles payment processing and transaction management."
+    }
+  ],
+  "paths": {
+    "/{transactionId}": {
+      "get": {
+        "tags": [
+          "PaymentController"
+        ],
+        "summary": "Retrieve transaction details",
+        "description": "Fetch detailed information about a specific transaction using its unique ID. This allows users to review transaction status, amount, and related metadata.",
+        "operationId": "getTransaction",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "headers": {},
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/transaction_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request for /{transactionId}",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "BadRequest",
+                  "message": "Invalid input for /{transactionId}",
+                  "status": 400,
+                  "path": "/{transactionId}"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/server_error_response"
+                },
+                "example": {
+                  "error": "InternalServerError",
+                  "message": "Unexpected error occurred",
+                  "status": 500,
+                  "path": "/{transactionId}"
+                }
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "security": [],
+        "servers": []
+      },
+      "servers": [],
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/transactionId"
+        }
+      ]
+    },
+    "/transfer": {
+      "post": {
+        "tags": [
+          "PaymentController"
+        ],
+        "summary": "Initiate a money transfer",
+        "description": "Start a funds transfer between accounts by providing necessary transfer details. This operation processes the transaction and returns confirmation upon success.",
+        "operationId": "transfer",
+        "parameters": [],
+        "requestBody": {
+          "description": "Request body for initiating a payment transfer.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/payment_request"
+              },
+              "example": {
+                "payment_request": {
+                  "amount": 150,
+                  "currency": "USD",
+                  "recipient_account": "1234567890",
+                  "note": "Invoice 12345"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "headers": {},
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/payment_status_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request for /transfer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client_error_response"
+                },
+                "example": {
+                  "error": "BadRequest",
+                  "message": "Invalid input for /transfer",
+                  "status": 400,
+                  "path": "/transfer"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/server_error_response"
+                },
+                "example": {
+                  "error": "InternalServerError",
+                  "message": "Unexpected error occurred",
+                  "status": 500,
+                  "path": "/transfer"
+                }
+              }
+            }
+          }
+        },
+        "callbacks": {},
+        "security": [],
+        "servers": []
+      },
+      "servers": [],
+      "parameters": []
+    }
+  },
+  "components": {
+    "schemas": {
+      "supplementary_data": {
+        "type": "object",
+        "properties": {
+          "expiryDate": {
+            "type": "string",
+            "description": "The expiration date of the supplementary data or related item",
+            "example": "2025-12-31"
+          },
+          "systemName": {
+            "type": "string",
+            "description": "Name of the system where the supplementary data originated",
+            "example": "PaymentGatewayX"
+          },
+          "tipAmount": {
+            "type": "string",
+            "description": "The amount given as a tip during the transaction",
+            "example": "5.00"
+          },
+          "groupId": {
+            "type": "string",
+            "description": "Identifier for the group associated with the supplementary data",
+            "example": "GRP12345"
+          },
+          "merchantCategoryCode": {
+            "type": "string",
+            "description": "Code representing the merchant's category or type of business",
+            "example": "5812"
+          },
+          "subscriberNumber": {
+            "type": "string",
+            "description": "Number identifying the subscriber or customer",
+            "example": "5551234567"
+          },
+          "transactionRef": {
+            "type": "string",
+            "description": "Reference identifier for the transaction",
+            "example": "TXN789456123"
+          },
+          "tipCurrency": {
+            "type": "string",
+            "description": "Currency code for the tip amount",
+            "example": "USD"
+          },
+          "OtherId": {
+            "type": "string",
+            "description": "Additional identifier related to the supplementary data",
+            "example": "OID998877"
+          },
+          "pointofInteractionID": {
+            "type": "string",
+            "description": "Identifier for the point of interaction where the transaction occurred",
+            "example": "POI123456"
+          },
+          "PAN": {
+            "type": "string",
+            "description": "Primary Account Number associated with the transaction",
+            "example": "4111111111111111"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type or category of the supplementary data",
+            "example": "transactionDetails"
+          }
+        }
+      },
+      "debtor_account_information": {
+        "type": "object",
+        "properties": {
+          "dbtrCountryCode": {
+            "type": "string",
+            "description": "ISO country code of the debtor's country",
+            "example": "DE"
+          },
+          "dbtrBIC": {
+            "type": "string",
+            "description": "Bank Identifier Code for the debtor's bank",
+            "example": "DEUTDEFF"
+          },
+          "dbtrAccountName": {
+            "type": "string",
+            "description": "Name of the debtor's account holder",
+            "example": "John Doe"
+          },
+          "dbtrAccountNo": {
+            "type": "string",
+            "description": "Debtor's bank account number or IBAN",
+            "example": "DE89370400440532013000"
+          },
+          "dbtrAddress": {
+            "type": "string",
+            "description": "Full postal address of the debtor",
+            "example": "123 Main St, Berlin, 10115"
+          },
+          "dbtrBirthDt": {
+            "type": "string",
+            "description": "Date of birth of the debtor in ISO 8601 format",
+            "example": "1980-04-25"
+          },
+          "dbtrEmail": {
+            "type": "string",
+            "description": "Debtor's email address",
+            "example": "john.doe@example.com"
+          }
+        }
+      },
+      "remittance_information": {
+        "type": "object",
+        "properties": {
+          "unstructuredInfo": {
+            "type": "string",
+            "description": "Additional remittance information without a structured format",
+            "example": "Invoice payment for order 12345"
+          },
+          "remittanceNumber": {
+            "type": "string",
+            "description": "Unique identifier for the remittance",
+            "example": "RMT20240630"
+          },
+          "remittanceProp": {
+            "type": "string",
+            "description": "Property or type of the remittance",
+            "example": "Final settlement"
+          },
+          "addtlRmtInfo": {
+            "type": "string",
+            "description": "Extra supplementary remittance details",
+            "example": "Includes late fee waiver"
+          }
+        }
+      },
+      "transaction_response": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "string",
+            "description": "The total transaction amount as a string.",
+            "example": "125.00"
+          },
+          "partnerCode": {
+            "type": "string",
+            "description": "Unique identifier for the partner involved in the transaction.",
+            "example": "PARTNER1234"
+          },
+          "requestPayload": {
+            "type": "string",
+            "description": "Original payload sent with the transaction request in string format.",
+            "example": "{\"orderId\":\"ORD7890\",\"amount\":\"125.00\"}"
+          },
+          "instructionId": {
+            "type": "string",
+            "description": "Identifier for a specific payment instruction related to the transaction.",
+            "example": "INSTR5678"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code for the transaction amount.",
+            "example": "USD"
+          },
+          "endToEndId": {
+            "type": "string",
+            "description": "Unique identifier to track the transaction end-to-end.",
+            "example": "E2E123456789"
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable message indicating transaction status or result.",
+            "example": "Transaction completed successfully"
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "Unique transaction identifier assigned by the system.",
+            "example": "TXN000123456"
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the transaction.",
+            "example": "SUCCESS"
+          },
+          "paymentType": {
+            "type": "string",
+            "description": "Type or method of payment used in the transaction.",
+            "example": "CreditCard"
+          },
+          "paymentChannel": {
+            "type": "string",
+            "description": "Channel through which the payment was processed.",
+            "example": "OnlineGateway"
+          },
+          "orchestrationSummary": {
+            "type": "string",
+            "description": "Summary details of the orchestration process for this transaction.",
+            "example": "Payment authorized, funds captured, receipt issued"
+          }
+        }
+      },
+      "payment_status_response": {
+        "type": "object",
+        "properties": {
+          "instructionId": {
+            "type": "string",
+            "description": "Unique identifier for the payment instruction",
+            "example": "INST123456789"
+          },
+          "endToEndId": {
+            "type": "string",
+            "description": "Unique identifier for the end-to-end transaction",
+            "example": "E2E987654321"
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "Unique identifier assigned to the payment transaction",
+            "example": "TXN1122334455"
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the payment transaction",
+            "example": "COMPLETED"
+          }
+        }
+      },
+      "payment_request": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "string",
+            "description": "The payment amount to be transferred",
+            "example": "1500.00"
+          },
+          "creditorAccountInformation": {
+            "description": "Information about the creditor's account",
+            "$ref": "#/components/schemas/creditor_account_information",
+            "example": "DE89370400440532013000"
+          },
+          "partnerCode": {
+            "type": "string",
+            "description": "Code identifying the partner initiating the payment",
+            "example": "PC12345"
+          },
+          "purpose": {
+            "type": "string",
+            "description": "The purpose or reason for the payment",
+            "example": "Invoice Payment"
+          },
+          "remittanceInformation": {
+            "description": "Additional information about the remittance",
+            "$ref": "#/components/schemas/remittance_information",
+            "example": "Invoice #789654"
+          },
+          "partnerReferenceInformation": {
+            "description": "Reference information provided by the partner",
+            "$ref": "#/components/schemas/partner_reference_information",
+            "example": "REF20240612"
+          },
+          "partnerPassword": {
+            "type": "string",
+            "description": "Password for authenticating the partner",
+            "example": "s3cureP@ssw0rd"
+          },
+          "currency": {
+            "type": "string",
+            "description": "The currency code for the payment amount",
+            "example": "EUR"
+          },
+          "settlementDate": {
+            "type": "string",
+            "description": "Date when the payment is settled",
+            "example": "2024-06-15"
+          },
+          "paymentInformation": {
+            "description": "Additional payment information provided",
+            "$ref": "#/components/schemas/payment_information",
+            "example": "Payment for consultancy services"
+          },
+          "debtorAccountInformation": {
+            "description": "Information about the debtor's account",
+            "$ref": "#/components/schemas/debtor_account_information",
+            "example": "NL91ABNA0417164300"
+          },
+          "supplementaryData": {
+            "description": "Any supplementary data related to the payment",
+            "$ref": "#/components/schemas/supplementary_data",
+            "example": "{\"additionalNotes\": \"Urgent processing requested\"}"
+          }
+        }
+      },
+      "partner_reference_information": {
+        "type": "object",
+        "properties": {
+          "InstructionId": {
+            "type": "string",
+            "description": "Unique identifier for the instruction",
+            "example": "INST-20240601-0001"
+          },
+          "endtoendId": {
+            "type": "string",
+            "description": "Unique identifier for end-to-end transaction tracking",
+            "example": "E2E-TRX-20240601-12345"
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "Identifier for the related transaction",
+            "example": "TXN-9876543210"
+          }
+        }
+      },
+      "payment_information": {
+        "type": "object",
+        "properties": {
+          "prtryAccountType": {
+            "type": "string",
+            "description": "Proprietary account type identifier",
+            "example": "SAVINGS"
+          },
+          "paymentType": {
+            "type": "string",
+            "description": "Type of payment being made",
+            "example": "CreditTransfer"
+          }
+        }
+      },
+      "creditor_account_information": {
+        "type": "object",
+        "properties": {
+          "cdtrCountryCode": {
+            "type": "string",
+            "description": "ISO 3166-1 alpha-2 country code of the creditor",
+            "example": "DE"
+          },
+          "cdtrAccountName": {
+            "type": "string",
+            "description": "Name of the creditor's account holder",
+            "example": "John Doe"
+          },
+          "cdtrBIC": {
+            "type": "string",
+            "description": "Bank Identifier Code of the creditor's bank",
+            "example": "DEUTDEFF"
+          },
+          "cdtrEmail": {
+            "type": "string",
+            "description": "Email address of the creditor",
+            "example": "john.doe@example.com"
+          },
+          "cdtrAddress": {
+            "type": "string",
+            "description": "Physical address of the creditor",
+            "example": "123 Main Street, Berlin, Germany"
+          },
+          "cdtrAccountNo": {
+            "type": "string",
+            "description": "Account number or IBAN of the creditor",
+            "example": "DE89370400440532013000"
+          },
+          "cdtrBirthDt": {
+            "type": "string",
+            "description": "Birthdate of the creditor in ISO 8601 format",
+            "example": "1980-05-15"
+          }
+        }
+      },
+      "client_error_response": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Bad Request"
+          },
+          "message": {
+            "type": "string",
+            "example": "Invalid input"
+          },
+          "status": {
+            "type": "integer",
+            "example": 400
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-01-01T10:00:00Z"
+          },
+          "path": {
+            "type": "string",
+            "example": "/users"
+          },
+          "requestId": {
+            "type": "string",
+            "example": "req-123"
+          },
+          "errorCode": {
+            "type": "string",
+            "example": "VALIDATION_ERROR"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "issue": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "description": "Client-side error response (4XX)"
+      },
+      "server_error_response": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Internal Server Error"
+          },
+          "message": {
+            "type": "string",
+            "example": "Unexpected error"
+          },
+          "status": {
+            "type": "integer",
+            "example": 500
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-01-01T10:00:00Z"
+          },
+          "requestId": {
+            "type": "string",
+            "example": "req-789"
+          }
+        },
+        "description": "Server-side error response (5XX)"
+      }
+    },
+    "parameters": {
+      "transactionId": {
+        "name": "transactionId",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "x-payment-id": {
+        "name": "x-payment-id",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "x-transaction-id": {
+        "name": "x-transaction-id",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "x-correlation-id": {
+        "name": "x-correlation-id",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "x-client-id": {
+        "name": "x-client-id",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "x-channel-id": {
+        "name": "x-channel-id",
+        "in": "header",
+        "required": false,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,681 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Notifications API",
+    "description": "Enterprise Banking Notification APIs that allow financial institutions, fintech platforms, and enterprise systems to send transactional and event-driven notifications through multiple delivery channels including SMS, Email, and Webhook callbacks. The API supports secure message delivery, delivery tracking, scheduling, and retry handling.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Banking API Support",
+      "email": "support@banking-platform.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://banking.apiwiz.io/v1",
+      "description": "Development Server"
+    },
+    {
+      "url": "https://uat.api.banking-platform.com/v1",
+      "description": "UAT Server"
+    },
+    {
+      "url": "https://api.banking-platform.com/v1",
+      "description": "Production Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "User Notifications",
+      "description": "APIs for sending notifications directly to end users through communication channels such as SMS and Email."
+    },
+    {
+      "name": "System Callbacks",
+      "description": "APIs used to notify external systems through webhook callbacks for event-driven integrations."
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": [
+        "notifications"
+      ]
+    }
+  ],
+  "paths": {
+    "/notifications/sms": {
+      "post": {
+        "summary": "Send Notification via SMS",
+        "description": "Sends an SMS notification to a registered mobile number. The API validates the phone number, formats the message content, submits the message to the SMS gateway, and tracks the delivery status.",
+        "operationId": "sendSmsNotification",
+        "tags": [
+          "User Notifications"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SmsNotificationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SMS notification sent successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid SMS notification request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationErrorResponse"
+                },
+                "example": {
+                  "errorCode": "NOTIFY-4001",
+                  "errorMessage": "Recipient phone number format is invalid.",
+                  "errorType": "VALIDATION_ERROR",
+                  "status": 400,
+                  "service": "notification-service",
+                  "operation": "sendSmsNotification",
+                  "traceId": "trace-771211aa-6621",
+                  "timestamp": "2026-03-13T19:05:11Z",
+                  "details": [
+                    "The recipientPhoneNumber provided in the request does not follow the required international phone number format. Ensure the phone number includes the correct country code and contains only valid numeric characters before submitting the SMS notification request."
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationErrorResponse"
+                },
+                "example": {
+                  "errorCode": "NOTIFY-4011",
+                  "errorMessage": "Unauthorized notification request.",
+                  "errorType": "AUTHENTICATION_ERROR",
+                  "status": 401,
+                  "service": "notification-service",
+                  "operation": "sendSmsNotification",
+                  "traceId": "trace-662211bb-9912",
+                  "timestamp": "2026-03-13T19:07:34Z",
+                  "details": [
+                    "The notification request could not be authenticated because the access token is missing or invalid. Provide a valid OAuth2 bearer token in the Authorization header before attempting to send the SMS notification."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal SMS processing error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationErrorResponse"
+                },
+                "example": {
+                  "errorCode": "NOTIFY-5001",
+                  "errorMessage": "SMS gateway processing error.",
+                  "errorType": "SYSTEM_ERROR",
+                  "status": 500,
+                  "service": "notification-service",
+                  "operation": "sendSmsNotification",
+                  "traceId": "trace-551211cc-7722",
+                  "timestamp": "2026-03-13T19:09:02Z",
+                  "details": [
+                    "The integrated SMS gateway failed to process the notification request due to an internal service issue. Retry the request after some time or contact system support if the SMS delivery problem persists."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notifications/email": {
+      "post": {
+        "summary": "Send Notification via Email",
+        "description": "Sends an email notification to a registered email address. Supports HTML email content, attachments, CC/BCC recipients, and scheduled email delivery.",
+        "operationId": "sendEmailNotification",
+        "tags": [
+          "User Notifications"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailNotificationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Email notification sent successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationSuccessResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Email delivery failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationErrorResponse"
+                },
+                "example": {
+                  "errorCode": "NOTIFY-4221",
+                  "errorMessage": "Email delivery failed due to invalid recipient address.",
+                  "errorType": "DELIVERY_ERROR",
+                  "status": 422,
+                  "service": "notification-service",
+                  "operation": "sendEmailNotification",
+                  "traceId": "trace-771122aa-8812",
+                  "timestamp": "2026-03-13T19:12:20Z",
+                  "details": [
+                    "The recipientEmail provided in the request could not be validated by the email delivery system. Verify that the email address is correctly formatted and belongs to a reachable domain before sending the notification."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal email delivery error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationErrorResponse"
+                },
+                "example": {
+                  "errorCode": "NOTIFY-5002",
+                  "errorMessage": "Email delivery service processing error.",
+                  "errorType": "SYSTEM_ERROR",
+                  "status": 500,
+                  "service": "notification-service",
+                  "operation": "sendEmailNotification",
+                  "traceId": "trace-881122cc-6621",
+                  "timestamp": "2026-03-13T19:14:45Z",
+                  "details": [
+                    "The email delivery provider encountered an internal processing failure while attempting to send the notification. Retry the request later once the email service becomes available."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notifications/webhook": {
+      "post": {
+        "summary": "Send Notification via Webhook / Callback",
+        "description": "Triggers a webhook callback to notify external systems of important events such as payment completion, account updates, or transaction status changes.",
+        "operationId": "sendWebhookNotification",
+        "tags": [
+          "System Callbacks"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebhookNotificationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Webhook notification delivered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationSuccessResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Webhook delivery rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationErrorResponse"
+                },
+                "example": {
+                  "errorCode": "NOTIFY-4031",
+                  "errorMessage": "Webhook endpoint rejected the notification request.",
+                  "errorType": "DELIVERY_ERROR",
+                  "status": 403,
+                  "service": "notification-service",
+                  "operation": "sendWebhookNotification",
+                  "traceId": "trace-661122aa-7711",
+                  "timestamp": "2026-03-13T19:18:03Z",
+                  "details": [
+                    "The target webhook endpoint responded with a forbidden or unauthorized response when the notification payload was delivered. Verify that the callbackUrl is correct and that the receiving system accepts authenticated webhook requests."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Webhook delivery failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationErrorResponse"
+                },
+                "example": {
+                  "errorCode": "NOTIFY-5003",
+                  "errorMessage": "Webhook notification delivery failed.",
+                  "errorType": "SYSTEM_ERROR",
+                  "status": 500,
+                  "service": "notification-service",
+                  "operation": "sendWebhookNotification",
+                  "traceId": "trace-551122cc-8831",
+                  "timestamp": "2026-03-13T19:20:10Z",
+                  "details": [
+                    "The webhook delivery service failed to transmit the notification payload due to a timeout or network error. Retry the webhook request or verify the availability of the target callback endpoint."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Authorization": {
+        "in": "header",
+        "required": true,
+        "description": "OAuth2 Bearer access token.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+        "name": "Authorization"
+      },
+      "X-Correlation-ID": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123"
+        },
+        "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123",
+        "name": "X-Correlation-ID"
+      },
+      "x-tenant": {
+        "in": "header",
+        "required": false,
+        "description": "Tenant identifier for multi-tenant platforms.",
+        "schema": {
+          "type": "string",
+          "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder"
+        },
+        "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder",
+        "name": "x-tenant"
+      },
+      "x-application-type": {
+        "in": "header",
+        "required": false,
+        "description": "Application environment initiating the request.",
+        "schema": {
+          "type": "string",
+          "example": "ApiSandbox"
+        },
+        "example": "ApiSandbox",
+        "name": "x-application-type"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://api.banking-platform.com/oauth/token",
+            "scopes": {
+              "notifications": "Allows sending notifications"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "SmsNotificationRequest": {
+        "type": "object",
+        "required": [
+          "notificationReference",
+          "recipientPhoneNumber",
+          "message"
+        ],
+        "properties": {
+          "notificationReference": {
+            "type": "string",
+            "description": "Unique identifier generated by the client system to track the SMS notification request.",
+            "example": "SMS-992211"
+          },
+          "customerId": {
+            "type": "string",
+            "description": "Unique identifier of the customer associated with the notification.",
+            "example": "CUST-88221"
+          },
+          "recipientPhoneNumber": {
+            "type": "string",
+            "description": "Mobile phone number that will receive the SMS notification, formatted with the international dialing code.",
+            "example": "+15551234567"
+          },
+          "senderId": {
+            "type": "string",
+            "description": "Sender identifier displayed to the recipient on the mobile device.",
+            "example": "BANKAPP"
+          },
+          "message": {
+            "type": "string",
+            "description": "Text content of the SMS message that will be delivered to the recipient.",
+            "example": "Your transaction of $250 has been completed."
+          },
+          "messageType": {
+            "type": "string",
+            "description": "Category of the notification message used for classification and routing.",
+            "example": "TRANSACTION_ALERT"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Priority level assigned to the SMS notification which may influence delivery order.",
+            "example": "HIGH"
+          },
+          "scheduledTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Optional scheduled delivery time for the SMS notification.",
+            "example": "2026-03-12T18:00:00Z"
+          },
+          "retryCount": {
+            "type": "integer",
+            "description": "Number of retry attempts allowed if SMS delivery fails.",
+            "example": 3
+          },
+          "templateId": {
+            "type": "string",
+            "description": "Identifier of the pre-configured SMS template used for generating the message.",
+            "example": "SMS_TXN_TEMPLATE"
+          },
+          "language": {
+            "type": "string",
+            "description": "Language code used to localize the notification content.",
+            "example": "en"
+          }
+        }
+      },
+      "EmailNotificationRequest": {
+        "type": "object",
+        "properties": {
+          "notificationReference": {
+            "type": "string",
+            "description": "Unique identifier used to track the email notification transaction.",
+            "example": "EMAIL-882211"
+          },
+          "customerId": {
+            "type": "string",
+            "description": "Unique identifier of the customer associated with the email notification.",
+            "example": "CUST-77221"
+          },
+          "recipientEmail": {
+            "type": "string",
+            "description": "Email address of the primary recipient who will receive the notification.",
+            "example": "user@example.com"
+          },
+          "subject": {
+            "type": "string",
+            "description": "Subject line of the email notification message.",
+            "example": "Payment Confirmation"
+          },
+          "body": {
+            "type": "string",
+            "description": "Main content of the email message which may contain plain text or HTML content.",
+            "example": "Your payment has been successfully processed."
+          },
+          "cc": {
+            "type": "string",
+            "description": "Optional email address to receive a carbon copy of the email notification.",
+            "example": "finance@example.com"
+          },
+          "bcc": {
+            "type": "string",
+            "description": "Optional email address to receive a blind carbon copy of the email notification.",
+            "example": "audit@example.com"
+          },
+          "attachments": {
+            "type": "array",
+            "description": "List of file names or attachment identifiers included with the email notification.",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "invoice.pdf"
+            ]
+          },
+          "priority": {
+            "type": "string",
+            "description": "Priority level assigned to the email notification.",
+            "example": "NORMAL"
+          },
+          "scheduledTime": {
+            "type": "string",
+            "description": "Optional scheduled delivery timestamp for sending the email notification.",
+            "example": "2026-03-12T18:00:00Z"
+          },
+          "templateId": {
+            "type": "string",
+            "description": "Identifier of the predefined email template used for generating the message.",
+            "example": "EMAIL_PAYMENT_TEMPLATE"
+          },
+          "language": {
+            "type": "string",
+            "description": "Language code used to localize the email content.",
+            "example": "en"
+          }
+        }
+      },
+      "WebhookNotificationRequest": {
+        "type": "object",
+        "properties": {
+          "notificationReference": {
+            "type": "string",
+            "description": "Unique identifier used to track the webhook notification event.",
+            "example": "WEBHOOK-77121"
+          },
+          "eventType": {
+            "type": "string",
+            "description": "Type of event triggering the webhook notification.",
+            "example": "PAYMENT_COMPLETED"
+          },
+          "callbackUrl": {
+            "type": "string",
+            "description": "Destination URL where the webhook payload will be delivered.",
+            "example": "https://client-system.com/webhook"
+          },
+          "eventId": {
+            "type": "string",
+            "description": "Unique identifier representing the system event associated with the webhook.",
+            "example": "EVT-88221"
+          },
+          "sourceSystem": {
+            "type": "string",
+            "description": "Name of the originating system generating the webhook event.",
+            "example": "PAYMENT_GATEWAY"
+          },
+          "payload": {
+            "type": "object",
+            "description": "Structured data object containing event-specific information delivered to the webhook endpoint.",
+            "example": {
+              "transactionId": "TXN12345",
+              "amount": 250,
+              "currency": "USD",
+              "status": "SUCCESS"
+            }
+          },
+          "retryPolicy": {
+            "type": "string",
+            "description": "Retry strategy used when webhook delivery fails.",
+            "example": "EXPONENTIAL_BACKOFF"
+          },
+          "maxRetries": {
+            "type": "integer",
+            "description": "Maximum number of retry attempts allowed if webhook delivery fails.",
+            "example": 3
+          },
+          "timeoutSeconds": {
+            "type": "integer",
+            "description": "Maximum time allowed for the webhook endpoint to respond before the request is considered failed.",
+            "example": 10
+          },
+          "signature": {
+            "type": "string",
+            "description": "Cryptographic signature used to verify the authenticity and integrity of the webhook payload.",
+            "example": "sha256=83ab2f..."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Timestamp indicating when the webhook notification was generated.",
+            "example": "2026-03-12T18:01:00Z"
+          }
+        }
+      },
+      "NotificationSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "notificationId": {
+            "type": "string",
+            "example": "NOTIF-882211"
+          },
+          "notificationReference": {
+            "type": "string",
+            "example": "SMS-992211"
+          },
+          "status": {
+            "type": "string",
+            "example": "DELIVERED"
+          },
+          "deliveryChannel": {
+            "type": "string",
+            "example": "SMS"
+          },
+          "recipient": {
+            "type": "string",
+            "example": "+15551234567"
+          },
+          "provider": {
+            "type": "string",
+            "example": "Twilio"
+          },
+          "providerMessageId": {
+            "type": "string",
+            "example": "MSG-882211"
+          },
+          "deliveryAttempts": {
+            "type": "integer",
+            "example": 1
+          },
+          "processingChannel": {
+            "type": "string",
+            "example": "API"
+          },
+          "deliveryStatus": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-12T18:01:00Z"
+          }
+        }
+      },
+      "NotificationErrorResponse": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "NOTIFY-4021"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Notification delivery failed"
+          },
+          "errorType": {
+            "type": "string",
+            "example": "DELIVERY_ERROR"
+          },
+          "traceId": {
+            "type": "string",
+            "example": "TRACE-882211"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-12T18:01:30Z"
+          }
+        }
+      }
+    }
+  }
+}

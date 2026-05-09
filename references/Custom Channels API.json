@@ -1,0 +1,824 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Custom Channels API",
+    "description": "Custom Channels API enables financial institutions, fintech platforms, and enterprise partners to integrate banking services through various digital interfaces such as SDK integrations, web portals, mobile applications, and conversational chatbot platforms. The API provides secure onboarding, configuration, and lifecycle management of custom banking channels while ensuring compliance, monitoring, and scalability for enterprise deployments.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Digital Channels API Support",
+      "email": "support@bankapi.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://banking.apiwiz.io/v1",
+      "description": "Development Server"
+    },
+    {
+      "url": "https://uat.api.banking-platform.com/v1",
+      "description": "UAT Server"
+    },
+    {
+      "url": "https://api.banking-platform.com/v1",
+      "description": "Production Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Channel Integrations",
+      "description": "APIs responsible for onboarding and configuring new custom banking channels."
+    },
+    {
+      "name": "Channel Management",
+      "description": "APIs responsible for managing channel configurations, security policies, and operational controls."
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": [
+        "custom-channels"
+      ]
+    }
+  ],
+  "paths": {
+    "/custom-channels/sdk": {
+      "post": {
+        "tags": [
+          "Channel Integrations"
+        ],
+        "summary": "SDK Channel Integration",
+        "description": "Registers and configures SDK based integrations allowing partners to embed financial services directly within third-party mobile or desktop applications.",
+        "operationId": "sdkIntegration",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "SDK integration configuration payload containing partner and platform information.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SDKChannelRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SDK channel integration completed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomChannelSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid SDK integration request payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "CHAN-4001",
+                  "errorMessage": "Invalid SDK channel integration payload.",
+                  "errorType": "VALIDATION_ERROR",
+                  "status": 400,
+                  "service": "custom-channels-service",
+                  "operation": "sdkIntegration",
+                  "traceId": "trace-662211aa-9931",
+                  "timestamp": "2026-03-14T11:10:15Z",
+                  "details": [
+                    "The SDK integration request payload contains missing or incorrectly formatted fields such as partnerId, sdkVersion, platform, or authenticationMethod. Ensure that all required SDK configuration parameters are correctly provided before submitting the integration request."
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "CHAN-4011",
+                  "errorMessage": "Authentication failed for SDK channel integration request.",
+                  "errorType": "AUTHENTICATION_ERROR",
+                  "status": 401,
+                  "service": "custom-channels-service",
+                  "operation": "sdkIntegration",
+                  "traceId": "trace-551144bb-8821",
+                  "timestamp": "2026-03-14T11:11:41Z",
+                  "details": [
+                    "The OAuth2 access token provided in the Authorization header is invalid, expired, or missing required permissions. Generate a valid access token with the custom-channels scope before retrying the SDK integration request."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error during SDK channel configuration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "CHAN-5001",
+                  "errorMessage": "SDK channel configuration failed due to an internal server error.",
+                  "errorType": "SYSTEM_ERROR",
+                  "status": 500,
+                  "service": "custom-channels-service",
+                  "operation": "sdkIntegration",
+                  "traceId": "trace-771122dd-9912",
+                  "timestamp": "2026-03-14T11:14:27Z",
+                  "details": [
+                    "The channel configuration engine encountered an unexpected error while provisioning SDK integration resources or applying partner configuration policies. Retry the integration request later or contact system support if the issue persists."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/custom-channels/webpage": {
+      "post": {
+        "tags": [
+          "Channel Integrations"
+        ],
+        "summary": "Custom Web Portal Integration",
+        "description": "Registers web portal integrations that allow partners to provide banking services through web-based dashboards or customer portals.",
+        "operationId": "webChannelIntegration",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Web portal configuration including domain settings, security policies, and supported modules.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebChannelRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Web channel configured successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomChannelSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid web integration request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "CHAN-4002",
+                  "errorMessage": "Invalid web portal integration payload.",
+                  "errorType": "VALIDATION_ERROR",
+                  "status": 400,
+                  "service": "custom-channels-service",
+                  "operation": "webChannelIntegration",
+                  "traceId": "trace-992211bb-7731",
+                  "timestamp": "2026-03-14T11:17:20Z",
+                  "details": [
+                    "The web channel integration request contains invalid or missing configuration fields such as partnerDomain, authenticationMethod, or hostingProvider. Ensure the web portal configuration complies with the required integration parameters before submitting the request."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "CHAN-5002",
+                  "errorMessage": "Web portal channel configuration failed.",
+                  "errorType": "SYSTEM_ERROR",
+                  "status": 500,
+                  "service": "custom-channels-service",
+                  "operation": "webChannelIntegration",
+                  "traceId": "trace-661133cc-9911",
+                  "timestamp": "2026-03-14T11:18:42Z",
+                  "details": [
+                    "The channel management system encountered an internal error while provisioning the web integration environment or applying security policies. Retry the request after some time or verify the platform configuration."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/custom-channels/mobile-app": {
+      "post": {
+        "tags": [
+          "Channel Integrations"
+        ],
+        "summary": "Mobile Application Channel Integration",
+        "description": "Enables partner mobile applications to integrate financial services capabilities using secured APIs and mobile SDK frameworks.",
+        "operationId": "mobileAppIntegration",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Mobile application integration configuration including platform details and security controls.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MobileAppChannelRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Mobile application integration configured successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomChannelSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid mobile integration request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "CHAN-4003",
+                  "errorMessage": "Invalid mobile application channel integration payload.",
+                  "errorType": "VALIDATION_ERROR",
+                  "status": 400,
+                  "service": "custom-channels-service",
+                  "operation": "mobileAppIntegration",
+                  "traceId": "trace-551122ee-7721",
+                  "timestamp": "2026-03-14T11:21:06Z",
+                  "details": [
+                    "The mobile application integration request contains missing or incorrectly formatted parameters such as appName, platform, bundleIdentifier, or distributionChannel. Ensure that the mobile application configuration details are valid before submitting the integration request."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/custom-channels/chatbot": {
+      "post": {
+        "tags": [
+          "Channel Management"
+        ],
+        "summary": "Chatbot Banking Integration",
+        "description": "Configures chatbot or conversational AI channels to enable banking interactions such as balance inquiries, transfers, payments, and loan status checks.",
+        "operationId": "chatbotIntegration",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/X-Correlation-ID"
+          },
+          {
+            "$ref": "#/components/parameters/x-tenant"
+          },
+          {
+            "$ref": "#/components/parameters/x-application-type"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Chatbot integration payload specifying bot configuration, supported languages, and banking capabilities.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatbotChannelRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Chatbot channel configured successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomChannelSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid chatbot configuration request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "CHAN-4004",
+                  "errorMessage": "Invalid chatbot channel configuration payload.",
+                  "errorType": "VALIDATION_ERROR",
+                  "status": 400,
+                  "service": "custom-channels-service",
+                  "operation": "chatbotIntegration",
+                  "traceId": "trace-771199aa-5521",
+                  "timestamp": "2026-03-14T11:24:11Z",
+                  "details": [
+                    "The chatbot integration request contains missing or invalid configuration attributes such as botPlatform, supportedLanguages, or aiModelVersion. Ensure the chatbot configuration parameters are correctly defined before submitting the integration request."
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Chatbot integration failed due to internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "errorCode": "CHAN-5003",
+                  "errorMessage": "Chatbot channel integration processing failed.",
+                  "errorType": "SYSTEM_ERROR",
+                  "status": 500,
+                  "service": "custom-channels-service",
+                  "operation": "chatbotIntegration",
+                  "traceId": "trace-991122ff-6641",
+                  "timestamp": "2026-03-14T11:25:39Z",
+                  "details": [
+                    "The conversational channel engine encountered an unexpected error while provisioning chatbot capabilities or connecting messaging platform APIs. Retry the chatbot configuration request later once the channel service becomes available."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Authorization": {
+        "in": "header",
+        "required": true,
+        "description": "OAuth2 Bearer access token.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+        "name": "Authorization"
+      },
+      "X-Correlation-ID": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123"
+        },
+        "example": "e1f4a33c-4a34-4a93-9df2-56f4e1f0b123",
+        "name": "X-Correlation-ID"
+      },
+      "x-tenant": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder"
+        },
+        "example": "engineering-69b399e059becf64e8f4717b-ApiBuilder",
+        "name": "x-tenant"
+      },
+      "x-application-type": {
+        "in": "header",
+        "required": false,
+        "description": "Unique request identifier for tracing requests across systems.",
+        "schema": {
+          "type": "string",
+          "example": "ApiSandbox"
+        },
+        "example": "ApiSandbox",
+        "name": "x-application-type"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://api.com/oauth/token",
+            "scopes": {
+              "custom-channels": "Access custom channel integrations"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "SDKChannelRequest": {
+        "type": "object",
+        "description": "Configuration payload used to onboard SDK integrations that allow partners to embed banking services directly within their applications.",
+        "properties": {
+          "integrationId": {
+            "type": "string",
+            "description": "Unique identifier assigned to the SDK channel integration.",
+            "example": "SDK-88221"
+          },
+          "partnerId": {
+            "type": "string",
+            "description": "Identifier of the partner organization integrating the SDK.",
+            "example": "PARTNER-77121"
+          },
+          "partnerName": {
+            "type": "string",
+            "description": "Official name of the partner organization using the SDK integration.",
+            "example": "Acme Fintech"
+          },
+          "sdkVersion": {
+            "type": "string",
+            "description": "Version of the banking SDK used by the partner application.",
+            "example": "2.4.1"
+          },
+          "platform": {
+            "type": "string",
+            "description": "Primary platform where the SDK integration is deployed.",
+            "example": "ANDROID"
+          },
+          "supportedPlatforms": {
+            "type": "array",
+            "description": "List of operating systems supported by the SDK integration.",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "ANDROID",
+              "IOS"
+            ]
+          },
+          "environment": {
+            "type": "string",
+            "description": "Deployment environment for the SDK integration.",
+            "example": "PRODUCTION"
+          },
+          "authenticationMethod": {
+            "type": "string",
+            "description": "Authentication mechanism used by the SDK for secure API communication.",
+            "example": "OAUTH2"
+          },
+          "encryptionStandard": {
+            "type": "string",
+            "description": "Encryption algorithm used to protect SDK communication and sensitive data.",
+            "example": "AES256"
+          },
+          "certificatePinningEnabled": {
+            "type": "boolean",
+            "description": "Indicates whether certificate pinning is enabled to prevent man-in-the-middle attacks.",
+            "example": true
+          },
+          "requestsPerMinute": {
+            "type": "integer",
+            "description": "Maximum number of API requests allowed per minute for the SDK integration.",
+            "example": 500
+          },
+          "deploymentRegion": {
+            "type": "string",
+            "description": "Cloud or infrastructure region where the SDK services are deployed.",
+            "example": "US-EAST"
+          }
+        }
+      },
+      "WebChannelRequest": {
+        "type": "object",
+        "description": "Configuration payload used to onboard web portal integrations that expose banking services through browser-based interfaces.",
+        "properties": {
+          "webIntegrationId": {
+            "type": "string",
+            "description": "Unique identifier assigned to the web portal integration.",
+            "example": "WEB-77121"
+          },
+          "partnerId": {
+            "type": "string",
+            "description": "Identifier of the partner organization hosting the web portal.",
+            "example": "PARTNER-77121"
+          },
+          "applicationName": {
+            "type": "string",
+            "description": "Name of the web application providing banking services.",
+            "example": "Partner Portal"
+          },
+          "applicationVersion": {
+            "type": "string",
+            "description": "Version of the web portal software deployed by the partner.",
+            "example": "3.2.0"
+          },
+          "partnerDomain": {
+            "type": "string",
+            "description": "Primary domain used by the partner portal.",
+            "example": "portal.partner.com"
+          },
+          "hostingProvider": {
+            "type": "string",
+            "description": "Cloud or hosting provider used to deploy the web portal.",
+            "example": "AWS"
+          },
+          "authenticationMethod": {
+            "type": "string",
+            "description": "Authentication protocol used by the web portal for user access.",
+            "example": "OAUTH2"
+          },
+          "webSecurityPolicy": {
+            "type": "string",
+            "description": "Security policy applied to protect web portal interactions and data exchange.",
+            "example": "CSP_LEVEL_2"
+          },
+          "enableOpenBanking": {
+            "type": "boolean",
+            "description": "Indicates whether open banking features are enabled within the web portal.",
+            "example": true
+          },
+          "enableRealTimePayments": {
+            "type": "boolean",
+            "description": "Indicates whether the web portal supports real-time payment capabilities.",
+            "example": true
+          },
+          "allowedOrigins": {
+            "type": "array",
+            "description": "List of domains allowed to interact with the portal APIs for cross-origin requests.",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "https://portal.partner.com",
+              "https://admin.partner.com"
+            ]
+          }
+        }
+      },
+      "MobileAppChannelRequest": {
+        "type": "object",
+        "description": "Configuration payload used to onboard partner mobile applications that provide banking services through mobile platforms.",
+        "properties": {
+          "mobileIntegrationId": {
+            "type": "string",
+            "description": "Unique identifier assigned to the mobile channel integration.",
+            "example": "MOB-88221"
+          },
+          "partnerId": {
+            "type": "string",
+            "description": "Identifier of the partner organization operating the mobile application.",
+            "example": "PARTNER-77121"
+          },
+          "appName": {
+            "type": "string",
+            "description": "Name of the mobile application integrating banking services.",
+            "example": "Partner Finance App"
+          },
+          "platform": {
+            "type": "string",
+            "description": "Mobile operating system supported by the application.",
+            "example": "IOS"
+          },
+          "appVersion": {
+            "type": "string",
+            "description": "Version of the mobile application currently deployed.",
+            "example": "5.1.0"
+          },
+          "bundleIdentifier": {
+            "type": "string",
+            "description": "Unique bundle identifier used by the mobile application.",
+            "example": "com.partner.finance"
+          },
+          "distributionChannel": {
+            "type": "string",
+            "description": "Application distribution platform used for deployment.",
+            "example": "APP_STORE"
+          },
+          "deviceVerification": {
+            "type": "boolean",
+            "description": "Indicates whether device identity verification is required for secure access.",
+            "example": true
+          },
+          "rootDetectionEnabled": {
+            "type": "boolean",
+            "description": "Indicates whether root or jailbreak detection is enabled to enhance security.",
+            "example": true
+          },
+          "secureStorageEnabled": {
+            "type": "boolean",
+            "description": "Indicates whether secure storage mechanisms are used for storing sensitive data.",
+            "example": true
+          },
+          "analyticsProvider": {
+            "type": "string",
+            "description": "Analytics platform used to monitor application usage and performance.",
+            "example": "GA4"
+          }
+        }
+      },
+      "ChatbotChannelRequest": {
+        "type": "object",
+        "description": "Configuration payload used to onboard conversational chatbot integrations for banking interactions.",
+        "properties": {
+          "chatbotIntegrationId": {
+            "type": "string",
+            "description": "Unique identifier assigned to the chatbot channel integration.",
+            "example": "CHAT-77121"
+          },
+          "partnerId": {
+            "type": "string",
+            "description": "Identifier of the partner organization deploying the chatbot channel.",
+            "example": "PARTNER-77121"
+          },
+          "botPlatform": {
+            "type": "string",
+            "description": "Messaging platform where the chatbot is deployed.",
+            "example": "WHATSAPP"
+          },
+          "botVersion": {
+            "type": "string",
+            "description": "Version of the chatbot application or conversational interface.",
+            "example": "3.2.0"
+          },
+          "aiModelVersion": {
+            "type": "string",
+            "description": "Version of the AI or NLP model powering the chatbot interactions.",
+            "example": "NLP_ENGINE_V4"
+          },
+          "supportedLanguages": {
+            "type": "array",
+            "description": "Languages supported by the chatbot for customer interactions.",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "EN",
+              "ES",
+              "FR"
+            ]
+          },
+          "userVerificationRequired": {
+            "type": "boolean",
+            "description": "Indicates whether user authentication or identity verification is required before executing banking operations.",
+            "example": true
+          },
+          "sessionTimeoutSeconds": {
+            "type": "integer",
+            "description": "Maximum session duration before the chatbot automatically ends the interaction.",
+            "example": 300
+          },
+          "deploymentRegion": {
+            "type": "string",
+            "description": "Infrastructure region where the chatbot integration is hosted.",
+            "example": "US-EAST"
+          },
+          "deploymentTimestamp": {
+            "type": "string",
+            "description": "Timestamp indicating when the chatbot channel was deployed.",
+            "example": "2026-03-12T22:10:00Z"
+          }
+        }
+      },
+      "CustomChannelSuccessResponse": {
+        "type": "object",
+        "description": "Standard success response returned after channel configuration.",
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "example": "CHAN-OP-88221"
+          },
+          "channelType": {
+            "type": "string",
+            "example": "SDK"
+          },
+          "partnerId": {
+            "type": "string",
+            "example": "PARTNER-77121"
+          },
+          "integrationStatus": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "enabledCapabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "processingTimeMs": {
+            "type": "integer",
+            "example": 110
+          },
+          "integrationGateway": {
+            "type": "string",
+            "example": "CHANNEL_GATEWAY_V3"
+          },
+          "deploymentRegion": {
+            "type": "string",
+            "example": "US-EAST"
+          },
+          "processedBy": {
+            "type": "string",
+            "example": "CHANNEL_ENGINE"
+          },
+          "processedAt": {
+            "type": "string",
+            "example": "2026-03-12T22:20:00Z"
+          },
+          "message": {
+            "type": "string",
+            "example": "Channel integration configured successfully"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "Standard API error response payload.",
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "example": "CHAN-4001"
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "Invalid channel integration request"
+          },
+          "errorCategory": {
+            "type": "string",
+            "example": "VALIDATION_ERROR"
+          },
+          "traceId": {
+            "type": "string",
+            "example": "TRACE-882211"
+          },
+          "requestId": {
+            "type": "string",
+            "example": "REQ-771221"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-03-12T22:21:00Z"
+          }
+        }
+      }
+    }
+  }
+}
