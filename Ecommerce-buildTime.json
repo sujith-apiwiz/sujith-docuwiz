@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Ecommerce-buildTime",
-    "description": "The Ecommerce-buildTime API offers comprehensive services for managing products, user accounts, shopping carts, orders, payments, and shipping tracking within an e-commerce platform. It enables seamless operations such as adding products to carts, placing orders, processing payments, and tracking shipments to provide a complete end-to-end shopping experience.",
+    "description": "The Ecommerce-buildTimes API offers comprehensive services for managing products, user accounts, shopping carts, orders, payments, and shipping tracking within an e-commerce platform. It enables seamless operations such as adding products to carts, placing orders, processing payments, and tracking shipments to provide a complete end-to-end shopping experience.",
     "termsOfService": "https://www.ecommerce.com/terms",
     "contact": {
       "name": "Ecommerce Support Team",
