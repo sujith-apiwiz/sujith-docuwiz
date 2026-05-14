@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Charges-runTime",
-    "description": "Charges-runTimes  is an API that enables users to manage and track the runtime charges associated with various services. It provides endpoints for retrieving, updating, and deleting charge-related data efficiently.",
+    "description": "Charges-runTime  is an API that enables users to manage and track the runtime charges associated with various services. It provides endpoints for retrieving, updating, and deleting charge-related data efficiently.",
     "termsOfService": "https://www.charges-runtime.com/terms",
     "contact": {
       "name": "API Support",
