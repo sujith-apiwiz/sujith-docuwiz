@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Ecomapp-buildTime",
-    "description": "Ecomapp-buildTime is an e-commerce API that enables comprehensive management of products, users, shipping, cart operations, payments, and orders. It offers endpoints for adding and retrieving cart items, placing and tracking orders, initiating payments, handling payment webhooks, managing product listings, and user information, facilitating seamless e-commerce workflows.",
+    "description": "Ecomapp-buildTimes is an e-commerce API that enables comprehensive management of products, users, shipping, cart operations, payments, and orders. It offers endpoints for adding and retrieving cart items, placing and tracking orders, initiating payments, handling payment webhooks, managing product listings, and user information, facilitating seamless e-commerce workflows.",
     "termsOfService": "https://www.ecomapp.com/terms",
     "contact": {
       "name": "Ecomapp Support Team",
