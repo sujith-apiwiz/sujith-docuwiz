@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Telecom-runTime",
-    "description": "Telecom-runTime is an innovative platform designed to streamline telecom operations, enhance service delivery, and improve user experiences. This API provides robust functionalities to manage telecom services efficiently.",
+    "description": "Telecom-runTimes is an innovative platform designed to streamline telecom operations, enhance service delivery, and improve user experiences. This API provides robust functionalities to manage telecom services efficiently.",
     "termsOfService": "https://www.telecom-runtime.com/terms",
     "contact": {
       "name": "Support Team",
