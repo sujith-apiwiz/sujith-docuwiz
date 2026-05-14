@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Notificationservice-runTime",
-    "description": "The Notificationservice-runTime API allows users to manage and send notifications in real-time. It provides endpoints for creating, updating, and retrieving notification settings and status, enabling seamless communication through various channels.",
+    "description": "The Notificationservice-runTimes API allows users to manage and send notifications in real-time. It provides endpoints for creating, updating, and retrieving notification settings and status, enabling seamless communication through various channels.",
     "termsOfService": "https://example.com/terms",
     "contact": {
       "name": "Support Team",
